@@ -20,12 +20,16 @@ public class SwerveModule {
 
     private int id;
 
+    private double lastAngle;
+    private double absolutePosition;
+
     public SwerveModule(int driveMotorID, int turnMotorID, int encoderID, Rotation2d angleOffset) {
         id = (driveMotorID / 10) - 1;
         initEncoder(encoderID);
         initDriveMotor(driveMotorID);
         initTurnMotor(turnMotorID);
-        this.feedforward = new SimpleMotorFeedforward(ModuleConstants.kDriveS, ModuleConstants.kDriveV, ModuleConstants.kDriveA);
+        this.feedforward = new SimpleMotorFeedforward(ModuleConstants.kDriveS, ModuleConstants.kDriveV,
+                ModuleConstants.kDriveA);
         this.angleOffset = angleOffset;
     }
 
@@ -52,17 +56,26 @@ public class SwerveModule {
             double percentOutput = desiredState.speedMetersPerSecond / ModuleConstants.kMaxSpeed;
             drive.set(ControlMode.PercentOutput, percentOutput);
         } else {
-            drive.setVoltage(feedforward.calculate(desiredState.speedMetersPerSecond) + ModuleConstants.kDriveP * (desiredState.speedMetersPerSecond - getVelocityMPS()));
+            drive.setVoltage(feedforward.calculate(desiredState.speedMetersPerSecond)
+                    + ModuleConstants.kDriveP * (desiredState.speedMetersPerSecond - getVelocityMPS()));
         }
 
-        if (Math.abs(desiredState.speedMetersPerSecond) > (ModuleConstants.kMaxSpeed * 0.02)) {
-            turn.set(ControlMode.Position, turn.getSelectedSensorPosition() - angleDelta);
-        }
+        double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (ModuleConstants.kMaxSpeed * 0.01)) ? lastAngle
+                : desiredState.angle.getDegrees();
+        // Prevent rotating module if speed is less then 1%. Prevents Jittering.
+        turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
+        lastAngle = angle;
+
+        // if (Math.abs(desiredState.speedMetersPerSecond) > (ModuleConstants.kMaxSpeed
+        // * 0.02)) {
+        // turn.set(ControlMode.Position, turn.getSelectedSensorPosition() -
+        // angleDelta);
+        // }
     }
 
     /**
      * 
-     * @param targetAngle -180 to 180 degrees as per WPILib
+     * @param targetAngle    -180 to 180 degrees as per WPILib
      * @param unboundedAngle unbounded angle given by
      * @return
      */
@@ -72,14 +85,19 @@ public class SwerveModule {
     }
 
     private static double boundPlusOrMinus180(double unboundedAngle) {
-        double remainder  = (Math.abs(unboundedAngle) % 360) * Math.signum(unboundedAngle);
+        double remainder = (Math.abs(unboundedAngle) % 360) * Math.signum(unboundedAngle);
         if (remainder < -180) {
             remainder = remainder + 360;
-        }
-        else if (remainder > 180) {
+        } else if (remainder > 180) {
             remainder = remainder - 360;
         }
         return remainder;
+    }
+
+    private void resetToAbsolute() {
+        lastAngle = turnEncoder.getAbsolutePosition();
+        absolutePosition = Conversions.falconToDegrees(lastAngle, ModuleConstants.kDriveGearRatio);
+        turn.setSelectedSensorPosition(Conversions.falconToDegrees(lastAngle, ModuleConstants.kDriveGearRatio));
     }
 
     private void initDriveMotor(int driveMotorID) {
@@ -98,12 +116,11 @@ public class SwerveModule {
         turn.configFactoryDefault();
         turn.configAllSettings(ModuleConstants.kTurnMotorConfig);
         turn.setInverted(ModuleConstants.kTurnMotorInverted);
-        turn.setSensorPhase(true);
+        // turn.setSensorPhase(true);
         turn.setNeutralMode(ModuleConstants.kTurnMotorNeutral);
         turn.configRemoteFeedbackFilter(turnEncoder, 0);
-        turn.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0, 0, 0);
-        // double absPos = turnEncoder.getAbsolutePosition() - angleOffset.getDegrees();
-        // turn.setSelectedSensorPosition(Conversions.degreesToFalcon(absPos, Constants.TURN_GEAR_RATIO));
+        turn.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+        resetToAbsolute();
     }
 
     private void initEncoder(int encoderID) {
@@ -114,13 +131,13 @@ public class SwerveModule {
     }
 
     public void updateSmartDash() {
-        SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getPosition());
-        SmartDashboard.putNumber(id + " Motor Selected Sensor Position", turn.getSelectedSensorPosition());
+        // SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getPosition());
+        SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
         SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
     }
 
     public Rotation2d getAngleRotation2d() {
-        return Rotation2d.fromDegrees(boundPlusOrMinus180(turnEncoder.getPosition() - angleOffset.getDegrees()));
+        return Rotation2d.fromDegrees(Conversions.falconToDegrees(turn.getSelectedSensorPosition(), ModuleConstants.kTurnGearRatio) - angleOffset.getDegrees());
     }
 
     public double getDistanceMeters() {
@@ -128,7 +145,8 @@ public class SwerveModule {
     }
 
     public double getVelocityMPS() {
-        return Conversions.falconToMPS(drive.getSelectedSensorVelocity(), ModuleConstants.kWheelCircumference, ModuleConstants.kDriveGearRatio);
+        return Conversions.falconToMPS(drive.getSelectedSensorVelocity(), ModuleConstants.kWheelCircumference,
+                ModuleConstants.kDriveGearRatio);
     }
 
     public void testDriveSpinny(double output) {
@@ -161,9 +179,10 @@ public class SwerveModule {
 
         /**
          * Converts a falcon motor position into distance traveled
+         * 
          * @param falconPosition falcon position sensor counts
-         * @param circumference wheel circumference in meters
-         * @param gearRatio  motor rotations/wheel rotations
+         * @param circumference  wheel circumference in meters
+         * @param gearRatio      motor rotations/wheel rotations
          * @return distance traveled in meters
          */
         public static double falconToMeters(double falconPosition, double circumference, double gearRatio) {

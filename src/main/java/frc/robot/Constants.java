@@ -112,8 +112,7 @@ public class Constants {
         };
         public static final TalonFXConfiguration kTurnMotorConfig = new TalonFXConfiguration() {
             {
-                this.primaryPID.selectedFeedbackSensor = FeedbackDevice.RemoteSensor0;
-                this.primaryPID.selectedFeedbackCoefficient = 0.087890625;
+                this.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
                 this.slot0.kP = kTurnP;
                 this.slot0.kI = kTurnI;
                 this.slot0.kD = kTurnD;
@@ -159,9 +158,9 @@ public class Constants {
         public static final double kDriveD = 0.0;
         public static final double kDriveF = 0; // 0.25 / 0.54 * 0.1;
 
-        public static final double kTurnP = 2;
+        public static final double kTurnP = 0.6;
         public static final double kTurnI = 0;
-        public static final double kTurnD = 0;
+        public static final double kTurnD = 12.0;
         public static final double kTurnF = 0.0;
     }
 
