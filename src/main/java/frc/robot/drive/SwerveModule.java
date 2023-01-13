@@ -66,6 +66,9 @@ public class SwerveModule {
         turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
         lastAngle = angle;
 
+        
+        SmartDashboard.putNumber(id + " desired state degrees", desiredState.angle.getDegrees());
+
         // if (Math.abs(desiredState.speedMetersPerSecond) > (ModuleConstants.kMaxSpeed
         // * 0.02)) {
         // turn.set(ControlMode.Position, turn.getSelectedSensorPosition() -
@@ -131,7 +134,7 @@ public class SwerveModule {
     }
 
     public void updateSmartDash() {
-        // SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getPosition());
+        SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getPosition() % 360);
         SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
         SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
     }

@@ -44,28 +44,28 @@ public class Constants {
     public static final int kFrontLeftDriveMotorID = 10;
     public static final int kFrontLeftTurnMotorID = 11;
     public static final int kFrontLeftEncoderID = 12;
-    public static final Rotation2d kFrontLeftOffset = Rotation2d.fromDegrees(-76.201);
+    public static final Rotation2d kFrontLeftOffset = Rotation2d.fromDegrees(283.447).unaryMinus(); // -76.201
     public static final Translation2d kFrontLeftPosition = new Translation2d(kTrackwidthMeters / 2.0,
             kWheelbaseMeters / 2.0);
 
     public static final int kFrontRightDriveMotorID = 20;
     public static final int kFrontRightTurnMotorID = 21;
     public static final int kFrontRightEncoderID = 22;
-    public static final Rotation2d kFrontRightOffset = Rotation2d.fromDegrees(139.658);
+    public static final Rotation2d kFrontRightOffset = Rotation2d.fromDegrees(139.658); // 139.658
     public static final Translation2d kFrontRightPosition = new Translation2d(kTrackwidthMeters / 2.0,
             -kWheelbaseMeters / 2.0);
 
     public static final int kBackLeftDriveMotorID = 30;
     public static final int kBackLeftTurnMotorID = 31;
     public static final int kBackLeftEncoderID = 32;
-    public static final Rotation2d kBackLeftOffset = Rotation2d.fromDegrees(96.680);
+    public static final Rotation2d kBackLeftOffset = Rotation2d.fromDegrees(95.977); // 96.680
     public static final Translation2d kBackLeftPosition = new Translation2d(-kTrackwidthMeters / 2.0,
             kWheelbaseMeters / 2.0);
 
     public static final int kBackRightDriveMotorID = 40;
     public static final int kBackRightTurnMotorID = 41;
     public static final int kBackRightEncoderID = 42;
-    public static final Rotation2d kBackRightOffset = Rotation2d.fromDegrees(-93.867);
+    public static final Rotation2d kBackRightOffset = Rotation2d.fromDegrees(265.517); // -93.867
     public static final Translation2d kBackRightPosition = new Translation2d(-kTrackwidthMeters / 2.0,
             -kWheelbaseMeters / 2.0);
 

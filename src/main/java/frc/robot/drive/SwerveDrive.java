@@ -74,9 +74,11 @@ public class SwerveDrive extends SubsystemBase {
     public void drive(ChassisSpeeds speeds, boolean isOpenLoop) {
         this.speeds = speeds;
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+        states[0].speedMetersPerSecond *= -1;
 
         SwerveDriveKinematics.desaturateWheelSpeeds(states, ModuleConstants.kMaxSpeed);
 
+        // modules[0].setDesiredState(, isOpenLoop);
         for (int i = 0; i < 4; i++) {
             modules[i].setDesiredState(states[i], isOpenLoop);
         }
