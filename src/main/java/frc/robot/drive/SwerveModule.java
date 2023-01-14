@@ -3,6 +3,8 @@ package frc.robot.drive;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -15,7 +17,7 @@ public class SwerveModule {
     private NKTalonFX drive;
     private NKTalonFX turn;
     private CANCoder turnEncoder;
-    private Rotation2d angleOffset = new Rotation2d();
+    private Rotation2d angleOffset;
     private SimpleMotorFeedforward feedforward;
 
     private int id;
@@ -23,13 +25,13 @@ public class SwerveModule {
     private double lastAngle;
 
     public SwerveModule(int driveMotorID, int turnMotorID, int encoderID, Rotation2d angleOffset) {
-        id = (driveMotorID / 10) - 1;
+        this.angleOffset = angleOffset;
+        id = (driveMotorID / 10);
         initEncoder(encoderID);
         initDriveMotor(driveMotorID);
         initTurnMotor(turnMotorID);
         this.feedforward = new SimpleMotorFeedforward(ModuleConstants.kDriveS, ModuleConstants.kDriveV,
                 ModuleConstants.kDriveA);
-        this.angleOffset = angleOffset;
     }
 
     public SwerveModuleState getCurrentState() {
@@ -58,6 +60,7 @@ public class SwerveModule {
 
         double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (ModuleConstants.kMaxSpeed * 0.01)) ? lastAngle
                 : desiredState.angle.getDegrees();
+
         if (Math.abs(currentAngleRotation2d.minus(desiredState.angle).getDegrees()) > 1) {
             turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
         } else {
@@ -67,9 +70,17 @@ public class SwerveModule {
     }
 
     private void resetToAbsolute() {
-        lastAngle = turnEncoder.getAbsolutePosition() - angleOffset.getDegrees();
-        double absolutePosition = Conversions.falconToDegrees(lastAngle, ModuleConstants.kDriveGearRatio);
+        // lastAngle = -angleOffset.getDegrees();
+        // lastAngle = turnEncoder.getAbsolutePosition();
+        
+        lastAngle = getCANCoder().minus(angleOffset).getDegrees();
+        double absolutePosition = -Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio);
         turn.setSelectedSensorPosition(absolutePosition);
+        
+        System.out.println(id + " INIT ANGLE " + lastAngle);
+        System.out.println(id + " ANGLE OFFSET " + angleOffset.getDegrees());
+        System.out.println(id + " abs pos " + absolutePosition);
+        System.out.println(id + " selected sensor pos " + turn.getSelectedSensorPosition());
     }
 
     private void initDriveMotor(int driveMotorID) {
@@ -90,7 +101,7 @@ public class SwerveModule {
         turn.setInverted(ModuleConstants.kTurnMotorInverted);
         // turn.setSensorPhase(true);
         turn.setNeutralMode(ModuleConstants.kTurnMotorNeutral);
-        turn.configRemoteFeedbackFilter(turnEncoder, 0);
+        // turn.configRemoteFeedbackFilter(turnEncoder, 0);
         turn.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
         resetToAbsolute();
     }
@@ -103,15 +114,21 @@ public class SwerveModule {
     }
 
     public void updateSmartDash() {
-        SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getPosition() % 360);
+        SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getAbsolutePosition());
         SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
         SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
+        // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
+        SmartDashboard.putNumber(id + " cancoder - offset", getCANCoder().minus(angleOffset).getDegrees());
+        SmartDashboard.putNumber(id + " angle from int sensor", Conversions.falconToDegrees(turn.getSelectedSensorPosition(), ModuleConstants.kTurnGearRatio));
+    }
+
+    private Rotation2d getCANCoder() {
+        return Rotation2d.fromDegrees(turnEncoder.getAbsolutePosition());
     }
 
     public Rotation2d getAngleRotation2d() {
         return Rotation2d.fromDegrees(
-                Conversions.falconToDegrees(turn.getSelectedSensorPosition(), ModuleConstants.kTurnGearRatio)
-                        - angleOffset.getDegrees());
+                Conversions.falconToDegrees(turn.getSelectedSensorPosition(), ModuleConstants.kTurnGearRatio));
     }
 
     public double getDistanceMeters() {
