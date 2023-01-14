@@ -3,7 +3,6 @@ package frc.robot.drive;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -47,6 +46,9 @@ public class SwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
+
+        if (turn.hasResetOccurred()) resetToAbsolute();
+
         Rotation2d currentAngleRotation2d = getAngleRotation2d();
         desiredState = SwerveModuleState.optimize(desiredState, currentAngleRotation2d);
 
@@ -119,7 +121,6 @@ public class SwerveModule {
         SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
         // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
         SmartDashboard.putNumber(id + " cancoder - offset", getCANCoder().minus(angleOffset).getDegrees());
-        SmartDashboard.putNumber(id + " angle from int sensor", Conversions.falconToDegrees(turn.getSelectedSensorPosition(), ModuleConstants.kTurnGearRatio));
     }
 
     private Rotation2d getCANCoder() {
