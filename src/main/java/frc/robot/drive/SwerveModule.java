@@ -159,13 +159,24 @@ public class SwerveModule {
     }
 
     public static final class Conversions {
+
+        public static final double kSecondsPerMinute = 60.0;
+        public static final double kFalconTicks = 2048.0;
+        public static final double kMaxFalconRPM = 6380.0;
+        public static final double kFalconToDegrees = 360.0 / kFalconTicks;
+        public static final double kFalconToRotations = 1.0 / kFalconTicks;
+
+        // starting units: ticks/100ms
+        // ticks/100ms * (1000ms/s * 60s/m) * 1 rot/ 2048 ticks = 600 ticks/m * 1 rot/ticks
+        public static final double kFalconVelocityToRPM = 600.0 / kFalconTicks;
+
         public static double falconToDegrees(double counts, double gearRatio) {
             // ratio = motor/wheel
-            return counts * (360.0 / (gearRatio * 2048.0));
+            return counts * kFalconToDegrees / gearRatio;
         }
 
         public static double degreesToFalcon(double degrees, double gearRatio) {
-            double ticks = degrees / (360.0 / (gearRatio * 2048.0));
+            double ticks = degrees * gearRatio / kFalconToDegrees;
             return ticks;
         }
 
@@ -178,32 +189,31 @@ public class SwerveModule {
          * @return distance traveled in meters
          */
         public static double falconToMeters(double falconPosition, double circumference, double gearRatio) {
-            double motorRotations = falconPosition / 2048.0;
-            // rotations * m * g, where g is in units motor/wheel rotation
-            double distance = motorRotations * circumference / gearRatio;
+            double wheelRotations = falconPosition * kFalconToRotations / gearRatio;
+            double distance = wheelRotations * circumference;
             return distance;
         }
 
         public static double falconToRPM(double velocityCounts, double gearRatio) {
-            double motorRPM = velocityCounts * (600.0 / 2048.0);
+            double motorRPM = velocityCounts * kFalconVelocityToRPM;
             double mechRPM = motorRPM / gearRatio;
             return mechRPM;
         }
 
         public static double RPMToFalcon(double RPM, double gearRatio) {
             double motorRPM = RPM * gearRatio;
-            double sensorCounts = motorRPM * (2048.0 / 600.0);
+            double sensorCounts = motorRPM / kFalconVelocityToRPM;
             return sensorCounts;
         }
 
         public static double falconToMPS(double velocitycounts, double circumference, double gearRatio) {
             double wheelRPM = falconToRPM(velocitycounts, gearRatio);
-            double wheelMPS = (wheelRPM * circumference) / 60;
+            double wheelMPS = (wheelRPM * circumference) / kSecondsPerMinute;
             return wheelMPS;
         }
 
         public static double MPSToFalcon(double velocity, double circumference, double gearRatio) {
-            double wheelRPM = ((velocity * 60) / circumference);
+            double wheelRPM = ((velocity * kSecondsPerMinute) / circumference);
             double wheelVelocity = RPMToFalcon(wheelRPM, gearRatio);
             return wheelVelocity;
         }
