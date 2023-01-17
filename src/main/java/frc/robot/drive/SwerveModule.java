@@ -53,14 +53,83 @@ public class SwerveModule {
         Rotation2d currentAngleRotation2d = getAngleRotation2d();
         desiredState = SwerveModuleState.optimize(desiredState, currentAngleRotation2d);
 
+        // sets speed for the wheels
+        // if (isOpenLoop) {
+        //     double percentOutput = desiredState.speedMetersPerSecond / ModuleConstants.kMaxSpeed;
+        //     drive.set(ControlMode.PercentOutput, percentOutput);
+        // } else {
+        //     drive.setVoltage(feedforward.calculate(desiredState.speedMetersPerSecond)
+        //             + ModuleConstants.kDriveP * (desiredState.speedMetersPerSecond - getVelocityMPS()));
+        // }
+
+
+        // // sets angle for the wheels
+        // double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (ModuleConstants.kMaxSpeed * 0.01)) ? lastAngle
+        //         : desiredState.angle.getDegrees();
+
+        // if (Math.abs(currentAngleRotation2d.minus(desiredState.angle).getDegrees()) > 1) {
+        //     turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
+        // } else {
+        //     turn.set(ControlMode.PercentOutput, 0);
+        // }
+        // lastAngle = angle;
+
+        setAngle(desiredState, currentAngleRotation2d);
+        setVelocity(desiredState, isOpenLoop);
+    }
+
+    // sets angle for a module
+    private void setAngle(SwerveModuleState desiredState, Rotation2d currentAngleRotation2d) {
+
+        // calculate angle for the falcon to go to
+        // double angle = 0.0;
+        double angle = desiredState.angle.getDegrees();
+        if (Math.abs(desiredState.speedMetersPerSecond) >= (ModuleConstants.kMaxSpeed * 0.01)) {
+            // if moving, use the desired state's angle
+            angle = desiredState.angle.getDegrees();
+        } else {
+            // if not moving, use the last given angle
+            angle = lastAngle;
+        }
+
+        // sets the turn motor
+        // if (Math.abs(currentAngleRotation2d.minus(desiredState.angle)
+        //         .getDegrees()) > ModuleConstants.kAllowableAngleTolerance.getDegrees()) {
+        //     // if angle is bigger than tolerance, set angle
+        //     turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
+        //     lastAngle = angle;
+        // } else {
+        //     // if angle is smaller than tolerance, set to zero
+        //     // turn.set(ControlMode.PercentOutput, 0);
+        //     turn.set(ControlMode.Position, Conversions.degreesToFalcon(currentAngleRotation2d.getDegrees(), ModuleConstants.kTurnGearRatio));
+        //     lastAngle = currentAngleRotation2d.getDegrees();
+        // }
+        // double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (ModuleConstants.kMaxSpeed * 0.01)) ? lastAngle
+                // : desiredState.angle.getDegrees();
+
+        if (Math.abs(currentAngleRotation2d.minus(desiredState.angle).getDegrees()) > 1) {
+            turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
+            // lastAngle = angle;
+        } else {
+            // turn.set(ControlMode.PercentOutput, 0);
+            turn.set(ControlMode.Position, Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio));
+            // lastAngle = lastAngle;
+        }
+        lastAngle = angle;
+
+        // update last angle
+        // lastAngle = angle;
+    }
+
+    // sets Velocity for a module
+    private void setVelocity(SwerveModuleState desiredState, boolean isOpenLoop) {
+        // set the drive velocity
         if (isOpenLoop) {
+            // estimates percentage of motor and sets it
             double percentOutput = desiredState.speedMetersPerSecond / ModuleConstants.kMaxSpeed;
             drive.set(ControlMode.PercentOutput, percentOutput);
         } else {
-            // drive.setVoltage(feedforward.calculate(desiredState.speedMetersPerSecond)
-                    // + ModuleConstants.kDriveP * (desiredState.speedMetersPerSecond - getVelocityMPS()));
-
-             // convert desired speed in m/s to falcon units
+            // convert desired speed in m/s to falcon units
             double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond,
                     ModuleConstants.kWheelCircumference, ModuleConstants.kDriveGearRatio);
 
@@ -68,17 +137,8 @@ public class SwerveModule {
             drive.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward,
                     feedforward.calculate(desiredState.speedMetersPerSecond));
         }
-
-        double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (ModuleConstants.kMaxSpeed * 0.01)) ? lastAngle
-                : desiredState.angle.getDegrees();
-
-        if (Math.abs(currentAngleRotation2d.minus(desiredState.angle).getDegrees()) > 1) {
-            turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
-        } else {
-            turn.set(ControlMode.PercentOutput, 0);
-        }
-        lastAngle = angle;
     }
+
 
     private void resetToAbsolute() {
         // lastAngle = -angleOffset.getDegrees();
