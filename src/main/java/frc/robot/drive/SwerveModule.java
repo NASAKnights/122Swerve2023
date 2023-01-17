@@ -1,6 +1,7 @@
 package frc.robot.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.sensors.CANCoder;
 
@@ -56,8 +57,16 @@ public class SwerveModule {
             double percentOutput = desiredState.speedMetersPerSecond / ModuleConstants.kMaxSpeed;
             drive.set(ControlMode.PercentOutput, percentOutput);
         } else {
-            drive.setVoltage(feedforward.calculate(desiredState.speedMetersPerSecond)
-                    + ModuleConstants.kDriveP * (desiredState.speedMetersPerSecond - getVelocityMPS()));
+            // drive.setVoltage(feedforward.calculate(desiredState.speedMetersPerSecond)
+                    // + ModuleConstants.kDriveP * (desiredState.speedMetersPerSecond - getVelocityMPS()));
+
+             // convert desired speed in m/s to falcon units
+            double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond,
+                    ModuleConstants.kWheelCircumference, ModuleConstants.kDriveGearRatio);
+
+            // set velocity using feedforward
+            drive.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward,
+                    feedforward.calculate(desiredState.speedMetersPerSecond));
         }
 
         double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (ModuleConstants.kMaxSpeed * 0.01)) ? lastAngle
