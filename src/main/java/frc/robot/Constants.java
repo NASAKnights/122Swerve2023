@@ -32,12 +32,12 @@ public class Constants {
     /**
      * Maximum translational velocity of the robot in meters per second
      */
-    public static final double kMaxTranslationalVelocity = (6380.0 / 60) * kSDSModule.getWheelDiameter() * Math.PI
+    public static final double kMaxTranslationalVelocity = ((1.0 * 6380.0) / 60) * kSDSModule.getWheelDiameter() * Math.PI
             * kSDSModule.getDriveReduction();
     /**
      * Maximum rotational velocity of the robot
      */
-    public static final double kMaxRotationalVelocity = kMaxTranslationalVelocity
+    public static final double kMaxRotationalVelocity = (1.0 * kMaxTranslationalVelocity)
             / Math.hypot(kTrackwidthMeters / 2, kWheelbaseMeters / 2);
     public static final boolean kIsFieldRelative = false;
 
@@ -142,7 +142,7 @@ public class Constants {
         };
 
         public static final double kOpenLoopRamp = 0.25;
-        public static final double kClosedLoopRamp = 0.0;
+        public static final double kClosedLoopRamp = 0.25;
 
         public static final boolean kTurnEnableCurrentLimit = true;
         public static final int kTurnContinuousCurrentLimit = 25;
@@ -154,11 +154,14 @@ public class Constants {
         public static final int kDrivePeakCurrentLimit = 60;
         public static final double kDrivePeakCurrentDuration = 0.1;
 
-        public static final double kDriveS = 0.519;
-        public static final double kDriveV = 2.306;
-        public static final double kDriveA = 0.0;
+        // public static final double kDriveS = 0.519;
+        // public static final double kDriveV = 2.306;
+        // public static final double kDriveA = 0.0;
+        public static final double kDriveS = 0.667 / 12.0;
+        public static final double kDriveV = 2.44 / 12.0;
+        public static final double kDriveA = 0.27 / 12.0;
 
-        public static final double kDriveP = 1.5;
+        public static final double kDriveP = 0.10;
         public static final double kDriveI = 0.0;
         public static final double kDriveD = 0.0;
         public static final double kDriveF = 0; // 0.25 / 0.54 * 0.1;
@@ -167,6 +170,8 @@ public class Constants {
         public static final double kTurnI = 0;
         public static final double kTurnD = 12.0;
         public static final double kTurnF = 0.0;
+
+        public static final Rotation2d kAllowableAngleTolerance = Rotation2d.fromDegrees(1);
     }
 
     public static void main(String[] args) {

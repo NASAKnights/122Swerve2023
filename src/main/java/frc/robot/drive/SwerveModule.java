@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.sensors.CANCoder;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -20,6 +21,8 @@ public class SwerveModule {
     private Rotation2d angleOffset;
     private SimpleMotorFeedforward feedforward;
 
+    private PIDController turnPid;
+
     private int id;
 
     private double lastAngle;
@@ -32,6 +35,10 @@ public class SwerveModule {
         initTurnMotor(turnMotorID);
         this.feedforward = new SimpleMotorFeedforward(ModuleConstants.kDriveS, ModuleConstants.kDriveV,
                 ModuleConstants.kDriveA);
+
+        // this.turnPid = new PIDController(ModuleConstants.kTurnP, ModuleConstants.kTurnI, ModuleConstants.kTurnD);
+        // turnPid.enableContinuousInput(-180.0, 180.0);
+        
     }
 
     public SwerveModuleState getCurrentState() {
@@ -48,9 +55,14 @@ public class SwerveModule {
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
 
-        if (turn.hasResetOccurred()) resetToAbsolute();
+        if (turn.hasResetOccurred()) {
+            resetToAbsolute();
+        }
 
         Rotation2d currentAngleRotation2d = getAngleRotation2d();
+        // double pidAngle = turnPid.calculate(currentAngleRotation2d.getDegrees(), desiredState.angle.getDegrees());
+        // desiredState.angle = Rotation2d.fromDegrees(pidAngle);
+
         desiredState = SwerveModuleState.optimize(desiredState, currentAngleRotation2d);
 
         // sets Angle and velocity of the wheels
@@ -89,14 +101,14 @@ public class SwerveModule {
 
         if (Math.abs(currentAngleRotation2d.minus(desiredState.angle).getDegrees()) > 1) {
             turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
+            // lastAngle = angle;
         } else {
             turn.set(ControlMode.PercentOutput, 0);
             // turn.set(ControlMode.Position, Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio));
+            // lastAngle = lastAngle;
         }
         lastAngle = angle;
 
-        // update last angle
-        // lastAngle = angle;
     }
 
     // sets Velocity for a module
@@ -163,11 +175,13 @@ public class SwerveModule {
     }
 
     public void updateSmartDash() {
-        SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
-        SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
+        SmartDashboard.putNumber(id + " Last Angle", lastAngle);
+        SmartDashboard.putNumber(id + " Current Angle", getAngleRotation2d().getDegrees());
+        // SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getAbsolutePosition());
+        // SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
+        // SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
         // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
-        SmartDashboard.putNumber(id + " cancoder - offset", getCANCoder().minus(angleOffset).getDegrees());
+        // SmartDashboard.putNumber(id + " cancoder - offset", getCANCoder().minus(angleOffset).getDegrees());
     }
 
     private Rotation2d getCANCoder() {
@@ -180,7 +194,9 @@ public class SwerveModule {
     }
 
     public double getDistanceMeters() {
-        return 0.0;
+        double distance = Conversions.falconToMeters(drive.getSelectedSensorPosition(),
+                ModuleConstants.kWheelCircumference, ModuleConstants.kDriveGearRatio);
+        return distance;
     }
 
     public double getVelocityMPS() {

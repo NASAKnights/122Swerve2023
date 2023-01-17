@@ -2,6 +2,7 @@ package frc.robot.drive;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -68,7 +69,9 @@ public class SwerveDrive extends SubsystemBase {
                 Constants.kBackRightEncoderID,
                 Constants.kBackRightOffset);
 
-        this.modules = new SwerveModule[] { frontLeft, frontRight, backLeft, backRight };
+                this.modules = new SwerveModule[] { this.frontLeft, this.frontRight, this.backLeft, this.backRight };
+
+                this.odometry = new SwerveDriveOdometry(this.kinematics, this.getHeading(), this.getModulePositions());
     }
 
     public void drive(ChassisSpeeds speeds, boolean isOpenLoop) {
@@ -79,7 +82,7 @@ public class SwerveDrive extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(states, ModuleConstants.kMaxSpeed);
         
         for (int i = 0; i < 4; i++) {
-            modules[i].setDesiredState(states[i], isOpenLoop);
+            this.modules[i].setDesiredState(states[i], isOpenLoop);
         }
     }
 
@@ -92,23 +95,39 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void updateSmartDash() {
-        for (SwerveModule module : modules) {
+        for (SwerveModule module : this.modules) {
                 module.updateSmartDash();
         }
-        SmartDashboard.putNumber("heading", navx.getAngle());
+        SmartDashboard.putNumber("heading", this.getHeading().getDegrees());
+        SmartDashboard.putNumber("x", this.odometry.getPoseMeters().getX());
+        SmartDashboard.putNumber("y", this.odometry.getPoseMeters().getY());
     }
 
     public SwerveModule[] getModules() {
-        return modules;
+        return this.modules;
+    }
+
+    private SwerveModulePosition[] getModulePositions() {
+        return new SwerveModulePosition[] {
+            this.frontLeft.getPosition(),
+            this.frontRight.getPosition(),
+            this.backLeft.getPosition(),
+            this.backRight.getPosition()
+        };
+    }
+
+    public void resetPose(Pose2d position) {
+        this.odometry.resetPosition(this.getHeading(), this.getModulePositions(), position);
     }
 
     private void updateOdometry() {
-        SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
-
-        for (int i = 0; i < modules.length; i++) {
-            positions[i] = new SwerveModulePosition(modules[i].getDistanceMeters(), modules[i].getAngleRotation2d());
-        }
-        odometry.update(getHeading(), null);
+        // SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
+        this.odometry.update(this.getHeading(), this.getModulePositions());
+    }
+    @Override
+    public void periodic() {
+        this.updateOdometry();
+        this.updateSmartDash();
     }
 
 }
