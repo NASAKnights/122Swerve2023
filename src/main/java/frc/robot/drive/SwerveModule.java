@@ -53,27 +53,7 @@ public class SwerveModule {
         Rotation2d currentAngleRotation2d = getAngleRotation2d();
         desiredState = SwerveModuleState.optimize(desiredState, currentAngleRotation2d);
 
-        // sets speed for the wheels
-        // if (isOpenLoop) {
-        //     double percentOutput = desiredState.speedMetersPerSecond / ModuleConstants.kMaxSpeed;
-        //     drive.set(ControlMode.PercentOutput, percentOutput);
-        // } else {
-        //     drive.setVoltage(feedforward.calculate(desiredState.speedMetersPerSecond)
-        //             + ModuleConstants.kDriveP * (desiredState.speedMetersPerSecond - getVelocityMPS()));
-        // }
-
-
-        // // sets angle for the wheels
-        // double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (ModuleConstants.kMaxSpeed * 0.01)) ? lastAngle
-        //         : desiredState.angle.getDegrees();
-
-        // if (Math.abs(currentAngleRotation2d.minus(desiredState.angle).getDegrees()) > 1) {
-        //     turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
-        // } else {
-        //     turn.set(ControlMode.PercentOutput, 0);
-        // }
-        // lastAngle = angle;
-
+        // sets Angle and velocity of the wheels
         setAngle(desiredState, currentAngleRotation2d);
         setVelocity(desiredState, isOpenLoop);
     }
@@ -109,11 +89,9 @@ public class SwerveModule {
 
         if (Math.abs(currentAngleRotation2d.minus(desiredState.angle).getDegrees()) > 1) {
             turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
-            // lastAngle = angle;
         } else {
-            // turn.set(ControlMode.PercentOutput, 0);
-            turn.set(ControlMode.Position, Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio));
-            // lastAngle = lastAngle;
+            turn.set(ControlMode.PercentOutput, 0);
+            // turn.set(ControlMode.Position, Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio));
         }
         lastAngle = angle;
 
