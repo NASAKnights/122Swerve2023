@@ -60,10 +60,12 @@ public class SwerveModule {
         }
 
         Rotation2d currentAngleRotation2d = getAngleRotation2d();
-        // double pidAngle = turnPid.calculate(currentAngleRotation2d.getDegrees(), desiredState.angle.getDegrees());
-        // desiredState.angle = Rotation2d.fromDegrees(pidAngle);
 
         desiredState = SwerveModuleState.optimize(desiredState, currentAngleRotation2d);
+
+        SwerveModuleState possibleState = checkForWrapAround(desiredState, currentAngleRotation2d);
+        SmartDashboard.putNumber(id + " angle states", possibleState.angle.getDegrees());
+
 
         // sets Angle and velocity of the wheels
         setAngle(desiredState, currentAngleRotation2d);
@@ -84,22 +86,8 @@ public class SwerveModule {
             angle = lastAngle;
         }
 
-        // sets the turn motor
-        // if (Math.abs(currentAngleRotation2d.minus(desiredState.angle)
-        //         .getDegrees()) > ModuleConstants.kAllowableAngleTolerance.getDegrees()) {
-        //     // if angle is bigger than tolerance, set angle
-        //     turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
-        //     lastAngle = angle;
-        // } else {
-        //     // if angle is smaller than tolerance, set to zero
-        //     // turn.set(ControlMode.PercentOutput, 0);
-        //     turn.set(ControlMode.Position, Conversions.degreesToFalcon(currentAngleRotation2d.getDegrees(), ModuleConstants.kTurnGearRatio));
-        //     lastAngle = currentAngleRotation2d.getDegrees();
-        // }
-        // double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (ModuleConstants.kMaxSpeed * 0.01)) ? lastAngle
-                // : desiredState.angle.getDegrees();
-
-        if (Math.abs(currentAngleRotation2d.minus(desiredState.angle).getDegrees()) > 1) {
+        if (Math.abs(currentAngleRotation2d.minus(desiredState.angle)
+                .getDegrees()) > ModuleConstants.kAllowableAngleTolerance.getDegrees()) {
             turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
             // lastAngle = angle;
         } else {
@@ -117,15 +105,15 @@ public class SwerveModule {
         if (isOpenLoop) {
             // estimates percentage of motor and sets it
             double percentOutput = desiredState.speedMetersPerSecond / ModuleConstants.kMaxSpeed;
-            drive.set(ControlMode.PercentOutput, percentOutput);
+            // drive.set(ControlMode.PercentOutput, percentOutput);
         } else {
             // convert desired speed in m/s to falcon units
             double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond,
                     ModuleConstants.kWheelCircumference, ModuleConstants.kDriveGearRatio);
 
             // set velocity using feedforward
-            drive.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward,
-                    feedforward.calculate(desiredState.speedMetersPerSecond));
+            // drive.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward,
+                    // feedforward.calculate(desiredState.speedMetersPerSecond));
         }
     }
 
@@ -182,6 +170,28 @@ public class SwerveModule {
         // SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
         // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
         // SmartDashboard.putNumber(id + " cancoder - offset", getCANCoder().minus(angleOffset).getDegrees());
+    }
+
+    private SwerveModuleState checkForWrapAround(SwerveModuleState desiredState, Rotation2d currentState){
+
+        double desiredDegress = desiredState.angle.getDegrees();
+        double speedMulti;
+        
+        double remainder = Math.IEEEremainder(desiredDegress - currentState.getDegrees(), 180);
+        double newPos = remainder + currentState.getDegrees();
+        double minDist = Math.abs(Math.IEEEremainder(newPos - desiredDegress, 180));
+        if (minDist < 0.001){
+            speedMulti = 1;
+        }
+        else{
+            speedMulti = -1;
+        }
+
+        desiredState.angle = Rotation2d.fromDegrees(newPos);
+        desiredState.speedMetersPerSecond *= speedMulti;
+
+        return desiredState;
+
     }
 
     private Rotation2d getCANCoder() {
