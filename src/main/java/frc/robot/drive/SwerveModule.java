@@ -35,9 +35,6 @@ public class SwerveModule {
         initTurnMotor(turnMotorID);
         this.feedforward = new SimpleMotorFeedforward(ModuleConstants.kDriveS, ModuleConstants.kDriveV,
                 ModuleConstants.kDriveA);
-
-        // this.turnPid = new PIDController(ModuleConstants.kTurnP, ModuleConstants.kTurnI, ModuleConstants.kTurnD);
-        // turnPid.enableContinuousInput(-180.0, 180.0);
         
     }
 
@@ -173,6 +170,7 @@ public class SwerveModule {
     }
 
     private SwerveModuleState checkForWrapAround(SwerveModuleState desiredState, Rotation2d currentState){
+        // This is to make sure that the motor only turns at most 90 degrees in any direction
 
         double desiredDegress = desiredState.angle.getDegrees();
         double speedMulti;
