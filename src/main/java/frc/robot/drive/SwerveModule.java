@@ -1,8 +1,12 @@
 package frc.robot.drive;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -21,8 +25,6 @@ public class SwerveModule {
     private Rotation2d angleOffset;
     private SimpleMotorFeedforward feedforward;
 
-    private PIDController turnPid;
-
     private int id;
 
     private double lastAngle;
@@ -30,6 +32,8 @@ public class SwerveModule {
     public SwerveModule(int driveMotorID, int turnMotorID, int encoderID, Rotation2d angleOffset) {
         this.angleOffset = angleOffset;
         id = (driveMotorID / 10);
+
+        SmartDashboard.getNumber("CanCoder ", driveMotorID + 2);
         initEncoder(encoderID);
         initDriveMotor(driveMotorID);
         initTurnMotor(turnMotorID);
@@ -109,8 +113,8 @@ public class SwerveModule {
                     ModuleConstants.kWheelCircumference, ModuleConstants.kDriveGearRatio);
 
             // set velocity using feedforward
-            // drive.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward,
-                    // feedforward.calculate(desiredState.speedMetersPerSecond));
+            drive.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward,
+                    feedforward.calculate(desiredState.speedMetersPerSecond));
         }
     }
 
@@ -160,13 +164,15 @@ public class SwerveModule {
     }
 
     public void updateSmartDash() {
+        SmartDashboard.putNumber(id + " Offsets", this.angleOffset.getDegrees());
         SmartDashboard.putNumber(id + " Last Angle", lastAngle);
-        SmartDashboard.putNumber(id + " Current Angle", getAngleRotation2d().getDegrees());
+        // SmartDashboard.putNumber(id + " Current Angle", getAngleRotation2d().getDegrees());
         // SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getAbsolutePosition());
         // SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
         // SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
         // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
         // SmartDashboard.putNumber(id + " cancoder - offset", getCANCoder().minus(angleOffset).getDegrees());
+        // SmartDashboard.putNumber(id + " CancoderID", turnEncoder.getDeviceID());
     }
 
     private SwerveModuleState checkForWrapAround(SwerveModuleState desiredState, Rotation2d currentState){
@@ -210,6 +216,21 @@ public class SwerveModule {
     public double getVelocityMPS() {
         return Conversions.falconToMPS(drive.getSelectedSensorVelocity(), ModuleConstants.kWheelCircumference,
                 ModuleConstants.kDriveGearRatio);
+    }
+
+    public void setTurnCoast(){
+        turn.setNeutralMode(NeutralMode.Coast);
+    }
+
+    public void setTurnBrake(){
+        turn.setNeutralMode(NeutralMode.Brake);
+    }
+
+    public void setOffset(double offset){
+        resetToAbsolute();
+        this.angleOffset = Rotation2d.fromDegrees(offset);
+        // this.turnEncoder.configMagnetOffset(angleOffset.getDegrees());
+        resetToAbsolute();
     }
 
     public void testDriveSpinny(double output) {

@@ -1,5 +1,9 @@
 package frc.robot.drive;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -25,6 +29,8 @@ public class SwerveDrive extends SubsystemBase {
 
     private SwerveModule frontLeft, frontRight, backLeft, backRight;
     private SwerveModule[] modules;
+
+    private int red, blue, green, yellow;
 
     public SwerveDrive(AHRS navx) {
         this.navx = navx;
@@ -72,6 +78,12 @@ public class SwerveDrive extends SubsystemBase {
                 this.modules = new SwerveModule[] { this.frontLeft, this.frontRight, this.backLeft, this.backRight };
 
                 this.odometry = new SwerveDriveOdometry(this.kinematics, this.getHeading(), this.getModulePositions());
+
+        // writeOffsets();
+        readoffsets();
+        // updateOffsets();
+        // initDashboard();
+        System.out.println("Data: "+red+" "+yellow);
     }
 
     public void drive(ChassisSpeeds speeds, boolean isOpenLoop) {
@@ -86,12 +98,32 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
+    public void setCoast(){
+        for (int i = 0; i < 4; i++){
+            this.modules[i].setTurnCoast();
+        }
+    }
+
+    public void setBrake(){
+        for (int i = 0; i < 4; i++){
+            this.modules[i].setTurnBrake();
+        }
+    }
+
     public Rotation2d getHeading() {
         return Rotation2d.fromDegrees(-navx.getAngle());
     }
 
     public void resetHeading() {
         navx.zeroYaw();
+    }
+
+    public void initDashboard(){
+        SmartDashboard.putNumber("Red encoder", 0.0);
+        SmartDashboard.putNumber("Blue encoder", 0.0);
+        SmartDashboard.putNumber("Green encoder", 0.0);
+        SmartDashboard.putNumber("Yellow encoder", 0.0);
+        
     }
 
     public void updateSmartDash() {
@@ -101,10 +133,69 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("heading", this.getHeading().getDegrees());
         SmartDashboard.putNumber("x", this.odometry.getPoseMeters().getX());
         SmartDashboard.putNumber("y", this.odometry.getPoseMeters().getY());
+        
+        red = (int) SmartDashboard.getNumber("Red encoder", 0);
+        blue = (int)SmartDashboard.getNumber("Blue encoder", 0);
+        green = (int)SmartDashboard.getNumber("Green encoder", 0);
+        yellow = (int)SmartDashboard.getNumber("Yellow encoder", 0);
+
+        
+    }
+
+    public void readoffsets(){
+        try {
+            FileReader reader = new FileReader("/home/lvuser/OffsetConfig.txt");
+            // int character;
+            char[] buffer = new char[4];
+ 
+            if (reader.read(buffer, 0, 4) != 4){
+                buffer[0] = '0';
+                buffer[1] = '0';
+                buffer[2] = '0';
+                buffer[3] = '0';
+            }
+
+            this.red = buffer[0] - '0';
+            this.blue = buffer[1] - '0';
+            this.green = buffer[2] - '0';
+            this.yellow = buffer[3] - '0';
+            
+            reader.close();
+ 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(red);
+        System.out.println("REDREDREDREDREDRED");
+    }
+
+    public void writeOffsets(){
+        try {
+            FileWriter writer = new FileWriter("/home/lvuser/OffsetConfig.txt", false);
+            String s = "";
+            s += this.red;
+            s += this.blue;
+            s += this.green;
+            s += this.yellow;
+            // s += "\n"; // idk if needed...
+            writer.write(s);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public SwerveModule[] getModules() {
         return this.modules;
+    }
+
+    public void updateOffsets(){
+
+        this.frontLeft.setOffset(Constants.encoderoffsets[0][red]);
+        this.frontRight.setOffset(Constants.encoderoffsets[1][blue]);
+        this.backLeft.setOffset(Constants.encoderoffsets[2][green]);
+        this.backRight.setOffset(Constants.encoderoffsets[3][yellow]);
+
     }
 
     private SwerveModulePosition[] getModulePositions() {

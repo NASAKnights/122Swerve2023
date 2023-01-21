@@ -76,6 +76,16 @@ public class Constants {
     public static final SwerveDriveKinematics kSwerveKinematics = new SwerveDriveKinematics(kFrontLeftPosition,
             kFrontRightPosition, kBackLeftPosition, kBackRightPosition);
 
+    //-----------testing--------------------
+
+    // select color and then version
+    public static final double[][] encoderoffsets = {{103.711, 0.0, 0.0}, // Red
+                                                    {318.427, 0.0, 0.0}, // Blue
+                                                    {275.273, 0.0, 0.0}, // green
+                                                    {87.539, 0.0, 0.0}}; // yellow
+
+    //-----------testing end----------------
+
     public static final class ModuleConstants {
 
         public static final double kMaxSpeed = frc.robot.Constants.kMaxTranslationalVelocity;

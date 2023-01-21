@@ -3,9 +3,13 @@ package frc.robot;
 import static frc.robot.Constants.kDriverPort;
 import static frc.robot.Constants.kNavXPort;
 
+import com.ctre.phoenix.ErrorCode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.SwerveDrive;
@@ -23,7 +27,10 @@ public class RobotContainer {
 
         navx = new AHRS(kNavXPort);
 
+    
         swerve = new SwerveDrive(navx);
+        
+        swerve.initDashboard();
 
         configureDefaultCommands();
         configureButtonBindings();
@@ -36,15 +43,29 @@ public class RobotContainer {
     private void configureButtonBindings() {
         new JoystickButton(driver, 1).onTrue(new InstantCommand(swerve::resetHeading));
         
-
-        // new JoystickButton(driver, 2).whileHeld(new VelocityTest(test, 0.5));
-        // new JoystickButton(driver, 3).whileHeld(new VoltageTest(test, 1));
-        // SmartDashboard.putNumber("volts", 0);
     }
 
     public void periodic() {
         swerve.updateSmartDash();
+        // swerve.initDashboard();
         // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
+    }
+
+    public void teleopInit() {
+        swerve.writeOffsets();
+        // swerve.updateOffsets();
+        
+        // swerve.initDashboard();
+        swerve.setBrake();
+        swerve.updateOffsets();
+    }
+
+    public void disabledInit(){
+        swerve.setCoast();
+    }
+
+    public void autonomousInit(){
+
     }
 
     public void testInit() {
