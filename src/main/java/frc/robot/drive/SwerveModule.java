@@ -227,10 +227,7 @@ public class SwerveModule {
     }
 
     public void setOffset(double offset){
-        resetToAbsolute();
         this.angleOffset = Rotation2d.fromDegrees(offset);
-        // this.turnEncoder.configMagnetOffset(angleOffset.getDegrees());
-        resetToAbsolute();
     }
 
     public void testDriveSpinny(double output) {
