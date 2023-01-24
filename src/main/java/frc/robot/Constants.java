@@ -40,6 +40,7 @@ public class Constants {
     public static final double kMaxRotationalVelocity = (1.0 * kMaxTranslationalVelocity)
             / Math.hypot(kTrackwidthMeters / 2, kWheelbaseMeters / 2);
     public static final boolean kIsFieldRelative = true;
+    public static final boolean kIsOpenLoop = false;
 
     public static final int kFrontLeftDriveMotorID = 10;
     public static final int kFrontLeftTurnMotorID = 11;
@@ -79,10 +80,10 @@ public class Constants {
     //-----------testing--------------------
 
     // select color and then version
-    public static final double[][] encoderoffsets = {{103.711, 0.0, 0.0}, // Red
-                                                    {318.427, 0.0, 0.0}, // Blue
-                                                    {275.273, 0.0, 0.0}, // green
-                                                    {87.539, 0.0, 0.0}}; // yellow
+    public static final double[][] encoderoffsets = {{103.711, 0.0, 0.0}, // Red 1, 5, 9
+                                                    {318.427, 0.0, 0.0}, // Blue 2, 6, 10
+                                                    {275.273, 0.0, 0.0}, // green 3, 7, 11
+                                                    {87.539, 0.0, 0.0}}; // yellow 4, 8, 12
 
     //-----------testing end----------------
 

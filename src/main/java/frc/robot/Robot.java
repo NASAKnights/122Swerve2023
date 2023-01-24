@@ -43,6 +43,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
+        container.periodic();
+
+        // maybe put the update code here?
     }
 
     @Override

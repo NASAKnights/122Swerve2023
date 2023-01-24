@@ -135,9 +135,9 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("y", this.odometry.getPoseMeters().getY());
         
         red = (int) SmartDashboard.getNumber("Red encoder", 0);
-        blue = (int)SmartDashboard.getNumber("Blue encoder", 0);
-        green = (int)SmartDashboard.getNumber("Green encoder", 0);
-        yellow = (int)SmartDashboard.getNumber("Yellow encoder", 0);
+        blue = (int) SmartDashboard.getNumber("Blue encoder", 0);
+        green = (int) SmartDashboard.getNumber("Green encoder", 0);
+        yellow = (int) SmartDashboard.getNumber("Yellow encoder", 0);
 
         
     }
@@ -165,8 +165,8 @@ public class SwerveDrive extends SubsystemBase {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(red);
-        System.out.println("REDREDREDREDREDRED");
+        // System.out.println(red);
+        // System.out.println("REDREDREDREDREDRED");
     }
 
     public void writeOffsets(){
