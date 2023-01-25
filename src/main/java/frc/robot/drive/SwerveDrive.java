@@ -160,10 +160,24 @@ public class SwerveDrive extends SubsystemBase {
             this.blue = buffer[1] - '0';
             this.green = buffer[2] - '0';
             this.yellow = buffer[3] - '0';
-            
+
             reader.close();
+
+            // in case we put an out of bounds number
+            if (this.red > 2 || this.red < 0){
+                this.red = 0;
+            }
+            if (this.blue > 2 || this.blue < 0){
+                this.blue = 0;
+            }
+            if (this.green > 2 || this.green < 0){
+                this.green = 0;
+            }
+            if (this.yellow > 2 || this.yellow < 0){
+                this.yellow = 0;
+            }
             // System.out.println("Reading, READING");
-            System.out.println(buffer);
+            // System.out.println(buffer);
  
         } catch (IOException e) {
             e.printStackTrace();
