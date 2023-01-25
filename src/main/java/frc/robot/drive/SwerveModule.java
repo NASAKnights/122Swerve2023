@@ -123,8 +123,8 @@ public class SwerveModule {
         // lastAngle = -angleOffset.getDegrees();
         // lastAngle = turnEncoder.getAbsolutePosition();
         
-        lastAngle = getCANCoder().minus(angleOffset).getDegrees();
-        double absolutePosition = -Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio);
+        lastAngle = (getCANCoder().minus(angleOffset).getDegrees());
+        double absolutePosition = Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio);
         turn.setSelectedSensorPosition(absolutePosition);
         
         System.out.println(id + " INIT ANGLE " + lastAngle);
@@ -228,6 +228,7 @@ public class SwerveModule {
 
     public void setOffset(double offset){
         this.angleOffset = Rotation2d.fromDegrees(offset);
+        resetToAbsolute();
     }
 
     public void testDriveSpinny(double output) {

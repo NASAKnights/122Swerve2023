@@ -119,10 +119,10 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void initDashboard(){
-        SmartDashboard.putNumber("Red encoder", 0.0);
-        SmartDashboard.putNumber("Blue encoder", 0.0);
-        SmartDashboard.putNumber("Green encoder", 0.0);
-        SmartDashboard.putNumber("Yellow encoder", 0.0);
+        SmartDashboard.putNumber("Red encoder", red);
+        SmartDashboard.putNumber("Blue encoder", blue);
+        SmartDashboard.putNumber("Green encoder", green);
+        SmartDashboard.putNumber("Yellow encoder", yellow);
         
     }
 
@@ -149,6 +149,7 @@ public class SwerveDrive extends SubsystemBase {
             char[] buffer = new char[4];
  
             if (reader.read(buffer, 0, 4) != 4){
+                System.out.println("Inside the if " + reader.read(buffer, 0, 4));
                 buffer[0] = '0';
                 buffer[1] = '0';
                 buffer[2] = '0';
@@ -161,6 +162,8 @@ public class SwerveDrive extends SubsystemBase {
             this.yellow = buffer[3] - '0';
             
             reader.close();
+            // System.out.println("Reading, READING");
+            System.out.println(buffer);
  
         } catch (IOException e) {
             e.printStackTrace();

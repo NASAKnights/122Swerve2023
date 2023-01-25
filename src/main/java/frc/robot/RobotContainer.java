@@ -29,8 +29,9 @@ public class RobotContainer {
 
     
         swerve = new SwerveDrive(navx);
-        
+        swerve.readoffsets();
         swerve.initDashboard();
+        System.out.println("RobotContainer entered AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
 
         configureDefaultCommands();
         configureButtonBindings();
@@ -47,6 +48,8 @@ public class RobotContainer {
 
     public void periodic() {
         swerve.updateSmartDash();
+        swerve.writeOffsets();
+        swerve.readoffsets();
         // swerve.initDashboard();
         // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
     }
@@ -57,6 +60,7 @@ public class RobotContainer {
         
         // swerve.initDashboard();
         swerve.setBrake();
+        swerve.readoffsets();
         swerve.updateOffsets();
     }
 
