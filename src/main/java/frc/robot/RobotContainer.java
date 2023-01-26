@@ -3,12 +3,9 @@ package frc.robot;
 import static frc.robot.Constants.kDriverPort;
 import static frc.robot.Constants.kNavXPort;
 
-import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -31,7 +28,6 @@ public class RobotContainer {
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         swerve.initDashboard();
-        System.out.println("RobotContainer entered AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
 
         configureDefaultCommands();
         configureButtonBindings();
@@ -56,9 +52,6 @@ public class RobotContainer {
 
     public void teleopInit() {
         swerve.writeOffsets();
-        // swerve.updateOffsets();
-        
-        // swerve.initDashboard();
         swerve.setBrake();
         swerve.readoffsets();
         swerve.updateOffsets();
