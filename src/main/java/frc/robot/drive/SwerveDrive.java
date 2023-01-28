@@ -148,7 +148,7 @@ public class SwerveDrive extends SubsystemBase {
             char[] buffer = new char[4];
  
             if (reader.read(buffer, 0, 4) != 4){
-                System.out.println("Inside the if " + reader.read(buffer, 0, 4));
+                // System.out.println("Inside the if " + reader.read(buffer, 0, 4));
                 buffer[0] = '0';
                 buffer[1] = '0';
                 buffer[2] = '0';
