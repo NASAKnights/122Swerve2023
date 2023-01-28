@@ -103,8 +103,10 @@ package frc.robot.drive.PhotonVision;
 import java.util.List;
 
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -113,6 +115,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class PhotonVision extends SubsystemBase {
   /** Creates a new PhotonVision. */
   PhotonCamera camera;
+  
 
   public PhotonVision() {
     
@@ -120,11 +123,18 @@ public class PhotonVision extends SubsystemBase {
 
   }
 
-  private int getCameraData(PhotonCamera camera){
+  private boolean findTarget(){
     var result = camera.getLatestResult();
     boolean hasTargets = result.hasTargets();
 
-    if (hasTargets == true){
+    return hasTargets;
+
+  }
+
+  private int getTagID(){
+    var result = camera.getLatestResult();
+  
+    if (findTarget()){
       //List<PhotonTrackedTarget> targets = result.getTargets();
       PhotonTrackedTarget target = result.getBestTarget();
 
@@ -132,19 +142,59 @@ public class PhotonVision extends SubsystemBase {
 
       return targetID;
     }
+    return 0;
+  }
+
+  private double getDistanceToTarget(){
+    var result = camera.getLatestResult();
+
+    //Camera and Target Positions
+    double cameraHeightMeters = Units.inchesToMeters(33 + (7/32));
+    double targetHeightMeters = Units.inchesToMeters(39 + (3/16));
+    double cameraPitchRadians = .108;
+
+
+
+    if (findTarget()){
+      double range = PhotonUtils.calculateDistanceToTargetMeters(
+                                                  cameraHeightMeters,
+                                                  targetHeightMeters,
+                                                  cameraPitchRadians,
+                                                  Units.degreesToRadians(result.getBestTarget().getPitch()));
+
+      //System.out.println(Units.degreesToRadians(result.getBestTarget().getPitch()));
+
+      return range;
+    }
 
     return 0;
-
 
   }
 
 
+  private double getPitch(){
+    var result = camera.getLatestResult();
+
+    if (findTarget()){
+      PhotonTrackedTarget target = result.getBestTarget();
+
+      double pitch = target.getPitch();
+
+      return pitch;
+
+    }
+    return 0;
+  }
+
+
+
   public void updateSmartDash(){
 
-    SmartDashboard.putNumber("Target ID", getCameraData(camera));
-    //SmartDashboard.putBoolean("hasTargets",);
-
-
+    SmartDashboard.putBoolean("hasTargets",findTarget());
+    SmartDashboard.putNumber("Target ID", getTagID());
+    SmartDashboard.putNumber("Pitch (Deg)", getPitch());
+    SmartDashboard.putNumber("Target Distance", getDistanceToTarget());
+   
   }
 
   @Override
