@@ -23,6 +23,7 @@ import frc.robot.drive.PhotonVision.PhotonVision;
 =======
 import frc.robot.drive.commands.AutoCommand;
 >>>>>>> c6bb8a7 (autocommand refs)
+import frc.robot.drive.PhotonVision.PhotonVision;
 import frc.robot.drive.commands.DriveCommand;
 <<<<<<< HEAD
 import frc.robot.drive.commands.DriveForwardTime;
@@ -43,6 +44,7 @@ public class RobotContainer {
     private SwerveDrive swerve;
 
     private Intake intake;
+    private PhotonVision photon;
 
     public RobotContainer() {
         driver = new Joystick(kDriverPort);
@@ -55,6 +57,8 @@ public class RobotContainer {
 =======
         photon = new PhotonVision();
 >>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
+
+        photon = new PhotonVision();
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         // swerve.updateSmartDash();
@@ -88,6 +92,7 @@ public class RobotContainer {
         // swerve.updateOffsets();
         
 =======
+        photon.updateSmartDash();
         photon.updateSmartDash();
         // swerve.initDashboard();
 >>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
