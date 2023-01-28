@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.SwerveDrive;
+import frc.robot.drive.PhotonVision.PhotonVision;
 import frc.robot.drive.commands.DriveCommand;
 
 public class RobotContainer {
@@ -18,13 +19,14 @@ public class RobotContainer {
 
     private AHRS navx;
     private SwerveDrive swerve;
+    private PhotonVision photon;
 
     public RobotContainer() {
         driver = new Joystick(kDriverPort);
 
         navx = new AHRS(kNavXPort);
 
-    
+        photon = new PhotonVision();
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         swerve.initDashboard();
@@ -46,6 +48,7 @@ public class RobotContainer {
         swerve.updateSmartDash();
         swerve.writeOffsets();
         swerve.readoffsets();
+        photon.updateSmartDash();
         // swerve.initDashboard();
         // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
         
