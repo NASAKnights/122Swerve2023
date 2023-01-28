@@ -25,6 +25,7 @@ import pabeles.concurrency.ConcurrencyOps.NewInstance;
 public class PhotonVision extends SubsystemBase {
   /** Creates a new PhotonVision. */
   PhotonCamera camera;
+  
 
   public PhotonVision() {
     
@@ -32,8 +33,7 @@ public class PhotonVision extends SubsystemBase {
 
   }
 
-  public boolean findTarget(){
-    // locates targets, returns true when target is found
+  private boolean findTarget(){
     var result = camera.getLatestResult();
     boolean hasTargets = result.hasTargets();
 
