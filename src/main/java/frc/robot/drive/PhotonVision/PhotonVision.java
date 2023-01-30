@@ -5,11 +5,13 @@
 package frc.robot.drive.PhotonVision;
 
 import java.util.List;
+import java.lang.Math;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class PhotonVision extends SubsystemBase {
   /** Creates a new PhotonVision. */
   PhotonCamera camera;
-  
 
   public PhotonVision() {
     
@@ -28,6 +29,7 @@ public class PhotonVision extends SubsystemBase {
   }
 
   private boolean findTarget(){
+    // locates targets, returns true when target is found
     var result = camera.getLatestResult();
     boolean hasTargets = result.hasTargets();
 
@@ -36,6 +38,7 @@ public class PhotonVision extends SubsystemBase {
   }
 
   private int getTagID(){
+    // returns tag ID
     var result = camera.getLatestResult();
   
     if (findTarget()){
@@ -49,26 +52,17 @@ public class PhotonVision extends SubsystemBase {
     return 0;
   }
 
-  private double getDistanceToTarget(){
+  private double getXDistanceToTarget(){
+    // gets foward distance in meters
     var result = camera.getLatestResult();
 
-    //Camera and Target Positions
-    double cameraHeightMeters = Units.inchesToMeters(33 + (7/32));
-    double targetHeightMeters = Units.inchesToMeters(39 + (3/16));
-    double cameraPitchRadians = .108;
-
-
-
     if (findTarget()){
-      double range = PhotonUtils.calculateDistanceToTargetMeters(
-                                                  cameraHeightMeters,
-                                                  targetHeightMeters,
-                                                  cameraPitchRadians,
-                                                  Units.degreesToRadians(result.getBestTarget().getPitch()));
+     
+      PhotonTrackedTarget target = result.getBestTarget();
+      Transform3d bestCameraToTarget = target.getBestCameraToTarget();
 
-      //System.out.println(Units.degreesToRadians(result.getBestTarget().getPitch()));
+      return bestCameraToTarget.getX();
 
-      return range;
     }
 
     return 0;
@@ -76,7 +70,35 @@ public class PhotonVision extends SubsystemBase {
   }
 
 
+  private double getYDistanceToTarget(){
+    // gets left/right distance in meters (left is positive)
+    var result = camera.getLatestResult();
+
+    if (findTarget()){
+     
+      PhotonTrackedTarget target = result.getBestTarget();
+      Transform3d bestCameraToTarget = target.getBestCameraToTarget();
+
+      return bestCameraToTarget.getY();
+
+    }
+
+    return 0;
+
+  }
+
+
+  private double getTargetAngle(double x, double y){
+
+    // gives angle of the target in degrees
+    double targetAngle = (Math.tan(y/x)) * (180/Math.PI);
+    return targetAngle;
+
+  }
+
+
   private double getPitch(){
+    // gets pitch of target in radians
     var result = camera.getLatestResult();
 
     if (findTarget()){
@@ -90,15 +112,22 @@ public class PhotonVision extends SubsystemBase {
     return 0;
   }
 
+  private double distanceFormula(double x, double y){
+    // returns distance to target in meters
+    return Math.sqrt((x*x)+(y*y));
+  }
+
 
 
   public void updateSmartDash(){
 
     SmartDashboard.putBoolean("hasTargets",findTarget());
-    SmartDashboard.putNumber("Target ID", getTagID());
-    SmartDashboard.putNumber("Pitch (Deg)", getPitch());
-    SmartDashboard.putNumber("Target Distance", getDistanceToTarget());
-   
+    //SmartDashboard.putNumber("Target ID", getTagID());
+    //SmartDashboard.putNumber("Pitch (Deg)", getPitch());
+    //SmartDashboard.putNumber("Target X Distance", getXDistanceToTarget());
+    //SmartDashboard.putNumber("Target Y Distance", getYDistanceToTarget());
+    SmartDashboard.putNumber("Target Total Distance", distanceFormula(getXDistanceToTarget(), getYDistanceToTarget()));
+    SmartDashboard.putNumber("Target Angle", getTargetAngle(getXDistanceToTarget(), getYDistanceToTarget()));
   }
 
   @Override
