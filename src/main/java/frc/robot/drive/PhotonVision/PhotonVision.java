@@ -25,7 +25,6 @@ import pabeles.concurrency.ConcurrencyOps.NewInstance;
 public class PhotonVision extends SubsystemBase {
   /** Creates a new PhotonVision. */
   PhotonCamera camera;
-  
 
   public PhotonVision() {
     
