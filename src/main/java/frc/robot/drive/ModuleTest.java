@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -23,6 +24,10 @@ public class ModuleTest extends SubsystemBase {
 
     public void goToAngle(double angle) {
         module.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(angle)), true);
+    }
+
+    public void displayAbsoluteAngle(){
+        SmartDashboard.putNumber("Module 6 absolute angle", module.getAbsoluteAngle().getDegrees());
     }
 
     public void driveSpinny(double output) {
@@ -75,5 +80,6 @@ public class ModuleTest extends SubsystemBase {
         if (states.length != 4) throw new IllegalStateException("there should be only one state");
 
         module.setDesiredState(states[0], isOpenLoop);
+        module.updateSmartDash();
     }
 }

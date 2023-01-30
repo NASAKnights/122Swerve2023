@@ -64,8 +64,8 @@ public class SwerveModule {
 
         desiredState = SwerveModuleState.optimize(desiredState, currentAngleRotation2d);
 
-        SwerveModuleState possibleState = checkForWrapAround(desiredState, currentAngleRotation2d);
-        SmartDashboard.putNumber(id + " angle states", possibleState.angle.getDegrees());
+        desiredState = checkForWrapAround(desiredState, currentAngleRotation2d);
+        SmartDashboard.putNumber(id + " angle states", desiredState.angle.getDegrees());
 
 
         // sets Angle and velocity of the wheels
@@ -169,7 +169,7 @@ public class SwerveModule {
         // SmartDashboard.putNumber(id + " Current Angle", getAngleRotation2d().getDegrees());
         // SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getAbsolutePosition());
         // SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
-        // SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
+        SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
         // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
         // SmartDashboard.putNumber(id + " cancoder - offset", getCANCoder().minus(angleOffset).getDegrees());
         // SmartDashboard.putNumber(id + " CancoderID", turnEncoder.getDeviceID());
@@ -205,6 +205,10 @@ public class SwerveModule {
     public Rotation2d getAngleRotation2d() {
         return Rotation2d.fromDegrees(
                 Conversions.falconToDegrees(turn.getSelectedSensorPosition(), ModuleConstants.kTurnGearRatio));
+    }
+
+    public Rotation2d getAbsoluteAngle(){
+        return Rotation2d.fromDegrees(turnEncoder.getAbsolutePosition());
     }
 
     public double getDistanceMeters() {

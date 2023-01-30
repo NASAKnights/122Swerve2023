@@ -22,7 +22,7 @@ public class ModuleTestCommand extends CommandBase {
     @Override
     public void execute() {
         double xSpeed = -MathUtil.calculateAxis(driver.getY(), Constants.kDefaultAxisDeadband, Constants.kMaxTranslationalVelocity);
-        double ySpeed = MathUtil.calculateAxis(driver.getX(), Constants.kDefaultAxisDeadband, Constants.kMaxTranslationalVelocity);
+        double ySpeed = -MathUtil.calculateAxis(driver.getX(), Constants.kDefaultAxisDeadband, Constants.kMaxTranslationalVelocity);
         double thetaSpeed = 0; // = MathUtil.calculateAxis(driver.getZ(), Constants.AXIS_DEADBAND, Constants.MAX_ROTATIONAL_VELOCITY);
 
         SmartDashboard.putNumber("x", xSpeed);
@@ -30,11 +30,14 @@ public class ModuleTestCommand extends CommandBase {
 
         ChassisSpeeds speeds = new ChassisSpeeds(xSpeed, ySpeed, thetaSpeed);
 
-        test.setOpenLoop(speeds);
+        // test.setOpenLoop(speeds);
+        test.setClosedLoop(speeds);
     }
 
     @Override
     public void end(boolean interrupted) {
-        test.setOpenLoop(new ChassisSpeeds());
+        // test.setOpenLoop(new ChassisSpeeds());
+        test.setClosedLoop(new ChassisSpeeds());
+
     }
 }
