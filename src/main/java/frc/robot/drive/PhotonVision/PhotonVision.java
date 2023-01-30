@@ -6,6 +6,7 @@ package frc.robot.drive.PhotonVision;
 
 import java.util.List;
 import java.lang.Math;
+import java.lang.Math;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -25,7 +26,6 @@ import pabeles.concurrency.ConcurrencyOps.NewInstance;
 public class PhotonVision extends SubsystemBase {
   /** Creates a new PhotonVision. */
   PhotonCamera camera;
-  
 
   public PhotonVision() {
     
@@ -34,6 +34,7 @@ public class PhotonVision extends SubsystemBase {
   }
 
   private boolean findTarget(){
+    // locates targets, returns true when target is found
     var result = camera.getLatestResult();
     boolean hasTargets = result.hasTargets();
 
