@@ -26,10 +26,6 @@ public class ModuleTest extends SubsystemBase {
         module.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(angle)), true);
     }
 
-    public void displayAbsoluteAngle(){
-        SmartDashboard.putNumber("Module 6 absolute angle", module.getAbsoluteAngle().getDegrees());
-    }
-
     public void driveSpinny(double output) {
         module.testDriveSpinny(output);
     }
@@ -72,6 +68,11 @@ public class ModuleTest extends SubsystemBase {
 
     public void setMPS(double mps) {
         module.setDesiredState(new SwerveModuleState(mps, module.getAngleRotation2d()), false);
+    }
+
+    public void updateSmartDash(){
+        SmartDashboard.putNumber("Module 6 absolute angle", module.getAbsoluteAngle().getDegrees());
+        SmartDashboard.putNumber("Angle Rotation", module.getAngleRotation2d().getDegrees());
     }
 
     private void set(ChassisSpeeds speeds, boolean isOpenLoop) {
