@@ -23,8 +23,7 @@ public class RobotContainer {
 
     private AHRS navx;
     private SwerveDrive swerve;
-
-    private ModuleTest test;
+    // private ModuleTest test;
 
     public RobotContainer() {
         driver = new Joystick(kDriverPort);
@@ -79,7 +78,7 @@ public class RobotContainer {
     }
 
     public void disabledInit(){
-        // swerve.setCoast();
+        swerve.setCoast();
     }
 
     public void autonomousInit(){
