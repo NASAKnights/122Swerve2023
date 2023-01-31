@@ -17,6 +17,7 @@ import frc.robot.drive.SwerveDrive;
 
 import frc.robot.drive.PhotonVision.PhotonVision;
 import frc.robot.drive.commands.AutoCommand;
+import frc.robot.drive.commands.AutoCommand;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.DriveForwardTime;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -27,16 +28,13 @@ import frc.robot.intake.Intake;
 import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntakeReverse;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RobotContainer {
 
     private Joystick driver;
 
     private AHRS navx;
-
-
-    private PhotonVision photon;
-    private SwerveDrive swerve;
 
     private Intake intake;
     private PhotonVision photon;
@@ -51,12 +49,6 @@ public class RobotContainer {
 
         photon = new PhotonVision();
 
-=======
-        photon = new PhotonVision();
->>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
-=======
-        photon = new PhotonVision();
->>>>>>> 2703cce2a3aeb85950660b46e1650176e9e27094
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         // swerve.updateSmartDash();

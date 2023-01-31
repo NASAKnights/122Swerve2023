@@ -8,13 +8,12 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drive.SwerveDrive;
-import frc.robot.drive.PhotonVision.PhotonVision;
 
 
 public class AutoCommand extends CommandBase {
   private SwerveDrive swerve;
   private Timer timer;
-  private PhotonVision photon;
+
   private ChassisSpeeds speeds;
 
   /** Creates a new AutoTest. */
@@ -43,40 +42,6 @@ public class AutoCommand extends CommandBase {
     }
   }
 
-
-  public void driveToTarget(double maxSpeed, double distance){
-    if (photon.findTarget()){
-      double xDist = photon.getXDistanceToTarget();
-      double yDist = photon.getYDistanceToTarget();
-      double totalDist = photon.distanceFormula(xDist, yDist);
-      double xSpeed = (xDist/totalDist) * maxSpeed;
-      double ySpeed = (yDist/totalDist) * maxSpeed;
-
-      System.out.println("xSpeed " + xSpeed);
-      System.out.println("ySpeed " +ySpeed);
-      // if (Math.abs(ySpeed) < .025){
-      //   ySpeed = 0;
-      // }
-
-
-      speeds = new ChassisSpeeds(xSpeed,ySpeed,0);
-
-
-      if (totalDist >= distance){
-        swerve.drive(speeds,false);
-      }else{
-        end(isFinished());
-      }
-    }
-    else{
-      end(isFinished());
-    }
-
-  }
-
-
-
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -88,10 +53,8 @@ public class AutoCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
-
-    driveToTarget(0.2, 2);
-    //driveForSeconds(speeds, 3);
+    ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
+    driveForSeconds(speeds, 3);
 
     //driveForMeters(0.3, 1.0);
       
