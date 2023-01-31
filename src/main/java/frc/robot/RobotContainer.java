@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.SwerveDrive;
+import frc.robot.drive.commands.AutoCommand;
 import frc.robot.drive.commands.DriveCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RobotContainer {
 
@@ -62,8 +64,8 @@ public class RobotContainer {
         swerve.setCoast();
     }
 
-    public void autonomousInit(){
-
+    public CommandBase autonomousInit(){
+        return new AutoCommand(swerve);
     }
 
     public void testInit() {
