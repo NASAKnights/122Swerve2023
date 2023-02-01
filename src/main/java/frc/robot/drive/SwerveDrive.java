@@ -227,6 +227,10 @@ public class SwerveDrive extends SubsystemBase {
         this.odometry.resetPosition(this.getHeading(), this.getModulePositions(), position);
     }
 
+    public Pose2d getPose(){
+        return this.odometry.getPoseMeters();
+    }
+
     private void updateOdometry() {
         // SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
         this.odometry.update(this.getHeading(), this.getModulePositions());

@@ -172,6 +172,7 @@ public class SwerveModule {
         // SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getAbsolutePosition());
         // SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
         SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
+        SmartDashboard.putNumber(id + " Velocity", getVelocityMPS());
         // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
         // SmartDashboard.putNumber(id + " cancoder - offset", getCANCoder().minus(angleOffset).getDegrees());
         // SmartDashboard.putNumber(id + " CancoderID", turnEncoder.getDeviceID());
