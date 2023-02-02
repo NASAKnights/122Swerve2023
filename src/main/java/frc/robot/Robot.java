@@ -41,10 +41,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-<<<<<<< HEAD
-        
-=======
->>>>>>> 5fa8191 (autoDriveForward autocommand command added)
     }
 
     @Override
