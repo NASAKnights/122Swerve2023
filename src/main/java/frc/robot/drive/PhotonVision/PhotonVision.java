@@ -33,7 +33,7 @@ public class PhotonVision extends SubsystemBase {
 
   }
 
-  private boolean findTarget(){
+  public boolean findTarget(){
     // locates targets, returns true when target is found
     var result = camera.getLatestResult();
     boolean hasTargets = result.hasTargets();
