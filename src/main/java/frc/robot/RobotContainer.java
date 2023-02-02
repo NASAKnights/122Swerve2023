@@ -7,21 +7,22 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.PhotonVision.PhotonVision;
 import frc.robot.drive.commands.AutoCommand;
 import frc.robot.drive.commands.DriveCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RobotContainer {
 
     private Joystick driver;
 
     private AHRS navx;
-    private SwerveDrive swerve;
+
     private PhotonVision photon;
+    private SwerveDrive swerve;
 
     public RobotContainer() {
         driver = new Joystick(kDriverPort);
@@ -34,7 +35,7 @@ public class RobotContainer {
         swerve.initDashboard();
 
         configureDefaultCommands();
-        configureButtonBindings(); 
+        configureButtonBindings();
     }
 
     private void configureDefaultCommands() {
