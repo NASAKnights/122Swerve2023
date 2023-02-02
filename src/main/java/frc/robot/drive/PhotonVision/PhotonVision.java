@@ -52,7 +52,7 @@ public class PhotonVision extends SubsystemBase {
     return 0;
   }
 
-  private double getXDistanceToTarget(){
+  public double getXDistanceToTarget(){
     // gets foward distance in meters
     var result = camera.getLatestResult();
 
@@ -70,7 +70,7 @@ public class PhotonVision extends SubsystemBase {
   }
 
 
-  private double getYDistanceToTarget(){
+  public double getYDistanceToTarget(){
     // gets left/right distance in meters (left is positive)
     var result = camera.getLatestResult();
 
@@ -88,7 +88,7 @@ public class PhotonVision extends SubsystemBase {
   }
 
 
-  private double getTargetAngle(double x, double y){
+  public double getTargetAngle(double x, double y){
 
     // gives angle of the target in degrees
     double targetAngle = (Math.tan(y/x)) * (180/Math.PI);
