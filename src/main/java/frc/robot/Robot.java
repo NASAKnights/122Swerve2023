@@ -21,10 +21,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        container.autonomousInit();
     }
 
     @Override
     public void autonomousPeriodic() {
+        container.autonomousPeriodic();
     }
 
     @Override
