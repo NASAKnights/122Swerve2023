@@ -2,6 +2,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class Robot extends TimedRobot {
 
     private RobotContainer container;
+    private CommandBase autoCommand;
     private CommandBase autoCommand;
 
     @Override
