@@ -23,15 +23,23 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+<<<<<<< HEAD
         autoCommand = container.autonomousInit();
         if (autoCommand != null){
             autoCommand.schedule();
         }
+=======
+        container.autonomousInit();
+>>>>>>> 5fa8191 (autoDriveForward autocommand command added)
     }
 
     @Override
     public void autonomousPeriodic() {
+<<<<<<< HEAD
         
+=======
+        container.autonomousPeriodic();
+>>>>>>> 5fa8191 (autoDriveForward autocommand command added)
     }
 
     @Override
