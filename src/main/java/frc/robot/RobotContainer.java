@@ -8,6 +8,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -18,7 +19,11 @@ import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.SwerveModule;
 =======
 import frc.robot.drive.PhotonVision.PhotonVision;
+<<<<<<< HEAD
 >>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
+=======
+import frc.robot.drive.commands.AutoCommand;
+>>>>>>> c6bb8a7 (autocommand refs)
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.DriveForwardTime;
 import frc.robot.intake.Intake;
@@ -51,7 +56,7 @@ public class RobotContainer {
         swerve.initDashboard();
 
         configureDefaultCommands();
-        configureButtonBindings();
+        configureButtonBindings(); 
     }
 
     private void configureDefaultCommands() {
@@ -100,8 +105,8 @@ public class RobotContainer {
         
     }
 
-    public void autonomousInit(){
-
+    public CommandBase autonomousInit(){
+        return new AutoCommand(swerve);
     }
 
     public void testInit() {
