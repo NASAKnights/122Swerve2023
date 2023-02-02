@@ -14,9 +14,8 @@ import frc.robot.drive.PhotonVision.PhotonVision;
 public class AutoCommand extends CommandBase {
   private SwerveDrive swerve;
   private Timer timer;
-
-  private ChassisSpeeds speeds;
   private PhotonVision photon;
+  private ChassisSpeeds speeds;
 
   /** Creates a new AutoTest. */
   public AutoCommand(SwerveDrive swerve) {
@@ -58,6 +57,7 @@ public class AutoCommand extends CommandBase {
 
   }
 
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -70,7 +70,7 @@ public class AutoCommand extends CommandBase {
   @Override
   public void execute() {
     ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
-    
+
     driveToTarget(speeds, 1);
     //driveForSeconds(speeds, 3);
 

@@ -8,7 +8,6 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -25,18 +24,23 @@ import frc.robot.drive.PhotonVision.PhotonVision;
 import frc.robot.drive.commands.AutoCommand;
 >>>>>>> c6bb8a7 (autocommand refs)
 import frc.robot.drive.commands.DriveCommand;
+<<<<<<< HEAD
 import frc.robot.drive.commands.DriveForwardTime;
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntakeReverse;
+=======
+import edu.wpi.first.wpilibj2.command.CommandBase;
+>>>>>>> 0a03bcb (theived from autoDriveCommand)
 
 public class RobotContainer {
 
     private Joystick driver;
 
     private AHRS navx;
-    private SwerveDrive swerve;
+
     private PhotonVision photon;
+    private SwerveDrive swerve;
 
     private Intake intake;
 
@@ -57,7 +61,7 @@ public class RobotContainer {
         swerve.initDashboard();
 
         configureDefaultCommands();
-        configureButtonBindings(); 
+        configureButtonBindings();
     }
 
     private void configureDefaultCommands() {
