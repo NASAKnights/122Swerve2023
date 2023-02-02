@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drive.SwerveDrive;
+import frc.robot.drive.PhotonVision.PhotonVision;
 
 
 public class AutoCommand extends CommandBase {
@@ -15,6 +16,7 @@ public class AutoCommand extends CommandBase {
   private Timer timer;
 
   private ChassisSpeeds speeds;
+  private PhotonVision photon;
 
   /** Creates a new AutoTest. */
   public AutoCommand(SwerveDrive swerve) {
@@ -42,6 +44,20 @@ public class AutoCommand extends CommandBase {
     }
   }
 
+  public void driveToTarget(ChassisSpeeds speeds, double distance){
+
+    if (photon.findTarget()){
+
+    if (photon.getXDistanceToTarget()<= distance){
+      swerve.drive(speeds,false);
+    }else{
+      end(isFinished());
+    }
+
+    }
+
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -54,7 +70,9 @@ public class AutoCommand extends CommandBase {
   @Override
   public void execute() {
     ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
-    driveForSeconds(speeds, 3);
+    
+    driveToTarget(speeds, 1);
+    //driveForSeconds(speeds, 3);
 
     //driveForMeters(0.3, 1.0);
       
