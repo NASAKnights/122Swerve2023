@@ -17,6 +17,7 @@ import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.ModuleTestCommand;
 import frc.robot.drive.commands.TestModuleAngleCommand;
 import frc.robot.drive.commands.VelocityTest;
+import frc.robot.drive.commands.VoltageTest;
 
 public class RobotContainer {
 
@@ -51,7 +52,8 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         // swerve.setDefaultCommand(new DriveCommand(driver, swerve));
-        swerve.setDefaultCommand(new VelocityTest(swerve, 0.0));
+        // swerve.setDefaultCommand(new VelocityTest(swerve, 0.0));
+        swerve.setDefaultCommand(new VoltageTest(swerve, 0));
         // test.setDefaultCommand(new ModuleTestCommand(driver, test));
     }
 
