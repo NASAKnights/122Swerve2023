@@ -8,7 +8,6 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -54,7 +53,7 @@ public class RobotContainer {
         //swerve.initDashboard();
 
         configureDefaultCommands();
-        configureButtonBindings(); 
+        configureButtonBindings();
     }
 
     private void configureDefaultCommands() {
