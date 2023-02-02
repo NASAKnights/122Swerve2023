@@ -57,8 +57,6 @@ public class RobotContainer {
 =======
         photon = new PhotonVision();
 >>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
-
-        photon = new PhotonVision();
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         // swerve.updateSmartDash();
@@ -87,13 +85,6 @@ public class RobotContainer {
         swerve.updateSmartDash();
         swerve.writeOffsets();
         swerve.readoffsets();
-<<<<<<< HEAD
-        // test.updateSmartDash();
-        // swerve.updateOffsets();
-        
-=======
-        photon.updateSmartDash();
-        photon.updateSmartDash();
         // swerve.initDashboard();
 >>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
         // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());

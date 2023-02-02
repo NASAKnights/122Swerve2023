@@ -8,21 +8,14 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drive.SwerveDrive;
-<<<<<<< HEAD
 import frc.robot.drive.PhotonVision.PhotonVision;
-=======
->>>>>>> 5fa8191 (autoDriveForward autocommand command added)
 
 
 public class AutoCommand extends CommandBase {
   private SwerveDrive swerve;
   private Timer timer;
-<<<<<<< HEAD
-  private PhotonVision photon;
-=======
-
->>>>>>> 5fa8191 (autoDriveForward autocommand command added)
   private ChassisSpeeds speeds;
+  private PhotonVision photon;
 
   /** Creates a new AutoTest. */
   public AutoCommand(SwerveDrive swerve) {
@@ -50,7 +43,21 @@ public class AutoCommand extends CommandBase {
     }
   }
 
-<<<<<<< HEAD
+
+  public void driveToTarget(ChassisSpeeds speeds, double distance){
+
+    if (photon.findTarget()){
+
+    if (photon.getXDistanceToTarget()<= distance){
+      swerve.drive(speeds,false);
+    }else{
+      end(isFinished());
+    }
+
+    }
+
+  }
+
   public void driveToTarget(double maxSpeed, double distance){
     if (photon.findTarget()){
       double xDist = photon.getXDistanceToTarget();
@@ -86,11 +93,6 @@ public class AutoCommand extends CommandBase {
   @Override
   public void initialize() {
     photon = new PhotonVision();
-=======
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
->>>>>>> 5fa8191 (autoDriveForward autocommand command added)
     timer = new Timer();
     timer.reset();
     timer.start();
@@ -99,15 +101,10 @@ public class AutoCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-<<<<<<< HEAD
-    //ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
-
-    driveToTarget(0.2, 2);
-    //driveForSeconds(speeds, 3);
-=======
     ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
-    driveForSeconds(speeds, 3);
->>>>>>> 5fa8191 (autoDriveForward autocommand command added)
+    
+    driveToTarget(speeds, 1);
+    //driveForSeconds(speeds, 3);
 
     //driveForMeters(0.3, 1.0);
       

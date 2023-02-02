@@ -28,7 +28,7 @@ public class PhotonVision extends SubsystemBase {
 
   }
 
-  private boolean findTarget(){
+  public boolean findTarget(){
     // locates targets, returns true when target is found
     var result = camera.getLatestResult();
     boolean hasTargets = result.hasTargets();
@@ -134,65 +134,4 @@ public class PhotonVision extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-<<<<<<< HEAD
-}
-    
-
-      return targetToRobot.getY();
-
-    }
-
-    return 0;
-
-  }
-
-
-  public double getTargetAngle(double x, double y){
-
-    // gives angle of the target in degrees
-    double targetAngle = (Math.tan(y/x)) * (180/Math.PI);
-    return targetAngle;
-
-  }
-
-
-  private double getPitch(){
-    // gets pitch of target in radians
-    var result = camera.getLatestResult();
-
-    if (findTarget()){
-      PhotonTrackedTarget target = result.getBestTarget();
-
-      double pitch = target.getPitch();
-
-      return pitch;
-
-    }
-    return 0;
-  }
-
-  public double distanceFormula(double x, double y){
-    // returns distance to target in meters
-    return Math.sqrt((x*x)+(y*y));
-  }
-
-
-
-  public void updateSmartDash(){
-
-    SmartDashboard.putBoolean("hasTargets",findTarget());
-    //SmartDashboard.putNumber("Target ID", getTagID());
-    //SmartDashboard.putNumber("Pitch (Deg)", getPitch());
-    SmartDashboard.putNumber("Target X Distance", getXDistanceToTarget());
-    SmartDashboard.putNumber("Target Y Distance", getYDistanceToTarget());
-    //SmartDashboard.putNumber("Target Total Distance", distanceFormula(getXDistanceToTarget(), getYDistanceToTarget()));
-    //SmartDashboard.putNumber("Target Angle", getTargetAngle(getXDistanceToTarget(), getYDistanceToTarget()));
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-=======
->>>>>>> 643ca6f (found X&Y dist. totalDist. & targetAngle)
 }
