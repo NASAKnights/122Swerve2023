@@ -2,8 +2,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Robot extends TimedRobot {
@@ -44,7 +44,6 @@ public class Robot extends TimedRobot {
 <<<<<<< HEAD
         
 =======
-       
 >>>>>>> 5fa8191 (autoDriveForward autocommand command added)
     }
 

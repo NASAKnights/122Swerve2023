@@ -124,10 +124,10 @@ public class PhotonVision extends SubsystemBase {
     SmartDashboard.putBoolean("hasTargets",findTarget());
     //SmartDashboard.putNumber("Target ID", getTagID());
     //SmartDashboard.putNumber("Pitch (Deg)", getPitch());
-    //SmartDashboard.putNumber("Target X Distance", getXDistanceToTarget());
-    //SmartDashboard.putNumber("Target Y Distance", getYDistanceToTarget());
-    SmartDashboard.putNumber("Target Total Distance", distanceFormula(getXDistanceToTarget(), getYDistanceToTarget()));
-    SmartDashboard.putNumber("Target Angle", getTargetAngle(getXDistanceToTarget(), getYDistanceToTarget()));
+    SmartDashboard.putNumber("Target X Distance", getXDistanceToTarget());
+    SmartDashboard.putNumber("Target Y Distance", getYDistanceToTarget());
+    //SmartDashboard.putNumber("Target Total Distance", distanceFormula(getXDistanceToTarget(), getYDistanceToTarget()));
+    //SmartDashboard.putNumber("Target Angle", getTargetAngle(getXDistanceToTarget(), getYDistanceToTarget()));
   }
 
   @Override

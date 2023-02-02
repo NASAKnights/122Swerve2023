@@ -33,6 +33,7 @@ import frc.robot.intake.commands.SetIntakeReverse;
 =======
 import edu.wpi.first.wpilibj2.command.CommandBase;
 >>>>>>> 0a03bcb (theived from autoDriveCommand)
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RobotContainer {
 
@@ -40,11 +41,13 @@ public class RobotContainer {
 
     private AHRS navx;
 
+
     private PhotonVision photon;
     private SwerveDrive swerve;
 
     private Intake intake;
     private PhotonVision photon;
+    private SwerveDrive swerve;
 
     public RobotContainer() {
         driver = new Joystick(kDriverPort);
