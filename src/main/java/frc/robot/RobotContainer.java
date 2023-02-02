@@ -7,10 +7,12 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.PhotonVision.PhotonVision;
+import frc.robot.drive.commands.AutoCommand;
 import frc.robot.drive.commands.DriveCommand;
 
 public class RobotContainer {
@@ -32,7 +34,7 @@ public class RobotContainer {
         swerve.initDashboard();
 
         configureDefaultCommands();
-        configureButtonBindings();
+        configureButtonBindings(); 
     }
 
     private void configureDefaultCommands() {
@@ -65,8 +67,8 @@ public class RobotContainer {
         swerve.setCoast();
     }
 
-    public void autonomousInit(){
-
+    public CommandBase autonomousInit(){
+        return new AutoCommand(swerve);
     }
 
     public void testInit() {
