@@ -44,16 +44,30 @@ public class AutoCommand extends CommandBase {
   }
 
 
-  public void driveToTarget(ChassisSpeeds speeds, double distance){
 
+  public void driveToTarget(double maxSpeed, double distance){
     if (photon.findTarget()){
+      double xDist = photon.getXDistanceToTarget();
+      double yDist = photon.getYDistanceToTarget();
+      double totalDist = photon.distanceFormula(xDist, yDist);
+      double xSpeed = (xDist/totalDist) * maxSpeed;
+      double ySpeed = (yDist/totalDist) * maxSpeed;
 
-    if (photon.getXDistanceToTarget() >= distance){
-      swerve.drive(speeds,false);
-    }else{
-      end(isFinished());
-    }
+      System.out.println("xSpeed " + xSpeed);
+      System.out.println("ySpeed " +ySpeed);
+      // if (Math.abs(ySpeed) < .025){
+      //   ySpeed = 0;
+      // }
 
+
+      speeds = new ChassisSpeeds(xSpeed,ySpeed,0);
+
+
+      if (totalDist >= distance){
+        swerve.drive(speeds,false);
+      }else{
+        end(isFinished());
+      }
     }
     else{
       end(isFinished());
@@ -105,9 +119,9 @@ public class AutoCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
+    //ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
 
-    driveToTarget(speeds, .5);
+    driveToTarget(0.2, 2);
     //driveForSeconds(speeds, 3);
 
     //driveForMeters(0.3, 1.0);
