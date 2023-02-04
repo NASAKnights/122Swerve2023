@@ -71,6 +71,9 @@ public class AutoCommand extends CommandBase {
     else{
       end(isFinished());
     }
+    else{
+      end(isFinished());
+    }
 
   }
 
