@@ -20,7 +20,7 @@ import frc.robot.drive.commands.TestModuleAngleCommand;
 import frc.robot.drive.commands.VelocityTest;
 import frc.robot.drive.commands.VoltageTest;
 import frc.robot.intake.Intake;
-import frc.robot.intake.commands.RunIntake;
+import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntakeReverse;
 
 public class RobotContainer {
@@ -67,7 +67,7 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         new JoystickButton(driver, 1).onTrue(new InstantCommand(swerve::resetHeading));
-        new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new RunIntake(intake)));
+        new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
         new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
         
     }
@@ -93,6 +93,7 @@ public class RobotContainer {
 
     public void disabledInit(){
         swerve.setCoast();
+        
     }
 
     public void autonomousInit(){

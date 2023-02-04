@@ -10,10 +10,16 @@ import frc.robot.drive.SwerveDrive;
 public class DriveByDistance extends CommandBase {
   /** Creates a new DriveByDistance. */
   private SwerveDrive swerve;
+  private double xMeters;
+  private double yMeters;
+  private double rotRadians;
 
-  public DriveByDistance(SwerveDrive swerve, double distance) {
+  public DriveByDistance(SwerveDrive swerve, double x, double y, double rot) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.swerve = swerve;
+    this.xMeters = x;
+    this.yMeters = y;
+    this.rotRadians = rot;
 
     addRequirements(swerve);
   }

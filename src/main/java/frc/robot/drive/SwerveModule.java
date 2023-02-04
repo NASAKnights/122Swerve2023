@@ -7,7 +7,10 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+import com.ctre.phoenix.sensors.SensorTimeBase;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -17,6 +20,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.control.motors.NKTalonFX;
+import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 
 public class SwerveModule {
@@ -66,7 +70,7 @@ public class SwerveModule {
         desiredState = SwerveModuleState.optimize(desiredState, currentAngleRotation2d);
 
         desiredState = checkForWrapAround(desiredState, currentAngleRotation2d);
-        SmartDashboard.putNumber(id + " angle states", desiredState.angle.getDegrees());
+        // SmartDashboard.putNumber(id + " angle states", desiredState.angle.getDegrees());
 
 
         // sets Angle and velocity of the wheels
@@ -123,17 +127,27 @@ public class SwerveModule {
 
     private void resetToAbsolute() {
         // lastAngle = -angleOffset.getDegrees();
-        // lastAngle = turnEncoder.getAbsolutePosition();
+        lastAngle = turnEncoder.getAbsolutePosition();
+        // lastAngle = 0;
         
-        lastAngle = (getCANCoder().minus(angleOffset).getDegrees());
+        // lastAngle = (getCANCoder().minus(angleOffset).getDegrees());
+        // lastAngle = getCANCoder().getDegrees();
+        // lastAngle = getCANCoder().getDegrees() - turnEncoder.configGetMagnetOffset();
         double absolutePosition = Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio);
         turn.setSelectedSensorPosition(absolutePosition);
+
+        
         
         System.out.println(id + " INIT ANGLE " + lastAngle);
         System.out.println(id + " ANGLE OFFSET " + angleOffset.getDegrees());
         System.out.println(id + " abs pos " + absolutePosition);
         System.out.println(id + " selected sensor pos " + turn.getSelectedSensorPosition());
     }
+
+    private void resetDriveEncoders(){
+        drive.resetPosition();
+    }
+    
 
     private void initDriveMotor(int driveMotorID) {
         drive = new NKTalonFX(driveMotorID);
@@ -161,20 +175,27 @@ public class SwerveModule {
     private void initEncoder(int encoderID) {
         turnEncoder = new CANCoder(encoderID);
 
-        turnEncoder.configFactoryDefault();
-        turnEncoder.configAllSettings(ModuleConstants.kEncoderConfig);
+        // turnEncoder.configFactoryDefault();
+        // turnEncoder.configAllSettings(ModuleConstants.kEncoderConfig);
+        turnEncoder.setPositionToAbsolute();
+        turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
+        turnEncoder.configSensorDirection(false);
+        turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+        // turnEncoder.confi
+        
+
+        // turnEncoder.configMagnetOffset(0); // TODO: TESTING
+        // turnEncoder.configMagnetOffset(-angleOffset.getDegrees());
     }
 
     public void updateSmartDash() {
-        SmartDashboard.putNumber(id + " Offsets", this.angleOffset.getDegrees());
+        // SmartDashboard.putNumber(id + " Offsets", this.angleOffset.getDegrees());
         SmartDashboard.putNumber(id + " Last Angle", lastAngle);
-        // SmartDashboard.putNumber(id + " Current Angle", getAngleRotation2d().getDegrees());
-        // SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getAbsolutePosition());
-        // SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
-        SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
-        SmartDashboard.putNumber(id + " Velocity", getVelocityMPS());
+        SmartDashboard.putNumber(id + "Magnet offset", turnEncoder.configGetMagnetOffset());
+        // SmartDashboard.putNumber(id + " Module Angle", turnEncoder.getPosition());
+        // SmartDashboard.putNumber(id + " Velocity", getVelocityMPS());
         // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
-        // SmartDashboard.putNumber(id + " cancoder - offset", getCANCoder().minus(angleOffset).getDegrees());
+        SmartDashboard.putNumber(id + " cancoder", turnEncoder.getAbsolutePosition());
         // SmartDashboard.putNumber(id + " CancoderID", turnEncoder.getDeviceID());
     }
 
@@ -203,6 +224,8 @@ public class SwerveModule {
 
     private Rotation2d getCANCoder() {
         return Rotation2d.fromDegrees(turnEncoder.getAbsolutePosition());
+        // return Rotation2d.fromDegrees(turnEncoder.getPosition());
+
     }
 
     public Rotation2d getAngleRotation2d() {
