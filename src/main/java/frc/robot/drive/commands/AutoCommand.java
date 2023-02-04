@@ -144,9 +144,8 @@ public class AutoCommand extends CommandBase {
   @Override
   public void execute() {
     //ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
-    //aimAtTarget(.3);
-    //new TurnForDegrees(90, .3);
-    //driveToTarget(0.2, 2);
+
+    driveToTarget(0.2, 2);
     //driveForSeconds(speeds, 3);
 
     //driveForMeters(0.3, 1.0);
