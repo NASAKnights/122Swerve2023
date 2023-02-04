@@ -48,12 +48,15 @@ public class AutoCommand extends CommandBase {
 
     if (photon.findTarget()){
 
-    if (photon.getXDistanceToTarget()<= distance){
+    if (photon.getXDistanceToTarget() >= distance){
       swerve.drive(speeds,false);
     }else{
       end(isFinished());
     }
 
+    }
+    else{
+      end(isFinished());
     }
 
   }
@@ -104,7 +107,7 @@ public class AutoCommand extends CommandBase {
   public void execute() {
     ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
 
-    driveToTarget(speeds, 1);
+    driveToTarget(speeds, .5);
     //driveForSeconds(speeds, 3);
 
     //driveForMeters(0.3, 1.0);
