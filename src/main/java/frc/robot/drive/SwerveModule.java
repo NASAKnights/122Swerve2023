@@ -78,6 +78,10 @@ public class SwerveModule {
         setVelocity(desiredState, isOpenLoop);
     }
 
+    public void resetDriveEncoders(){
+        drive.resetPosition();
+    }
+
     // sets angle for a module
     private void setAngle(SwerveModuleState desiredState, Rotation2d currentAngleRotation2d) {
 
@@ -128,7 +132,6 @@ public class SwerveModule {
     private void resetToAbsolute() {
         // lastAngle = -angleOffset.getDegrees();
         lastAngle = turnEncoder.getAbsolutePosition();
-        // lastAngle = 0;
         
         // lastAngle = (getCANCoder().minus(angleOffset).getDegrees());
         // lastAngle = getCANCoder().getDegrees();
@@ -137,17 +140,11 @@ public class SwerveModule {
         turn.setSelectedSensorPosition(absolutePosition);
 
         
-        
         System.out.println(id + " INIT ANGLE " + lastAngle);
         System.out.println(id + " ANGLE OFFSET " + angleOffset.getDegrees());
         System.out.println(id + " abs pos " + absolutePosition);
         System.out.println(id + " selected sensor pos " + turn.getSelectedSensorPosition());
     }
-
-    private void resetDriveEncoders(){
-        drive.resetPosition();
-    }
-    
 
     private void initDriveMotor(int driveMotorID) {
         drive = new NKTalonFX(driveMotorID);
@@ -181,11 +178,8 @@ public class SwerveModule {
         turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
         turnEncoder.configSensorDirection(false);
         turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
-        // turnEncoder.confi
-        
 
-        // turnEncoder.configMagnetOffset(0); // TODO: TESTING
-        // turnEncoder.configMagnetOffset(-angleOffset.getDegrees());
+        // turnEncoder.configMagnetOffset(-angleOffset.getDegrees()); //TODO: need to fix this function.
     }
 
     public void updateSmartDash() {
@@ -224,7 +218,6 @@ public class SwerveModule {
 
     private Rotation2d getCANCoder() {
         return Rotation2d.fromDegrees(turnEncoder.getAbsolutePosition());
-        // return Rotation2d.fromDegrees(turnEncoder.getPosition());
 
     }
 

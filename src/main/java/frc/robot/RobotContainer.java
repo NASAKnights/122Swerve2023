@@ -40,16 +40,6 @@ public class RobotContainer {
 
         intake = new Intake();
 
-        // test = new ModuleTest(new SwerveModule(Constants.kFrontRightDriveMotorID,Constants.kFrontRightTurnMotorID, 
-                        // Constants.kFrontRightEncoderID, Rotation2d.fromDegrees(150.654)), Constants.kFrontRightPosition);
-
-        // test = new ModuleTest(new SwerveModule(Constants.kFrontLeftDriveMotorID,Constants.kFrontLeftTurnMotorID, 
-                        // Constants.kFrontLeftEncoderID, Rotation2d.fromDegrees(358.188)), Constants.kFrontLeftPosition);
-
-        // test = new ModuleTest(new SwerveModule(Constants.kBackLeftDriveMotorID,Constants.kBackLeftTurnMotorID, 
-                        // Constants.kBackLeftEncoderID, Rotation2d.fromDegrees(257.607)), Constants.kBackLeftPosition);
-        // test = new ModuleTest(new SwerveModule(Constants.kBackRightDriveMotorID,Constants.kBackRightTurnMotorID, 
-                        // Constants.kBackRightEncoderID, Rotation2d.fromDegrees(103.359)), Constants.kBackRightPosition);
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         swerve.initDashboard();
@@ -74,20 +64,14 @@ public class RobotContainer {
 
     public void periodic() {
         swerve.updateSmartDash();
-        swerve.writeOffsets();
-        swerve.readoffsets();
-        // test.updateSmartDash();
-        swerve.initDashboard();
+        
         // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
         
     }
 
     public void teleopInit() {
-        swerve.writeOffsets();
         swerve.setBrake();
-        // swerve.setCoast();
-        swerve.readoffsets();
-        swerve.updateOffsets();
+       
         
     }
 
