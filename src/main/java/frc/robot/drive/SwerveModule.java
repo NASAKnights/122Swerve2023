@@ -99,11 +99,9 @@ public class SwerveModule {
         if (Math.abs(currentAngleRotation2d.minus(desiredState.angle)
                 .getDegrees()) > ModuleConstants.kAllowableAngleTolerance.getDegrees()) {
             turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
-            // lastAngle = angle;
         } else {
+            // don't move if angle is small
             turn.set(ControlMode.PercentOutput, 0);
-            // turn.set(ControlMode.Position, Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio));
-            // lastAngle = lastAngle;
         }
         lastAngle = angle;
 
@@ -134,8 +132,6 @@ public class SwerveModule {
         lastAngle = turnEncoder.getAbsolutePosition();
         
         // lastAngle = (getCANCoder().minus(angleOffset).getDegrees());
-        // lastAngle = getCANCoder().getDegrees();
-        // lastAngle = getCANCoder().getDegrees() - turnEncoder.configGetMagnetOffset();
         double absolutePosition = Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio);
         turn.setSelectedSensorPosition(absolutePosition);
 
@@ -174,7 +170,7 @@ public class SwerveModule {
 
         // turnEncoder.configFactoryDefault();
         // turnEncoder.configAllSettings(ModuleConstants.kEncoderConfig);
-        turnEncoder.setPositionToAbsolute();
+        turnEncoder.setPositionToAbsolute(); // not sure if needed
         turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
         turnEncoder.configSensorDirection(false);
         turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);

@@ -15,10 +15,7 @@ import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.SwerveModule;
 import frc.robot.drive.commands.DriveCommand;
-import frc.robot.drive.commands.ModuleTestCommand;
-import frc.robot.drive.commands.TestModuleAngleCommand;
-import frc.robot.drive.commands.VelocityTest;
-import frc.robot.drive.commands.VoltageTest;
+
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntakeReverse;
@@ -29,7 +26,6 @@ public class RobotContainer {
 
     private AHRS navx;
     private SwerveDrive swerve;
-    // private ModuleTest test;
 
     private Intake intake;
 
