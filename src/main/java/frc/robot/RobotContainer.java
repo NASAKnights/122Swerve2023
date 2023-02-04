@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
@@ -18,6 +19,9 @@ import frc.robot.drive.commands.ModuleTestCommand;
 import frc.robot.drive.commands.TestModuleAngleCommand;
 import frc.robot.drive.commands.VelocityTest;
 import frc.robot.drive.commands.VoltageTest;
+import frc.robot.intake.Intake;
+import frc.robot.intake.commands.RunIntake;
+import frc.robot.intake.commands.SetIntakeReverse;
 
 public class RobotContainer {
 
@@ -27,10 +31,14 @@ public class RobotContainer {
     private SwerveDrive swerve;
     // private ModuleTest test;
 
+    private Intake intake;
+
     public RobotContainer() {
         driver = new Joystick(kDriverPort);
 
         navx = new AHRS(kNavXPort);
+
+        intake = new Intake();
 
         // test = new ModuleTest(new SwerveModule(Constants.kFrontRightDriveMotorID,Constants.kFrontRightTurnMotorID, 
                         // Constants.kFrontRightEncoderID, Rotation2d.fromDegrees(150.654)), Constants.kFrontRightPosition);
@@ -51,14 +59,16 @@ public class RobotContainer {
     }
 
     private void configureDefaultCommands() {
-        // swerve.setDefaultCommand(new DriveCommand(driver, swerve));
+        swerve.setDefaultCommand(new DriveCommand(driver, swerve));
         // swerve.setDefaultCommand(new VelocityTest(swerve, 0.0));
-        swerve.setDefaultCommand(new VoltageTest(swerve, 0));
+        // swerve.setDefaultCommand(new VoltageTest(swerve, 0));
         // test.setDefaultCommand(new ModuleTestCommand(driver, test));
     }
 
     private void configureButtonBindings() {
         new JoystickButton(driver, 1).onTrue(new InstantCommand(swerve::resetHeading));
+        new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new RunIntake(intake)));
+        new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
         
     }
 
