@@ -11,10 +11,13 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import pabeles.concurrency.ConcurrencyOps.NewInstance;
 
 
 
@@ -60,8 +63,14 @@ public class PhotonVision extends SubsystemBase {
      
       PhotonTrackedTarget target = result.getBestTarget();
       Transform3d bestCameraToTarget = target.getBestCameraToTarget();
+      Translation3d cameraOffset = new Translation3d(-0.2667, 0, 0);
+      Rotation3d cameraRotationOffset = new Rotation3d(0, 0, Math.PI);
 
-      return bestCameraToTarget.getX();
+      Transform3d cameraToRobot = new Transform3d(cameraOffset, cameraRotationOffset);
+
+      Transform3d targetToRobot = cameraToRobot.plus(bestCameraToTarget.inverse());
+
+      return targetToRobot.getX();
 
     }
 
@@ -78,8 +87,15 @@ public class PhotonVision extends SubsystemBase {
      
       PhotonTrackedTarget target = result.getBestTarget();
       Transform3d bestCameraToTarget = target.getBestCameraToTarget();
+      Translation3d cameraOffset = new Translation3d(-0.2667, 0, 0);
+      Rotation3d cameraRotationOffset = new Rotation3d(0, 0, Math.PI);
 
-      return bestCameraToTarget.getY();
+      Transform3d cameraToRobot = new Transform3d(cameraOffset, cameraRotationOffset);
+
+      Transform3d targetToRobot = cameraToRobot.plus(bestCameraToTarget.inverse());
+      
+    
+      return targetToRobot.getY();
 
     }
 
@@ -112,7 +128,7 @@ public class PhotonVision extends SubsystemBase {
     return 0;
   }
 
-  private double distanceFormula(double x, double y){
+  public double distanceFormula(double x, double y){
     // returns distance to target in meters
     return Math.sqrt((x*x)+(y*y));
   }
