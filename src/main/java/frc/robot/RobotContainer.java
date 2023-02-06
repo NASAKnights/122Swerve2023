@@ -32,7 +32,6 @@ import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
 import frc.robot.drive.SwerveDrive;
-<<<<<<< HEAD
 import frc.robot.drive.SwerveModule;
 import frc.robot.auto.AutoSequencer;
 import frc.robot.drive.commands.DriveCommand;
