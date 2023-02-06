@@ -96,6 +96,10 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
+    public double getDistanceMeters(){
+        return frontLeft.getDistanceMeters() * -1;
+    }
+
     public void setCoast(){
         for (int i = 0; i < 4; i++){
             this.modules[i].setTurnCoast();
