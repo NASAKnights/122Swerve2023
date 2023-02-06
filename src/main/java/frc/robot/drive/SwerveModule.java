@@ -88,7 +88,7 @@ public class SwerveModule {
         // calculate angle for the falcon to go to
         // double angle = 0.0;
         double angle = desiredState.angle.getDegrees();
-        if (Math.abs(desiredState.speedMetersPerSecond) >= (ModuleConstants.kMaxSpeed * 0.01)) {
+        if (Math.abs(desiredState.speedMetersPerSecond) >= (ModuleConstants.kMaxSpeed * 0.005)) {
             // if moving, use the desired state's angle
             angle = desiredState.angle.getDegrees();
         } else {
@@ -97,7 +97,7 @@ public class SwerveModule {
         }
 
         if (Math.abs(currentAngleRotation2d.minus(desiredState.angle)
-                .getDegrees()) > ModuleConstants.kAllowableAngleTolerance.getDegrees()) {
+                .getDegrees()) > ModuleConstants.kAllowableAngleTolerance.getDegrees()/2) {
             turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
         } else {
             // don't move if angle is small

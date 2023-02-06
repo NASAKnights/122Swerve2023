@@ -13,8 +13,14 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
+<<<<<<< HEAD
 import frc.robot.drive.SwerveModule;
+=======
+import frc.robot.drive.PhotonVision.PhotonVision;
+import frc.robot.drive.commands.AutoCommand;
+>>>>>>> 22cce51749046aaab5f9e898b29a8aed8bd9ecf7
 import frc.robot.drive.commands.DriveCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.SetIntakeForward;
@@ -25,6 +31,8 @@ public class RobotContainer {
     private Joystick driver;
 
     private AHRS navx;
+
+    private PhotonVision photon;
     private SwerveDrive swerve;
 
     private Intake intake;
@@ -36,6 +44,7 @@ public class RobotContainer {
 
         intake = new Intake();
 
+        photon = new PhotonVision();
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         swerve.initDashboard();
@@ -60,7 +69,14 @@ public class RobotContainer {
 
     public void periodic() {
         swerve.updateSmartDash();
+<<<<<<< HEAD
         
+=======
+        swerve.writeOffsets();
+        swerve.readoffsets();
+        photon.updateSmartDash();
+        // swerve.initDashboard();
+>>>>>>> 22cce51749046aaab5f9e898b29a8aed8bd9ecf7
         // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
         
     }
@@ -76,9 +92,11 @@ public class RobotContainer {
         
     }
 
-    public void autonomousInit(){
-
+    public CommandBase autonomousInit(){
+        return new AutoCommand(swerve);
     }
+
+   
 
     public void testInit() {
 
