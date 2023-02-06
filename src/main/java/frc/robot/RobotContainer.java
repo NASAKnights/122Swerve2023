@@ -30,9 +30,14 @@ import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
 import frc.robot.drive.SwerveDrive;
+import frc.robot.drive.SwerveModule;
+import frc.robot.drive.commands.AutoCommand;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.ToggleTurbo;
 import frc.robot.colorSensor.ColorInterpreter;
+import frc.robot.drive.commands.DriveForwardTime;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.LiftIntake;
 import frc.robot.intake.commands.LowerIntake;
@@ -164,8 +169,9 @@ public class RobotContainer {
         
     }
 
-    public void autonomousInit(){
+    public CommandBase autonomousInit(){
         arm.resetPivotToAbsolute();
+        return new AutoCommand(swerve);        
 
     }
 
