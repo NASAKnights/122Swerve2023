@@ -1,5 +1,6 @@
 package frc.robot.drive.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drive.ModuleTest;
 
@@ -11,6 +12,7 @@ public class TestModuleAngleCommand extends CommandBase {
     public TestModuleAngleCommand(ModuleTest test, double angle) {
         this.test = test;
         this.angle = angle;
+        addRequirements(test);
     }
 
     @Override

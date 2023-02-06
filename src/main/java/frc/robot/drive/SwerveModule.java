@@ -7,15 +7,20 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+import com.ctre.phoenix.sensors.SensorTimeBase;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.control.motors.NKTalonFX;
+import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 
 public class SwerveModule {
@@ -64,13 +69,17 @@ public class SwerveModule {
 
         desiredState = SwerveModuleState.optimize(desiredState, currentAngleRotation2d);
 
-        SwerveModuleState possibleState = checkForWrapAround(desiredState, currentAngleRotation2d);
-        SmartDashboard.putNumber(id + " angle states", possibleState.angle.getDegrees());
+        desiredState = checkForWrapAround(desiredState, currentAngleRotation2d);
+        // SmartDashboard.putNumber(id + " angle states", desiredState.angle.getDegrees());
 
 
         // sets Angle and velocity of the wheels
         setAngle(desiredState, currentAngleRotation2d);
         setVelocity(desiredState, isOpenLoop);
+    }
+
+    public void resetDriveEncoders(){
+        drive.resetPosition();
     }
 
     // sets angle for a module
@@ -90,11 +99,9 @@ public class SwerveModule {
         if (Math.abs(currentAngleRotation2d.minus(desiredState.angle)
                 .getDegrees()) > ModuleConstants.kAllowableAngleTolerance.getDegrees()) {
             turn.set(ControlMode.Position, Conversions.degreesToFalcon(angle, ModuleConstants.kTurnGearRatio));
-            // lastAngle = angle;
         } else {
+            // don't move if angle is small
             turn.set(ControlMode.PercentOutput, 0);
-            // turn.set(ControlMode.Position, Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio));
-            // lastAngle = lastAngle;
         }
         lastAngle = angle;
 
@@ -116,16 +123,18 @@ public class SwerveModule {
             drive.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward,
                     feedforward.calculate(desiredState.speedMetersPerSecond));
         }
+        
     }
 
 
     private void resetToAbsolute() {
         // lastAngle = -angleOffset.getDegrees();
-        // lastAngle = turnEncoder.getAbsolutePosition();
+        lastAngle = getCANCoder().getDegrees();
         
-        lastAngle = (getCANCoder().minus(angleOffset).getDegrees());
+        // lastAngle = (getCANCoder().minus(angleOffset).getDegrees());
         double absolutePosition = Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio);
         turn.setSelectedSensorPosition(absolutePosition);
+
         
         System.out.println(id + " INIT ANGLE " + lastAngle);
         System.out.println(id + " ANGLE OFFSET " + angleOffset.getDegrees());
@@ -159,20 +168,32 @@ public class SwerveModule {
     private void initEncoder(int encoderID) {
         turnEncoder = new CANCoder(encoderID);
 
-        turnEncoder.configFactoryDefault();
-        turnEncoder.configAllSettings(ModuleConstants.kEncoderConfig);
+        // turnEncoder.configFactoryDefault();
+        // turnEncoder.configAllSettings(ModuleConstants.kEncoderConfig);
+        turnEncoder.setPositionToAbsolute(); // not sure if needed
+        turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
+        turnEncoder.configSensorDirection(false);
+        turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+
+        // turnEncoder.configMagnetOffset(-angleOffset.getDegrees()); //TODO: need to fix this function.
     }
 
     public void updateSmartDash() {
-        SmartDashboard.putNumber(id + " Offsets", this.angleOffset.getDegrees());
+        // SmartDashboard.putNumber(id + " Offsets", this.angleOffset.getDegrees());
         SmartDashboard.putNumber(id + " Last Angle", lastAngle);
+<<<<<<< HEAD
         SmartDashboard.putNumber(id + " Module Dist", getDistanceMeters());
         // SmartDashboard.putNumber(id + " Current Angle", getAngleRotation2d().getDegrees());
         // SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getAbsolutePosition());
         // SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
         // SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
+=======
+        SmartDashboard.putNumber(id + "Magnet offset", turnEncoder.configGetMagnetOffset());
+        // SmartDashboard.putNumber(id + " Module Angle", turnEncoder.getPosition());
+        // SmartDashboard.putNumber(id + " Velocity", getVelocityMPS());
+>>>>>>> 409423b570e8c0fe44c62e92a2efc971ced539b0
         // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
-        // SmartDashboard.putNumber(id + " cancoder - offset", getCANCoder().minus(angleOffset).getDegrees());
+        SmartDashboard.putNumber(id + " cancoder", turnEncoder.getAbsolutePosition());
         // SmartDashboard.putNumber(id + " CancoderID", turnEncoder.getDeviceID());
     }
 
@@ -201,11 +222,16 @@ public class SwerveModule {
 
     private Rotation2d getCANCoder() {
         return Rotation2d.fromDegrees(turnEncoder.getAbsolutePosition());
+
     }
 
     public Rotation2d getAngleRotation2d() {
         return Rotation2d.fromDegrees(
                 Conversions.falconToDegrees(turn.getSelectedSensorPosition(), ModuleConstants.kTurnGearRatio));
+    }
+
+    public Rotation2d getAbsoluteAngle(){
+        return Rotation2d.fromDegrees(turnEncoder.getAbsolutePosition());
     }
 
     public double getDistanceMeters() {

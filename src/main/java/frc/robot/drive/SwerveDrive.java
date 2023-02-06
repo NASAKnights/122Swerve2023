@@ -123,10 +123,10 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void initDashboard(){
-        SmartDashboard.putNumber("Red encoder", red);
-        SmartDashboard.putNumber("Blue encoder", blue);
-        SmartDashboard.putNumber("Green encoder", green);
-        SmartDashboard.putNumber("Yellow encoder", yellow);
+        // SmartDashboard.putNumber("Red encoder", red);
+        // SmartDashboard.putNumber("Blue encoder", blue);
+        // SmartDashboard.putNumber("Green encoder", green);
+        // SmartDashboard.putNumber("Yellow encoder", yellow);
         
     }
 
@@ -138,10 +138,10 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("x", this.odometry.getPoseMeters().getX());
         SmartDashboard.putNumber("y", this.odometry.getPoseMeters().getY());
         
-        red = (int) SmartDashboard.getNumber("Red encoder", 0);
-        blue = (int) SmartDashboard.getNumber("Blue encoder", 0);
-        green = (int) SmartDashboard.getNumber("Green encoder", 0);
-        yellow = (int) SmartDashboard.getNumber("Yellow encoder", 0);
+        // red = (int) SmartDashboard.getNumber("Red encoder", 0);
+        // blue = (int) SmartDashboard.getNumber("Blue encoder", 0);
+        // green = (int) SmartDashboard.getNumber("Green encoder", 0);
+        // yellow = (int) SmartDashboard.getNumber("Yellow encoder", 0);
         
     }
 
@@ -229,6 +229,10 @@ public class SwerveDrive extends SubsystemBase {
 
     public void resetPose(Pose2d position) {
         this.odometry.resetPosition(this.getHeading(), this.getModulePositions(), position);
+    }
+
+    public Pose2d getPose(){
+        return this.odometry.getPoseMeters();
     }
 
     private void updateOdometry() {

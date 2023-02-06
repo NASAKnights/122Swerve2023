@@ -32,12 +32,12 @@ public class Constants {
     /**
      * Maximum translational velocity of the robot in meters per second
      */
-    public static final double kMaxTranslationalVelocity = ((1.0 * 6380.0) / 60) * kSDSModule.getWheelDiameter() * Math.PI
+    public static final double kMaxTranslationalVelocity = ((6380.0) / 60) * kSDSModule.getWheelDiameter() * Math.PI
             * kSDSModule.getDriveReduction();
     /**
      * Maximum rotational velocity of the robot
      */
-    public static final double kMaxRotationalVelocity = (1.0 * kMaxTranslationalVelocity)
+    public static final double kMaxRotationalVelocity = (kMaxTranslationalVelocity)
             / Math.hypot(kTrackwidthMeters / 2, kWheelbaseMeters / 2);
     public static final boolean kIsFieldRelative = true;
     public static final boolean kIsOpenLoop = false;
@@ -80,10 +80,12 @@ public class Constants {
     //-----------testing--------------------
 
     // select color and then version
-    public static final double[][] encoderoffsets = {{103.711, 0.0, 0.0}, // Red 1, 5, 9
-                                                    {318.427, 0.0, 0.0}, // Blue 2, 6, 10
-                                                    {275.273, 0.0, 0.0}, // green 3, 7, 11
-                                                    {87.539, 0.0, 0.0}}; // yellow 4, 8, 12
+    public static final double[][] encoderoffsets = {{103.711, 358.188, 0.0}, // Red 1, 5, 9
+                                                    {318.427, 150.654, 0.0}, // Blue 2, 6, 10
+                                                    {275.273, 257.607, 0.0}, // green 3, 7, 11
+                                                    {87.539, 103.359, 0.0}}; // yellow 4, 8, 12
+
+    // TODO: adjust 2nd set of modules
 
     //-----------testing end----------------
 
