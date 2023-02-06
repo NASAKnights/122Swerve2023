@@ -15,7 +15,6 @@ import edu.wpi.first.math.controller.PIDController;
 public class AutoCommand extends CommandBase {
   private SwerveDrive swerve;
   private Timer timer;
-  private PIDController pid;
 
   private ChassisSpeeds speeds;
 
@@ -37,8 +36,10 @@ public class AutoCommand extends CommandBase {
     }
   }
 
-  public void driveForMeters(ChassisSpeeds speeds, double distance){
-    if (swerve.getDistanceMeters() < distance){
+  public void driveForMeters(double xSpeed, Double distance){
+    double seconds = distance / xSpeed;
+    if (timer.get() < seconds){
+      speeds = new ChassisSpeeds(xSpeed, 0, 0);
       swerve.drive(speeds, false);
     }else{
       end(isFinished());
