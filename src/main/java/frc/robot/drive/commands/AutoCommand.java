@@ -36,10 +36,8 @@ public class AutoCommand extends CommandBase {
     }
   }
 
-  public void driveForMeters(double xSpeed, Double distance){
-    double seconds = distance / xSpeed;
-    if (timer.get() < seconds){
-      speeds = new ChassisSpeeds(xSpeed, 0, 0);
+  public void driveForMeters(ChassisSpeeds speeds, double distance){
+    if (swerve.getDistanceMeters() < distance){
       swerve.drive(speeds, false);
     }else{
       end(isFinished());
@@ -151,8 +149,10 @@ public class AutoCommand extends CommandBase {
     driveToTarget(0.2, 2);
     //driveForSeconds(speeds, 3);
 
-    //driveForMeters(0.3, 1.0);
-      
+    //driveForSeconds(speeds, 3);
+    driveForMeters(speeds, 1);
+
+    System.out.println(pid.calculate(swerve.getDistanceMeters(), 1));
   }
 
   // Called once the command ends or is interrupted.
