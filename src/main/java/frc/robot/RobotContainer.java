@@ -14,10 +14,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
-
-import frc.robot.drive.PhotonVision.PhotonVision;
+<<<<<<< HEAD
+import frc.robot.drive.SwerveModule;
+=======
 import frc.robot.drive.commands.AutoCommand;
-import frc.robot.drive.commands.AutoCommand;
+>>>>>>> 209224d (added auto command)
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.DriveForwardTime;
 import edu.wpi.first.wpilibj2.command.CommandBase;
