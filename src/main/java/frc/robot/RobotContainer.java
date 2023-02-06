@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import frc.robot.drive.SwerveModule;
 =======
 import frc.robot.drive.commands.AutoCommand;
@@ -24,6 +25,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntakeReverse;
+=======
+import frc.robot.drive.commands.AutoCommand;
+import frc.robot.drive.commands.DriveCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+>>>>>>> 209224d6698ea39608b519dce1aae866c65cb81d
 
 public class RobotContainer {
 
