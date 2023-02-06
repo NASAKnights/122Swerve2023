@@ -4,12 +4,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Robot extends TimedRobot {
 
     private RobotContainer container;
-    private CommandBase autoCommand;
     private CommandBase autoCommand;
 
     @Override
@@ -25,18 +23,17 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-<<<<<<< HEAD
+
         autoCommand = container.autonomousInit();
         if (autoCommand != null){
             autoCommand.schedule();
         }
-=======
         autoCommand = container.autonomousInit();
         if (autoCommand != null){
             autoCommand.schedule();
         }
        // container.autonomousInit();
->>>>>>> 5fa8191 (autoDriveForward autocommand command added)
+
     }
 
     @Override
@@ -64,7 +61,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledPeriodic() {
         container.periodic();
-        container.disabledPeriodic();
+        // container.disabledPeriodic();
 
     }
 

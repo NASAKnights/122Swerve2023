@@ -16,27 +16,17 @@ import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
 
 import frc.robot.drive.PhotonVision.PhotonVision;
-<<<<<<< HEAD
->>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
-=======
 import frc.robot.drive.commands.AutoCommand;
->>>>>>> c6bb8a7 (autocommand refs)
 import frc.robot.drive.commands.DriveCommand;
-
 import frc.robot.drive.commands.DriveForwardTime;
-=======
-import frc.robot.drive.commands.AutoCommand;
->>>>>>> 22cce51749046aaab5f9e898b29a8aed8bd9ecf7
-import frc.robot.drive.commands.DriveCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.drive.SwerveModule;
 
->>>>>>> 2703cce2a3aeb85950660b46e1650176e9e27094
+
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntakeReverse;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RobotContainer {
 
@@ -58,6 +48,8 @@ public class RobotContainer {
         navx = new AHRS(kNavXPort);
 
         intake = new Intake();
+
+        photon = new PhotonVision();
 
 =======
         photon = new PhotonVision();

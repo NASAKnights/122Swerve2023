@@ -44,7 +44,6 @@ public class AutoCommand extends CommandBase {
   }
 
 
-
   public void driveToTarget(double maxSpeed, double distance){
     if (photon.findTarget()){
       double xDist = photon.getXDistanceToTarget();
@@ -75,42 +74,12 @@ public class AutoCommand extends CommandBase {
 
   }
 
-  public void driveToTarget(double maxSpeed, double distance){
-    if (photon.findTarget()){
-      double xDist = photon.getXDistanceToTarget();
-      double yDist = photon.getYDistanceToTarget();
-      double totalDist = photon.distanceFormula(xDist, yDist);
-      double xSpeed = (xDist/totalDist) * maxSpeed;
-      double ySpeed = (yDist/totalDist) * maxSpeed;
-
-      System.out.println("xSpeed " + xSpeed);
-      System.out.println("ySpeed " +ySpeed);
-      // if (Math.abs(ySpeed) < .025){
-      //   ySpeed = 0;
-      // }
-
-
-      speeds = new ChassisSpeeds(xSpeed,ySpeed,0);
-
-
-      if (totalDist >= distance){
-        swerve.drive(speeds,false);
-      }else{
-        end(isFinished());
-      }
-    }
-    else{
-      end(isFinished());
-    }
-
-  }
 
 
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    photon = new PhotonVision();
     timer = new Timer();
     timer.reset();
     timer.start();
