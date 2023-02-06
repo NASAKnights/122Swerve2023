@@ -13,8 +13,13 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
+<<<<<<< HEAD
 import frc.robot.drive.SwerveModule;
+=======
+import frc.robot.drive.commands.AutoCommand;
+>>>>>>> 209224d (added auto command)
 import frc.robot.drive.commands.DriveCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.SetIntakeForward;
@@ -76,8 +81,8 @@ public class RobotContainer {
         
     }
 
-    public void autonomousInit(){
-
+    public CommandBase autonomousInit(){
+        return new AutoCommand(swerve);
     }
 
     public void testInit() {
