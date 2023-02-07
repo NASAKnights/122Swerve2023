@@ -32,7 +32,7 @@ import frc.robot.claw.commands.OpenClaw;
 import frc.robot.drive.SwerveDrive;
 <<<<<<< HEAD
 import frc.robot.drive.SwerveModule;
-import frc.robot.drive.commands.AutoCommand;
+import frc.robot.auto.commands.AutoCommand;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.ToggleTurbo;
 import frc.robot.colorSensor.ColorInterpreter;
