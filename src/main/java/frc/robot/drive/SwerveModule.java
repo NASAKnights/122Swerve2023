@@ -129,7 +129,7 @@ public class SwerveModule {
 
     private void resetToAbsolute() {
         // lastAngle = -angleOffset.getDegrees();
-        lastAngle = getCANCoder().getDegrees();
+        lastAngle = turnEncoder.getAbsolutePosition();
         
         // lastAngle = (getCANCoder().minus(angleOffset).getDegrees());
         double absolutePosition = Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio);
@@ -181,17 +181,14 @@ public class SwerveModule {
     public void updateSmartDash() {
         // SmartDashboard.putNumber(id + " Offsets", this.angleOffset.getDegrees());
         SmartDashboard.putNumber(id + " Last Angle", lastAngle);
-<<<<<<< HEAD
         SmartDashboard.putNumber(id + " Module Dist", getDistanceMeters());
         // SmartDashboard.putNumber(id + " Current Angle", getAngleRotation2d().getDegrees());
         // SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getAbsolutePosition());
         // SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
         // SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
-=======
         SmartDashboard.putNumber(id + "Magnet offset", turnEncoder.configGetMagnetOffset());
         // SmartDashboard.putNumber(id + " Module Angle", turnEncoder.getPosition());
         // SmartDashboard.putNumber(id + " Velocity", getVelocityMPS());
->>>>>>> 409423b570e8c0fe44c62e92a2efc971ced539b0
         // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
         SmartDashboard.putNumber(id + " cancoder", turnEncoder.getAbsolutePosition());
         // SmartDashboard.putNumber(id + " CancoderID", turnEncoder.getDeviceID());
