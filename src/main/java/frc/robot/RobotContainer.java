@@ -60,6 +60,10 @@ public class RobotContainer {
 
     public void periodic() {
         swerve.updateSmartDash();
+        // swerve.writeOffsets();
+        // swerve.readoffsets();
+        // test.updateSmartDash();
+        // swerve.initDashboard();
         
         // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
         
@@ -67,6 +71,10 @@ public class RobotContainer {
 
     public void teleopInit() {
         swerve.setBrake();
+        // swerve.writeOffsets();
+        // swerve.setCoast();
+        // swerve.readoffsets();
+        // swerve.updateOffsets();
        
         
     }

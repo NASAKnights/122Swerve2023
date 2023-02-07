@@ -118,6 +118,12 @@ public class SwerveDrive extends SubsystemBase {
         navx.zeroYaw();
     }
 
+    public void resetDriveEncoders(){
+        for (int i = 0; i < 4; i ++){
+            this.modules[i].resetDriveEncoders();
+        }
+    }
+
     public void initDashboard(){
         // SmartDashboard.putNumber("Red encoder", red);
         // SmartDashboard.putNumber("Blue encoder", blue);
