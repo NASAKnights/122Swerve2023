@@ -121,9 +121,7 @@ public class SwerveModule {
 
     private void resetToAbsolute() {
         // lastAngle = -angleOffset.getDegrees();
-        lastAngle = getCANCoder().minus(angleOffset).getDegrees();
-        // turnEncoder.setPositionToAbsolute();
-        // lastAngle = turnEncoder.getAbsolutePosition();
+        lastAngle = turnEncoder.getAbsolutePosition();
         
         double absolutePosition = Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio);
         turn.setSelectedSensorPosition(absolutePosition);
