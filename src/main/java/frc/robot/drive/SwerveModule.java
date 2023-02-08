@@ -131,9 +131,9 @@ public class SwerveModule {
 
     private void resetToAbsolute() {
         // lastAngle = -angleOffset.getDegrees();
-        // lastAngle = getCANCoder().minus(angleOffset).getDegrees();
-        turnEncoder.setPositionToAbsolute();
-        lastAngle = turnEncoder.getAbsolutePosition();
+        lastAngle = getCANCoder().minus(angleOffset).getDegrees();
+        // turnEncoder.setPositionToAbsolute();
+        // lastAngle = turnEncoder.getAbsolutePosition();
         // turnEncoder.setPositionToAbsolute();
         
         // lastAngle = (getCANCoder().minus(angleOffset).getDegrees());
@@ -166,21 +166,24 @@ public class SwerveModule {
         turn.setNeutralMode(ModuleConstants.kTurnMotorNeutral);
         // turn.configRemoteFeedbackFilter(turnEncoder, 0);
         turn.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+        // turn.setIntegralAccumulator(0);
+        // turn.clearStickyFaults();
+        
         resetToAbsolute();
     }
 
     private void initEncoder(int encoderID) {
         turnEncoder = new CANCoder(encoderID);
 
-        // turnEncoder.configFactoryDefault();
-        // turnEncoder.configAllSettings(ModuleConstants.kEncoderConfig);
+        turnEncoder.configFactoryDefault();
+        turnEncoder.configAllSettings(ModuleConstants.kEncoderConfig);
         // turnEncoder.setPositionToAbsolute(); // not sure if needed
-        turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
-        turnEncoder.configSensorDirection(false);
-        turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
+        // turnEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
+        // turnEncoder.configSensorDirection(false);
+        // turnEncoder.configSensorInitializationStrategy(SensorInitializationStrategy.BootToAbsolutePosition);
 
-        // turnEncoder.configMagnetOffset(-angleOffset.getDegrees()); //TODO: need to fix this function.
-        // turnEncoder.setPositionToAbsolute(); // not sure if needed
+        
+        // turnEncoder.configMagnetOffset(-angleOffset.getDegrees()); //TODO: need to fix this function
     }
 
     public void updateSmartDash() {

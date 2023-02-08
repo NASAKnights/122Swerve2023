@@ -178,7 +178,7 @@ public class Constants {
 
         public static final double kTurnP = 0.6;
         public static final double kTurnI = 0;
-        public static final double kTurnD = 12.0;
+        public static final double kTurnD = 0.6; // 12.0
         public static final double kTurnF = 0.0;
 
         public static final Rotation2d kAllowableAngleTolerance = Rotation2d.fromDegrees(5.0);

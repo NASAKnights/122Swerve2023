@@ -27,7 +27,7 @@ public class DriveCommand extends CommandBase {
         double limit = 0.20;
         double xSpeed = -MathUtil.calculateAxis(driver.getY(), Constants.kDefaultAxisDeadband, limit * Constants.kMaxTranslationalVelocity);
         double ySpeed = -MathUtil.calculateAxis(driver.getX(), Constants.kDefaultAxisDeadband, limit * Constants.kMaxTranslationalVelocity);
-        double thetaSpeed = MathUtil.calculateAxis(driver.getZ(), Constants.kDefaultAxisDeadband, limit * Constants.kMaxRotationalVelocity);
+        double thetaSpeed = -MathUtil.calculateAxis(driver.getZ(), Constants.kDefaultAxisDeadband, limit * Constants.kMaxRotationalVelocity);
 
         // SmartDashboard.putNumber("z", driver.getZ()); 
         // SmartDashboard.putNumber("theta", thetaSpeed);
