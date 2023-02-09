@@ -19,6 +19,7 @@ import frc.robot.drive.SwerveModule;
 =======
 import frc.robot.drive.PhotonVision.PhotonVision;
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
 =======
 import frc.robot.drive.commands.AutoCommand;
@@ -26,6 +27,13 @@ import frc.robot.drive.commands.AutoCommand;
 import frc.robot.drive.commands.DriveCommand;
 <<<<<<< HEAD
 import frc.robot.drive.commands.DriveForwardTime;
+=======
+import frc.robot.drive.commands.AutoCommand;
+>>>>>>> 22cce51749046aaab5f9e898b29a8aed8bd9ecf7
+import frc.robot.drive.commands.DriveCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+>>>>>>> 2703cce2a3aeb85950660b46e1650176e9e27094
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntakeReverse;
@@ -52,9 +60,13 @@ public class RobotContainer {
 <<<<<<< HEAD
         intake = new Intake();
 
+<<<<<<< HEAD
 =======
         photon = new PhotonVision();
 >>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
+=======
+        photon = new PhotonVision();
+>>>>>>> 2703cce2a3aeb85950660b46e1650176e9e27094
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         swerve.initDashboard();
@@ -80,6 +92,7 @@ public class RobotContainer {
 
     public void periodic() {
         swerve.updateSmartDash();
+<<<<<<< HEAD
         swerve.writeOffsets();
         swerve.readoffsets();
 <<<<<<< HEAD
@@ -90,6 +103,16 @@ public class RobotContainer {
         photon.updateSmartDash();
         // swerve.initDashboard();
 >>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
+=======
+<<<<<<< HEAD
+        
+=======
+        swerve.writeOffsets();
+        swerve.readoffsets();
+        photon.updateSmartDash();
+        // swerve.initDashboard();
+>>>>>>> 22cce51749046aaab5f9e898b29a8aed8bd9ecf7
+>>>>>>> 2703cce2a3aeb85950660b46e1650176e9e27094
         // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
         
     }
