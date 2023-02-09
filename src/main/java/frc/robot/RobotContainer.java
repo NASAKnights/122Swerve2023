@@ -36,6 +36,7 @@ public class RobotContainer {
 
     private PhotonVision photon;
     private SwerveDrive swerve;
+   
 
     public RobotContainer() {
         driver = new Joystick(kDriverPort);
@@ -77,7 +78,8 @@ public class RobotContainer {
         swerve.readoffsets();
 
         // test.updateSmartDash();
-        //swerve.initDashboard();
+        swerve.initDashboard();
+        
 
         photon.updateSmartDash();
         // swerve.initDashboard();
