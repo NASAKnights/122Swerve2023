@@ -14,7 +14,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
+<<<<<<< HEAD
 import frc.robot.drive.SwerveModule;
+=======
+import frc.robot.drive.PhotonVision.PhotonVision;
+>>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.DriveForwardTime;
 import frc.robot.intake.Intake;
@@ -27,6 +31,7 @@ public class RobotContainer {
 
     private AHRS navx;
     private SwerveDrive swerve;
+    private PhotonVision photon;
 
     private Intake intake;
 
@@ -35,8 +40,12 @@ public class RobotContainer {
 
         navx = new AHRS(kNavXPort);
 
+<<<<<<< HEAD
         intake = new Intake();
 
+=======
+        photon = new PhotonVision();
+>>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         swerve.initDashboard();
@@ -64,9 +73,14 @@ public class RobotContainer {
         swerve.updateSmartDash();
         swerve.writeOffsets();
         swerve.readoffsets();
+<<<<<<< HEAD
         // test.updateSmartDash();
         swerve.initDashboard();
         
+=======
+        photon.updateSmartDash();
+        // swerve.initDashboard();
+>>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
         // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
         
     }
