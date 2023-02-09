@@ -14,25 +14,28 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
-<<<<<<< HEAD
-import frc.robot.drive.SwerveModule;
-=======
+
 import frc.robot.drive.PhotonVision.PhotonVision;
 <<<<<<< HEAD
 >>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
 =======
 import frc.robot.drive.commands.AutoCommand;
 >>>>>>> c6bb8a7 (autocommand refs)
-import frc.robot.drive.PhotonVision.PhotonVision;
 import frc.robot.drive.commands.DriveCommand;
-<<<<<<< HEAD
+
 import frc.robot.drive.commands.DriveForwardTime;
+=======
+import frc.robot.drive.commands.AutoCommand;
+>>>>>>> 22cce51749046aaab5f9e898b29a8aed8bd9ecf7
+import frc.robot.drive.commands.DriveCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+>>>>>>> 2703cce2a3aeb85950660b46e1650176e9e27094
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntakeReverse;
-=======
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
->>>>>>> 0a03bcb (theived from autoDriveCommand)
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RobotContainer {
@@ -54,12 +57,14 @@ public class RobotContainer {
 
         navx = new AHRS(kNavXPort);
 
-<<<<<<< HEAD
         intake = new Intake();
 
 =======
         photon = new PhotonVision();
 >>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
+=======
+        photon = new PhotonVision();
+>>>>>>> 2703cce2a3aeb85950660b46e1650176e9e27094
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         // swerve.updateSmartDash();
@@ -88,16 +93,13 @@ public class RobotContainer {
         swerve.updateSmartDash();
         swerve.writeOffsets();
         swerve.readoffsets();
-        // swerve.initDashboard();
->>>>>>> b29c64c (Added subsystem, AprTag ID display on SmrtDshbrd)
-        // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
-        
-    }
 
-    public void disabledPeriodic(){
-        swerve.updateSmartDash();
-        swerve.writeOffsets();
-        swerve.readoffsets();
+        // test.updateSmartDash();
+        swerve.initDashboard();
+
+        photon.updateSmartDash();
+        // swerve.initDashboard();
+        // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
         
         swerve.updateOffsets();
     }
