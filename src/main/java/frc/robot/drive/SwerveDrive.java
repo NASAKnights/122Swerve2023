@@ -98,7 +98,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public double getDistanceMeters(){
-        return frontLeft.getDistanceMeters() * -1;
+        return frontLeft.getDistanceMeters();
     }
 
     public void setCoast(){
