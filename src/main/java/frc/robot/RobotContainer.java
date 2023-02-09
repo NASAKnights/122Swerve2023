@@ -47,6 +47,7 @@ public class RobotContainer {
 
         photon = new PhotonVision();
 
+
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         // swerve.updateSmartDash();
@@ -79,7 +80,6 @@ public class RobotContainer {
 
         // test.updateSmartDash();
         swerve.initDashboard();
-        
 
         photon.updateSmartDash();
         // swerve.initDashboard();
