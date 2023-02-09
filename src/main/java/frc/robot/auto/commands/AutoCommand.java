@@ -17,8 +17,6 @@ public class AutoCommand extends CommandBase {
   private Timer timer;
   private PIDController pid;
 
-  private ChassisSpeeds speeds;
-
   /** Creates a new AutoTest. */
   public AutoCommand(SwerveDrive swerve) {
     this.swerve = swerve;
@@ -31,8 +29,7 @@ public class AutoCommand extends CommandBase {
   public void driveForSeconds(ChassisSpeeds speeds, double seconds){
     if (timer.get() < seconds){
       swerve.drive(speeds, false);
-    }
-    else {
+    }else {
       end(isFinished());
     }
   }
@@ -48,7 +45,7 @@ public class AutoCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pid = new PIDController(0.5, 0, 0);
+    pid = new PIDController(0.99, 0, 0);
     pid.setTolerance(0.01);
 
     timer = new Timer();
@@ -62,7 +59,6 @@ public class AutoCommand extends CommandBase {
     //System.out.println("PID" + pid.calculate(swerve.getDistanceMeters(), 1));
     ChassisSpeeds speeds = new ChassisSpeeds(pid.calculate(swerve.getDistanceMeters(), 1), 0, 0);
 
-    SmartDashboard.putBoolean("toleranceStop", pid.atSetpoint());
     if(pid.atSetpoint() == false){
       driveForMeters(speeds, 1);
     }else{
