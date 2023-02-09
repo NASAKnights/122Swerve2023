@@ -51,8 +51,8 @@ public class AutoCommand extends CommandBase {
       double xSpeed = (xDist/totalDist) * maxSpeed;
       double ySpeed = (yDist/totalDist) * maxSpeed;
 
-      System.out.println("xSpeed " + xSpeed);
-      System.out.println("ySpeed " +ySpeed);
+      //System.out.println("xSpeed " + xSpeed);
+      //System.out.println("ySpeed " +ySpeed);
       // if (Math.abs(ySpeed) < .025){
       //   ySpeed = 0;
       // }
