@@ -4,42 +4,23 @@
 
 package frc.robot.auto.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drive.SwerveDrive;
-import edu.wpi.first.math.controller.PIDController;
 
+public class AutoDriveForMeters extends CommandBase {
 
-public class AutoCommand extends CommandBase {
   private SwerveDrive swerve;
-  private Timer timer;
+  private ChassisSpeeds speeds;
+  private double meters;
   private PIDController pid;
-
-  /** Creates a new AutoTest. */
-  public AutoCommand(SwerveDrive swerve) {
+  
+  public AutoDriveForMeters(SwerveDrive swerve, double meters) {
     this.swerve = swerve;
-
+    this.meters = meters;
     
     addRequirements(swerve);
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  public void driveForSeconds(ChassisSpeeds speeds, double seconds){
-    if (timer.get() < seconds){
-      swerve.drive(speeds, false);
-    }else {
-      end(isFinished());
-    }
-  }
-
-  public void driveForMeters(ChassisSpeeds speeds, double distance){
-    if (swerve.getDistanceMeters() < distance){
-      swerve.drive(speeds, false);
-    }else{
-      end(isFinished());
-    }
   }
 
   // Called when the command is initially scheduled.
@@ -47,20 +28,21 @@ public class AutoCommand extends CommandBase {
   public void initialize() {
     pid = new PIDController(0.99, 0, 0);
     pid.setTolerance(0.01);
-
-    timer = new Timer();
-    timer.reset();
-    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //System.out.println("PID" + pid.calculate(swerve.getDistanceMeters(), 1));
-    ChassisSpeeds speeds = new ChassisSpeeds(pid.calculate(swerve.getDistanceMeters(), 1), 0, 0);
-
-    if(pid.atSetpoint() == false){
-      driveForMeters(speeds, 1);
+    speeds = new ChassisSpeeds(
+    pid.calculate(swerve.getDistanceMeters(), 1), 
+    0, 
+    0);
+    if(swerve.getDistanceMeters() < meters){
+      if(pid.atSetpoint() == false){
+        swerve.drive(speeds, false);
+      }else{
+        end(isFinished());
+      }
     }else{
       end(isFinished());
     }
@@ -69,6 +51,7 @@ public class AutoCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("over");
     swerve.drive(new ChassisSpeeds(), false);
   }
 
