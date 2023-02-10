@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.armoutreach.ArmOutreach;
@@ -32,7 +34,7 @@ import frc.robot.claw.commands.OpenClaw;
 import frc.robot.drive.SwerveDrive;
 <<<<<<< HEAD
 import frc.robot.drive.SwerveModule;
-import frc.robot.auto.commands.AutoCommand;
+import frc.robot.auto.AutoSequencer;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.ToggleTurbo;
 import frc.robot.colorSensor.ColorInterpreter;
@@ -171,8 +173,9 @@ public class RobotContainer {
     }
 
     public CommandBase autonomousInit(){
+        return new AutoSequencer(swerve);
         arm.resetPivotToAbsolute();
-        return new AutoCommand(swerve);        
+             
 
     }
 

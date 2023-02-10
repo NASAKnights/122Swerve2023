@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class Robot extends TimedRobot {
 
     private RobotContainer container;
-    private CommandBase autoCommand;
+    private CommandBase autoSequencer;
 
     @Override
     public void robotInit() {
@@ -23,10 +23,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        autoCommand = container.autonomousInit();
-        if (autoCommand != null){
-            autoCommand.schedule();
-        }
+        container.autonomousInit().schedule();
     }
 
     @Override
@@ -36,8 +33,8 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         container.teleopInit();
-        if (autoCommand != null){
-            autoCommand.cancel();
+        if (autoSequencer != null){
+            autoSequencer.cancel();
         }
     }
 
