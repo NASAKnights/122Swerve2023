@@ -4,6 +4,7 @@
 
 package frc.robot.auto.commands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -59,9 +60,7 @@ public class AutoCommand extends CommandBase {
       //   ySpeed = 0;
       // }
 
-
       speeds = new ChassisSpeeds(xSpeed,ySpeed,0);
-
 
       if (totalDist >= distance){
         swerve.drive(speeds,false);
@@ -78,6 +77,31 @@ public class AutoCommand extends CommandBase {
 
   }
 
+  public void aimAtTarget(double rotationSpeed){
+    if (photon.findTarget()){
+      double yDist = photon.getYDistanceToTarget();
+      double xDist = photon.getXDistanceToTarget();
+      double targetAngle = photon.getTargetAngle(xDist, yDist);
+      //offset for getHeading needed. Do that next
+      double error = swerve.getHeading().getDegrees() - targetAngle;
+
+
+
+      speeds = new ChassisSpeeds(0,0,rotationSpeed);
+
+      if (Math.abs(error) > 5){
+        swerve.drive(speeds, false);
+      }else{
+        end(isFinished());
+      }
+
+    }
+    else{
+    
+      end(isFinished());
+    }
+  } 
+
 
   // Called when the command is initially scheduled.
   @Override
@@ -92,8 +116,8 @@ public class AutoCommand extends CommandBase {
   @Override
   public void execute() {
     //ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
-
-    driveToTarget(0.2, 2);
+    aimAtTarget(1);
+    //driveToTarget(0.2, 2);
     //driveForSeconds(speeds, 3);
 
     SmartDashboard.putBoolean("toleranceStop", pid.atSetpoint());
@@ -107,7 +131,7 @@ public class AutoCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    swerve.drive(new ChassisSpeeds(), false);
+    swerve.drive(new ChassisSpeeds(0,0,0), false);
   }
 
   // Returns true when the command should end.
