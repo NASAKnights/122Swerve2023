@@ -7,59 +7,57 @@ package frc.robot.auto.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.drive.SwerveDrive;
 
-public class DriveByDistance extends CommandBase {
-  /** Creates a new DriveByDistance. */
+public class AutoDriveForMeters extends CommandBase {
+
   private SwerveDrive swerve;
-  private double xMeters;
-  private double yMeters;
-  private double rotRadians;
-
-  private PIDController xControl;
-  private PIDController yControl;
-  private PIDController angleControl;
-
-  public DriveByDistance(SwerveDrive swerve, double x, double y, double rot) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  private ChassisSpeeds speeds;
+  private double meters;
+  private PIDController pid;
+  
+  public AutoDriveForMeters(SwerveDrive swerve, double meters) {
     this.swerve = swerve;
-    this.xMeters = x;
-    this.yMeters = y;
-    this.rotRadians = rot;
-
-    xControl = new PIDController(0.5, 0, 0);
-    yControl = new PIDController(0.5, 0, 0);
-    angleControl = new PIDController(0.5, 0, 0);
-
+    this.meters = meters;
+    
     addRequirements(swerve);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    swerve.resetDriveEncoders();
-    
+    pid = new PIDController(0.99, 0, 0);
+    pid.setTolerance(0.01);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    ChassisSpeeds speeds = new ChassisSpeeds();
-    swerve.drive(speeds, Constants.kIsOpenLoop);
+    speeds = new ChassisSpeeds(
+    pid.calculate(swerve.getDistanceMeters(), 1), 
+    0, 
+    0);
+    if(swerve.getDistanceMeters() < meters){
+      if(pid.atSetpoint() == false){
+        swerve.drive(speeds, false);
+      }else{
+        end(isFinished());
+      }
+    }else{
+      end(isFinished());
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    swerve.drive(new ChassisSpeeds(), Constants.kIsOpenLoop);
+    System.out.println("over");
+    swerve.drive(new ChassisSpeeds(), false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
     return false;
   }
 }

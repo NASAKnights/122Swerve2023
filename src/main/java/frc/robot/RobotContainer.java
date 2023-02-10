@@ -10,12 +10,13 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.SwerveModule;
-import frc.robot.auto.commands.AutoCommand;
+import frc.robot.auto.AutoSequencer;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.DriveForwardTime;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -101,7 +102,7 @@ public class RobotContainer {
     }
 
     public CommandBase autonomousInit(){
-        return new AutoCommand(swerve);
+        return new AutoSequencer(swerve);
     }
 
     public void testInit() {
