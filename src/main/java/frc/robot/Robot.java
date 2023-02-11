@@ -10,7 +10,6 @@ public class Robot extends TimedRobot {
 
     private RobotContainer container;
     private CommandBase autoCommand;
-    
 
     @Override
     public void robotInit() {

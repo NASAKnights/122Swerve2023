@@ -78,7 +78,7 @@ public class RobotContainer {
         swerve.readoffsets();
 
         // test.updateSmartDash();
-        swerve.initDashboard();
+        //swerve.initDashboard();
 
         photon.updateSmartDash();
         // swerve.initDashboard();
