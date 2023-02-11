@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
-import frc.robot.drive.SwerveModule;
-import frc.robot.auto.commands.AutoCommand;
-import frc.robot.drive.commands.DriveCommand;
-import frc.robot.drive.commands.DriveForwardTime;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.drive.SwerveModule;
 
+import frc.robot.drive.PhotonVision.PhotonVision;
+import frc.robot.drive.commands.AutoCommand;
+
+import frc.robot.drive.commands.DriveCommand;
+
+import frc.robot.drive.commands.DriveForwardTime;
 
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.SetIntakeForward;
@@ -34,7 +34,6 @@ public class RobotContainer {
 
     private AHRS navx;
 
-    private Intake intake;
     private PhotonVision photon;
     private SwerveDrive swerve;
 
@@ -73,6 +72,7 @@ public class RobotContainer {
 
     public void periodic() {
         swerve.updateSmartDash();
+
         swerve.writeOffsets();
         swerve.readoffsets();
 
