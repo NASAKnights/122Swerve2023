@@ -78,13 +78,22 @@ public class AutoCommand extends CommandBase {
       double xDist = photon.getXDistanceToTarget();
       double targetAngle = photon.getTargetAngle(xDist, yDist);
       //offset for getHeading needed. Do that next
-      double error = swerve.getHeading().getDegrees() - targetAngle;
+      Rotation2d getHeading = swerve.getHeading();
+      Rotation2d headingOffset = getHeading.unaryMinus().plus(Rotation2d.fromDegrees(180));
+      Rotation2d correctedHeading = getHeading.rotateBy(headingOffset);
 
+      double error = correctedHeading.getDegrees() - Math.abs(targetAngle);
+      
 
+      if (targetAngle > 0){
+        speeds = new ChassisSpeeds(0,0,-rotationSpeed);
+      }
+      else{
+        speeds = new ChassisSpeeds(0,0,rotationSpeed);
+      }
+      
 
-      speeds = new ChassisSpeeds(0,0,rotationSpeed);
-
-      if (Math.abs(error) > 5){
+      if (error > 5){
         swerve.drive(speeds, false);
       }else{
         end(isFinished());
@@ -97,6 +106,8 @@ public class AutoCommand extends CommandBase {
     }
   } 
 
+
+ 
 
   // Called when the command is initially scheduled.
   @Override
@@ -111,7 +122,7 @@ public class AutoCommand extends CommandBase {
   @Override
   public void execute() {
     //ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
-    aimAtTarget(1);
+    aimAtTarget(.3);
     //driveToTarget(0.2, 2);
     //driveForSeconds(speeds, 3);
 

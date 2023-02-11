@@ -42,14 +42,14 @@ public class RobotContainer {
 
         navx = new AHRS(kNavXPort);
 
-        intake = new Intake();
+        //intake = new Intake();
 
         photon = new PhotonVision();
 
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         // swerve.updateSmartDash();
-        swerve.initDashboard();
+        //swerve.initDashboard();
 
         configureDefaultCommands();
         configureButtonBindings();
@@ -64,26 +64,26 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         new JoystickButton(driver, 1).onTrue(new InstantCommand(swerve::resetHeading));
-        new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
-        new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
+        //new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
+        //new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
         new JoystickButton(driver,4).onTrue(new DriveForwardTime(swerve, 2));
         
     }
 
     public void periodic() {
-        swerve.updateSmartDash();
+        //swerve.updateSmartDash();
 
         swerve.writeOffsets();
         swerve.readoffsets();
 
         // test.updateSmartDash();
-        swerve.initDashboard();
+        //swerve.initDashboard();
 
         photon.updateSmartDash();
         // swerve.initDashboard();
         // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
         
-        swerve.updateOffsets();
+        // swerve.updateOffsets();
     }
 
     public void teleopInit() {

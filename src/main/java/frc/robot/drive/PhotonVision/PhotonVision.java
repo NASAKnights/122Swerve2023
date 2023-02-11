@@ -108,7 +108,8 @@ public class PhotonVision extends SubsystemBase {
   public double getTargetAngle(double x, double y){
 
     // gives angle of the target in degrees
-    double targetAngle = (Math.tan(y/x) *(180/Math.PI));
+    double targetAngle = (Math.tan(y/x) );
+    //*(180/Math.PI)
     Rotation2d angleFromCamera = new Rotation2d(targetAngle);
     Rotation2d cameraOffset = new Rotation2d(Math.PI);
 
@@ -118,7 +119,7 @@ public class PhotonVision extends SubsystemBase {
 
 
 
-    return targetAngle;
+    return cameraToRobot.getDegrees();
 
   }
 
