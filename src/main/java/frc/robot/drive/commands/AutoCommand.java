@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.PhotonVision.PhotonVision;
+import frc.robot.drive.commands.TurnForDegrees;
 
 
 public class AutoCommand extends CommandBase {
@@ -17,6 +18,7 @@ public class AutoCommand extends CommandBase {
   private Timer timer;
   private PhotonVision photon;
   private ChassisSpeeds speeds;
+  //private TurnForDegrees turn;
 
   /** Creates a new AutoTest. */
   public AutoCommand(SwerveDrive swerve) {
@@ -72,32 +74,52 @@ public class AutoCommand extends CommandBase {
 
   }
 
+  /*public void turnForDegrees(double degrees, double rotationSpeed){
+    double initialPosition = swerve.getHeading().getDegrees();
+
+    System.out.println( "initial position = " + initialPosition);
+
+    if (degrees < 0 ){
+      rotationSpeed *= -1;
+    }
+
+    speeds = new ChassisSpeeds(0,0,rotationSpeed);
+
+    if (swerve.getHeading().getDegrees() != initialPosition+degrees){
+      swerve.drive(speeds, false);
+    }
+    else{
+      end(isFinished());
+    }
+  } */
+
   public void aimAtTarget(double rotationSpeed){
     if (photon.findTarget()){
       double yDist = photon.getYDistanceToTarget();
       double xDist = photon.getXDistanceToTarget();
       double targetAngle = photon.getTargetAngle(xDist, yDist);
-      //offset for getHeading needed. Do that next
+      
       Rotation2d getHeading = swerve.getHeading();
       Rotation2d headingOffset = getHeading.unaryMinus().plus(Rotation2d.fromDegrees(180));
       Rotation2d correctedHeading = getHeading.rotateBy(headingOffset);
 
       double error = correctedHeading.getDegrees() - Math.abs(targetAngle);
       
+     // new TurnForDegrees(error, rotationSpeed);
 
-      if (targetAngle > 0){
-        speeds = new ChassisSpeeds(0,0,-rotationSpeed);
-      }
-      else{
-        speeds = new ChassisSpeeds(0,0,rotationSpeed);
-      }
-      
+      // if (targetAngle > 0){
+      //   speeds = new ChassisSpeeds(0,0,-rotationSpeed);
+      // }
+      // else{
+      //   speeds = new ChassisSpeeds(0,0,rotationSpeed);
+      // }
 
-      if (error > 5){
-        swerve.drive(speeds, false);
-      }else{
-        end(isFinished());
-      }
+
+      // if (error > 5){
+      //   swerve.drive(speeds, false);
+      // }else{
+      //   end(isFinished());
+      // }
 
     }
     else{
@@ -122,7 +144,8 @@ public class AutoCommand extends CommandBase {
   @Override
   public void execute() {
     //ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
-    aimAtTarget(.3);
+    //aimAtTarget(.3);
+    //new TurnForDegrees(90, .3);
     //driveToTarget(0.2, 2);
     //driveForSeconds(speeds, 3);
 

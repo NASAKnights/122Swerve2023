@@ -21,7 +21,7 @@ import frc.robot.drive.commands.AutoCommand;
 import frc.robot.drive.commands.DriveCommand;
 
 import frc.robot.drive.commands.DriveForwardTime;
-
+import frc.robot.drive.commands.TurnForDegrees;
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntakeReverse;
@@ -102,7 +102,8 @@ public class RobotContainer {
     }
 
     public CommandBase autonomousInit(){
-        return new AutoCommand(swerve);
+        //return new AutoCommand(swerve);
+        return new TurnForDegrees(swerve,-90, .3);
     }
 
    
