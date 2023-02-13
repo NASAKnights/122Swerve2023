@@ -5,11 +5,16 @@
 package frc.robot.claw.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.claw.Claw;
 
 public class CloseClaw extends CommandBase {
   /** Creates a new CloseClaw. */
-  public CloseClaw() {
+  private Claw claw;
+
+  public CloseClaw(Claw claw) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.claw = claw;
+    addRequirements(claw);
   }
 
   // Called when the command is initially scheduled.
@@ -18,11 +23,15 @@ public class CloseClaw extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    claw.reverse();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    claw.off();
+  }
 
   // Returns true when the command should end.
   @Override

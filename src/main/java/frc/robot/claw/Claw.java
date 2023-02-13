@@ -17,8 +17,6 @@ public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
   private PneumaticHub pHub;
   private NKDoubleSolenoid clawSolenoid;
-  
-  
 
   public Claw(PneumaticHub pHub) {
 
