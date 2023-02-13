@@ -49,7 +49,7 @@ public class RobotContainer {
         swerve.readoffsets();
         // swerve.updateSmartDash();
         swerve.initDashboard();
-        pHub.enableCompressorAnalog(Constants.kMinPressure, Constants.kMaxPressure);
+        pHub.enableCompressorAnalog(Constants.PneumaticConstants.kMinPressure, Constants.PneumaticConstants.kMaxPressure); //TODO: write down the min/max pressure
 
         configureDefaultCommands();
         configureButtonBindings();

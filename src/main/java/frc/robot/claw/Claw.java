@@ -18,11 +18,12 @@ public class Claw extends SubsystemBase {
   private PneumaticHub pHub;
   private NKDoubleSolenoid clawSolenoid;
   
+  
 
   public Claw(PneumaticHub pHub) {
 
     this.pHub = pHub;
-    this.clawSolenoid = new NKDoubleSolenoid(PneumaticsModuleType.REVPH, Constants.kSolenoidForward, Constants.kSolenoidReverse);
+    this.clawSolenoid = new NKDoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kSolenoidForward, Constants.PneumaticConstants.kSolenoidReverse);
 
   }
 
@@ -32,7 +33,7 @@ public class Claw extends SubsystemBase {
   }
 
   public void checkPressure(){
-    double pressure = pHub.getPressure(Constants.kAnalogPressureChannel);
+    double pressure = pHub.getPressure(Constants.PneumaticConstants.kAnalogPressureChannel);
     SmartDashboard.putNumber("Pressure", pressure);
 
   }

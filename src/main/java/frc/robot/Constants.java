@@ -185,6 +185,17 @@ public class Constants {
         public static final Rotation2d kAllowableAngleTolerance = Rotation2d.fromDegrees(5.0);
     }
 
+    public static final class PneumaticConstants{
+
+        public static final int kAnalogPressureChannel = 0;
+
+        public static final double kMinPressure = 60.0;
+        public static final double kMaxPressure = 120.0;
+
+        public static final int kSolenoidForward = 0;
+        public static final int kSolenoidReverse = 1;
+    }
+
     public static void main(String[] args) {
         SDSModuleType module = SDSModuleType.MK4_L3;
 
