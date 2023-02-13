@@ -7,11 +7,13 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.claw.Claw;
 import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.SwerveModule;
@@ -30,6 +32,9 @@ public class RobotContainer {
 
     private Intake intake;
 
+    private PneumaticHub pHub;
+    private Claw claw;
+
     public RobotContainer() {
         driver = new Joystick(kDriverPort);
 
@@ -37,10 +42,14 @@ public class RobotContainer {
 
         intake = new Intake();
 
+        pHub = new PneumaticHub();
+        claw = new Claw(pHub);
+
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
         // swerve.updateSmartDash();
         swerve.initDashboard();
+        pHub.enableCompressorAnalog(Constants.kMinPressure, Constants.kMaxPressure);
 
         configureDefaultCommands();
         configureButtonBindings();
