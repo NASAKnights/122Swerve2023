@@ -20,7 +20,8 @@ public class Constants {
     public static final int kDriverPort = 0;
     public static final SPI.Port kNavXPort = SPI.Port.kMXP;
 
-    public static final SDSModuleType kSDSModule = SDSModuleType.MK4I_L2;
+    // public static final SDSModuleType kSDSModule = SDSModuleType.MK4I_L2;
+    public static final SDSModuleType kSDSModule = SDSModuleType.MK4I_L3;
 
     public static final double kTrackwidthMeters = 0.4;
     public static final double kWheelbaseMeters = 0.4;
