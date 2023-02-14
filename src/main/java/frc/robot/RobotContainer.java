@@ -45,6 +45,7 @@ public class RobotContainer {
 
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
+        // swerve.updateSmartDash();
         swerve.initDashboard();
 
         configureDefaultCommands();
@@ -71,10 +72,18 @@ public class RobotContainer {
         swerve.writeOffsets();
         swerve.readoffsets();
         // test.updateSmartDash();
-        swerve.initDashboard();
+        // swerve.updateOffsets();
         
         // SmartDashboard.putNumber("Module Velocity", test.getModuleVelocityMPS());
         
+    }
+
+    public void disabledPeriodic(){
+        swerve.updateSmartDash();
+        swerve.writeOffsets();
+        swerve.readoffsets();
+        
+        swerve.updateOffsets();
     }
 
     public void teleopInit() {

@@ -79,11 +79,10 @@ public class SwerveDrive extends SubsystemBase {
 
                 this.odometry = new SwerveDriveOdometry(this.kinematics, this.getHeading(), this.getModulePositions());
 
-        // writeOffsets();
         readoffsets();
-        // updateOffsets();
-        // initDashboard();
-        System.out.println("Data: "+red+" "+yellow);
+        updateOffsets();
+        initDashboard();
+        // System.out.println("Data: "+red+" "+yellow);
     }
 
     public void drive(ChassisSpeeds speeds, boolean isOpenLoop) {
@@ -159,6 +158,7 @@ public class SwerveDrive extends SubsystemBase {
                 buffer[1] = '0';
                 buffer[2] = '0';
                 buffer[3] = '0';
+                // System.out.println("ENTERED INTO THE NOT READING");
             }
 
             this.red = buffer[0] - '0';
@@ -202,6 +202,8 @@ public class SwerveDrive extends SubsystemBase {
             // s += "\n"; // idk if needed...
             writer.write(s);
             writer.close();
+
+            // System.out.println(this.red);
         } catch (IOException e) {
             e.printStackTrace();
         }

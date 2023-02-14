@@ -140,10 +140,10 @@ public class SwerveModule {
         double absolutePosition = Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio);
         turn.setSelectedSensorPosition(absolutePosition);
         
-        System.out.println(id + " INIT ANGLE " + lastAngle);
-        System.out.println(id + " ANGLE OFFSET " + angleOffset.getDegrees());
-        System.out.println(id + " abs pos " + absolutePosition);
-        System.out.println(id + " selected sensor pos " + turn.getSelectedSensorPosition());
+        // System.out.println(id + " INIT ANGLE " + lastAngle);
+        // System.out.println(id + " ANGLE OFFSET " + angleOffset.getDegrees());
+        // System.out.println(id + " abs pos " + absolutePosition);
+        // System.out.println(id + " selected sensor pos " + turn.getSelectedSensorPosition());
     }
 
     private void initDriveMotor(int driveMotorID) {
@@ -195,7 +195,7 @@ public class SwerveModule {
         // SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
         // SmartDashboard.putNumber(id + " Module Angle", getAngleRotation2d().getDegrees());
         SmartDashboard.putNumber(id + "Magnet offset", turnEncoder.configGetMagnetOffset());
-        SmartDashboard.putNumber(id + " Module Angle", turnEncoder.getPosition());
+        // SmartDashboard.putNumber(id + " Module Angle", turnEncoder.getPosition());
         // SmartDashboard.putNumber(id + " Velocity", getVelocityMPS());
         // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
         SmartDashboard.putNumber(id + " cancoder", turnEncoder.getAbsolutePosition());
