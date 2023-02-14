@@ -4,7 +4,6 @@
 
 package frc.robot.claw;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -15,12 +14,12 @@ import frc.robot.Constants;
 
 public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
-  private PneumaticHub pHub;
+  // private PneumaticHub pHub;
   private NKDoubleSolenoid clawSolenoid;
 
-  public Claw(PneumaticHub pHub) {
+  public Claw() {
 
-    this.pHub = pHub;
+    // this.pHub = pHub;
     this.clawSolenoid = new NKDoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kSolenoidForward, Constants.PneumaticConstants.kSolenoidReverse);
 
   }
@@ -31,22 +30,21 @@ public class Claw extends SubsystemBase {
   }
 
   public void checkPressure(){
-    double pressure = pHub.getPressure(Constants.PneumaticConstants.kAnalogPressureChannel);
-    SmartDashboard.putNumber("Pressure", pressure);
+    // double pressure = pHub.getPressure(Constants.PneumaticConstants.kAnalogPressureChannel);
+    // SmartDashboard.putNumber("Pressure", pressure);
 
   }
 
-
   public void forward(){
-    clawSolenoid.set(Value.kForward);
+    // clawSolenoid.set(Value.kForward);
   }
 
   public void reverse(){
-    clawSolenoid.set(Value.kReverse);
+    // clawSolenoid.set(Value.kReverse);
   }
 
   public void off(){
-    clawSolenoid.set(Value.kOff);
+    // clawSolenoid.set(Value.kOff);
   }
 
 }

@@ -88,6 +88,8 @@ public class Constants {
 
     // TODO: adjust 2nd set of modules
 
+    public static final int kExtendMotor = 5;
+
     //-----------testing end----------------
 
     public static final class ModuleConstants {
@@ -187,13 +189,13 @@ public class Constants {
 
     public static final class PneumaticConstants{
 
-        public static final int kAnalogPressureChannel = 0;
+        public static final int kAnalogPressureChannel = 1;
 
-        public static final double kMinPressure = 60.0;
+        public static final double kMinPressure = 65.0;
         public static final double kMaxPressure = 120.0;
 
-        public static final int kSolenoidForward = 0;
-        public static final int kSolenoidReverse = 1;
+        public static final int kSolenoidForward = 1;
+        public static final int kSolenoidReverse = 2;
     }
 
     public static void main(String[] args) {
