@@ -24,6 +24,7 @@ public class Retract extends CommandBase {
   @Override
   public void execute() {
     arm.reverse();
+    arm.updateBoard();
   }
 
   // Called once the command ends or is interrupted.

@@ -24,6 +24,7 @@ public class Extend extends CommandBase {
   @Override
   public void execute() {
     arm.forward();
+    arm.updateBoard();
   }
 
   // Called once the command ends or is interrupted.

@@ -20,7 +20,7 @@ public class Claw extends SubsystemBase {
   public Claw() {
 
     // this.pHub = pHub;
-    this.clawSolenoid = new NKDoubleSolenoid(PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kSolenoidForward, Constants.PneumaticConstants.kSolenoidReverse);
+    this.clawSolenoid = new NKDoubleSolenoid(2,PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kSolenoidForward, Constants.PneumaticConstants.kSolenoidReverse);
 
   }
 
@@ -36,15 +36,15 @@ public class Claw extends SubsystemBase {
   }
 
   public void forward(){
-    // clawSolenoid.set(Value.kForward);
+    clawSolenoid.set(Value.kForward);
   }
 
   public void reverse(){
-    // clawSolenoid.set(Value.kReverse);
+    clawSolenoid.set(Value.kReverse);
   }
 
   public void off(){
-    // clawSolenoid.set(Value.kOff);
+    clawSolenoid.set(Value.kOff);
   }
 
 }

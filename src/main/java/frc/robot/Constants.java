@@ -89,6 +89,7 @@ public class Constants {
     // TODO: adjust 2nd set of modules
 
     public static final int kExtendMotor = 5;
+    public static final double kExtensionRotations = 34.785;
 
     //-----------testing end----------------
 
@@ -192,7 +193,7 @@ public class Constants {
         public static final int kAnalogPressureChannel = 1;
 
         public static final double kMinPressure = 65.0;
-        public static final double kMaxPressure = 120.0;
+        public static final double kMaxPressure = 119.0;
 
         public static final int kSolenoidForward = 1;
         public static final int kSolenoidReverse = 2;

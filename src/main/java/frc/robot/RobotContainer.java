@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.armoutreach.ArmOutreach;
+import frc.robot.armoutreach.commands.Extend;
+import frc.robot.armoutreach.commands.Retract;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
@@ -35,6 +38,7 @@ public class RobotContainer {
     private SwerveDrive swerve;
 
     private Intake intake;
+    private ArmOutreach arm;
 
     private PneumaticHub pHub;
     private Claw claw;
@@ -46,14 +50,13 @@ public class RobotContainer {
 
         intake = new Intake();
 
-        // claw = new Claw();
+        claw = new Claw();
+        arm = new ArmOutreach();
 
         pHub = new PneumaticHub(2);
         pHub.enableCompressorAnalog(Constants.PneumaticConstants.kMinPressure, Constants.PneumaticConstants.kMaxPressure);
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
-        // swerve.updateSmartDash();
-        swerve.initDashboard();
 
         configureDefaultCommands();
         configureButtonBindings();
@@ -71,8 +74,10 @@ public class RobotContainer {
         // new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
         // new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
         // new JoystickButton(driver,4).onTrue(new DriveForwardTime(swerve, 2));
-        // new JoystickButton(driver, 2).onTrue(new OpenClaw(claw));
-        // new JoystickButton(driver, 3).onTrue(new CloseClaw(claw));
+        new JoystickButton(driver, 2).onTrue(new OpenClaw(claw));
+        new JoystickButton(driver, 3).onTrue(new CloseClaw(claw));
+        new JoystickButton(driver, 5).whileTrue(new RepeatCommand (new Extend(arm)));
+        new JoystickButton(driver, 6).whileTrue(new RepeatCommand (new Retract(arm)));
 
         
     }
@@ -81,7 +86,7 @@ public class RobotContainer {
         swerve.updateSmartDash();
         swerve.writeOffsets();
         swerve.readoffsets();
-        // SmartDashboard.putNumber("Pressure", pHub.getPressure(0));
+        SmartDashboard.putNumber("Pressure", pHub.getPressure(0));
         // test.updateSmartDash();
         
         
