@@ -38,12 +38,20 @@ public class AutoDriveForDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pidX = new PIDController(0.9, 0, 0.03);
-    pidY = new PIDController(0.9, 0, 0.03);
-    pidRot = new PIDController(0.01, 0, 0);
-    pidX.setTolerance(0.01);
-    pidY.setTolerance(0.01);
-    pidRot.setTolerance(0.05);
+    pidX = new PIDController(0.5, 0, 0);
+    pidY = new PIDController(0.5, 0, 0);
+    pidRot = new PIDController(0.1, 0, 0);
+    pidX.setTolerance(0.1); 
+    pidY.setTolerance(0.1);
+    pidRot.setTolerance(0.1);
+
+    swerve.resetHeading();
+    swerve.resetDriveEncoders();
+    Rotation2d currentRotationTest = swerve.getHeading();
+    swerve.resetPose(new Pose2d(0, 0, currentRotationTest));
+    //NEED TO FIX RESET
+
+    System.out.println("Initialized \n Initialized \n Initialized \n Initialized \nInitialized \n Initialized \n Initialized \n");
 
     Translation2d translation = new Translation2d(metersX, metersY);
     Transform2d toMove = new Transform2d(translation, rotation);
@@ -75,7 +83,7 @@ public class AutoDriveForDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(pidX.atSetpoint() == true & pidY.atSetpoint() == true & pidRot.atSetpoint() == true){
+    if(pidX.atSetpoint() == true && pidY.atSetpoint() == true && pidRot.atSetpoint() == true){
       return true;
     }else{
       return false;

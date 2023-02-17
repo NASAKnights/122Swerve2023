@@ -7,6 +7,8 @@ package frc.robot.auto;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.auto.commands.AutoDriveForDistance;
 import frc.robot.auto.commands.AutoDriveForSeconds;
 import frc.robot.drive.SwerveDrive;
@@ -19,7 +21,9 @@ public class AutoSequencer extends SequentialCommandGroup {
   public AutoSequencer(SwerveDrive swerve) {
     new Rotation2d();
     addCommands(
-      new AutoDriveForDistance(swerve, 1, 0, Rotation2d.fromDegrees(0))
+      new AutoDriveForDistance(swerve, 1, 0, Rotation2d.fromDegrees(0)),
+      new WaitCommand(1),
+      new AutoDriveForDistance(swerve, 0,1, Rotation2d.fromDegrees(0))
       );
   }
 }
