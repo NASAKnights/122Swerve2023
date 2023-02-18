@@ -4,6 +4,8 @@
 
 package frc.robot.claw;
 
+import com.ctre.phoenix.led.CANdle.VBatOutputMode;
+
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -15,12 +17,14 @@ import frc.robot.Constants;
 public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
   // private PneumaticHub pHub;
-  private NKDoubleSolenoid clawSolenoid;
+  private NKDoubleSolenoid rightClawSolenoid;
+  private NKDoubleSolenoid leftClawSolenoid;
 
   public Claw() {
 
     // this.pHub = pHub;
-    this.clawSolenoid = new NKDoubleSolenoid(2,PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kSolenoidForward, Constants.PneumaticConstants.kSolenoidReverse);
+    this.rightClawSolenoid = new NKDoubleSolenoid(2,PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kRightSolenoidForward, Constants.PneumaticConstants.kRightSolenoidReverse);
+    this.leftClawSolenoid = new NKDoubleSolenoid(2,PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kLeftSolenoidForward, Constants.PneumaticConstants.kLeftSolenoidReverse);
 
   }
 
@@ -35,16 +39,19 @@ public class Claw extends SubsystemBase {
 
   }
 
-  public void forward(){
-    clawSolenoid.set(Value.kForward);
+  public void openClaw(){
+    rightClawSolenoid.set(Value.kForward);
+    leftClawSolenoid.set(Value.kForward);
   }
 
-  public void reverse(){
-    clawSolenoid.set(Value.kReverse);
+  public void closeClaw(){
+    rightClawSolenoid.set(Value.kReverse);
+    leftClawSolenoid.set(Value.kReverse);
   }
 
   public void off(){
-    clawSolenoid.set(Value.kOff);
+    rightClawSolenoid.set(Value.kOff);
+    leftClawSolenoid.set(Value.kOff);
   }
 
 }

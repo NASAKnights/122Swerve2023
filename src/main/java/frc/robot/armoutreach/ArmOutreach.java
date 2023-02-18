@@ -32,7 +32,8 @@ public class ArmOutreach extends SubsystemBase {
     encoder = outreach.getEncoder();
     outreach.setIdleMode(IdleMode.kBrake);
     // outreach.setIdleMode(IdleMode.kCoast);
-    encoder.setPosition(0); // resets the encoder
+    // encoder.setPosition(0); // resets the encoder
+    resetEncoder();
 
     outreach.restoreFactoryDefaults();
 
@@ -44,12 +45,23 @@ public class ArmOutreach extends SubsystemBase {
     kMaxOutput = 1; 
     kMinOutput = -1;
 
+    pid.setP(kP);
+    pid.setI(kI);
+    pid.setD(kD);
+    pid.setIZone(kIz);
+    pid.setFF(kFF);
+    pid.setOutputRange(kMinOutput, kMaxOutput);
+
 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void resetEncoder(){
+    encoder.setPosition(0.0);
   }
 
   public void forward(){
@@ -60,8 +72,14 @@ public class ArmOutreach extends SubsystemBase {
     outreach.stopMotor();
   }
   public void reverse(){
-    outreach.set(0.1);
+    outreach.set(0.2);
   }
+
+  public void extendFully(){
+    pid.setReference(Constants.kExtensionRotations, CANSparkMax.ControlType.kPosition);
+  }
+
+
   public void updateBoard(){
     SmartDashboard.putNumber("Arm Encoder",encoder.getPosition());
   }

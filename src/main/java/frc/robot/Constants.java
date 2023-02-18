@@ -106,7 +106,7 @@ public class Constants {
         public static final NeutralMode kDriveMotorNeutral = NeutralMode.Coast;
         public static final double kDriveVoltageComp = 12;
         public static final boolean kTurnMotorInverted = true;
-        public static final NeutralMode kTurnMotorNeutral = NeutralMode.Coast; // set back to brake to be amazing
+        public static final NeutralMode kTurnMotorNeutral = NeutralMode.Brake; // set back to brake to be amazing
         public static final double kTurnVoltageComp = 12;
         // later
         public static final boolean kEncoderInverted = false;
@@ -190,13 +190,17 @@ public class Constants {
 
     public static final class PneumaticConstants{
 
+        public static final int kPneumaticHubModule = 2;
+
         public static final int kAnalogPressureChannel = 1;
 
         public static final double kMinPressure = 65.0;
         public static final double kMaxPressure = 119.0;
 
-        public static final int kSolenoidForward = 1;
-        public static final int kSolenoidReverse = 2;
+        public static final int kRightSolenoidForward = 0;
+        public static final int kRightSolenoidReverse = 1;
+        public static final int kLeftSolenoidForward = 2;
+        public static final int kLeftSolenoidReverse = 3;
     }
 
     public static void main(String[] args) {

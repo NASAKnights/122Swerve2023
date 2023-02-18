@@ -53,7 +53,7 @@ public class RobotContainer {
         claw = new Claw();
         arm = new ArmOutreach();
 
-        pHub = new PneumaticHub(2);
+        pHub = new PneumaticHub(Constants.PneumaticConstants.kPneumaticHubModule); // 2
         pHub.enableCompressorAnalog(Constants.PneumaticConstants.kMinPressure, Constants.PneumaticConstants.kMaxPressure);
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();

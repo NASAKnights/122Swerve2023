@@ -24,7 +24,7 @@ public class CloseClaw extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    claw.reverse();
+    claw.closeClaw();
   }
 
   // Called once the command ends or is interrupted.
