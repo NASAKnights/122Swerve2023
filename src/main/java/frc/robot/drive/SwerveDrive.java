@@ -81,7 +81,6 @@ public class SwerveDrive extends SubsystemBase {
 
         readoffsets();
         updateOffsets();
-        // initDashboard();
         // System.out.println("Data: "+red+" "+yellow);
     }
 
@@ -243,6 +242,9 @@ public class SwerveDrive extends SubsystemBase {
         // SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
         this.odometry.update(this.getHeading(), this.getModulePositions());
     }
+
+
+
     @Override
     public void periodic() {
         this.updateOdometry();

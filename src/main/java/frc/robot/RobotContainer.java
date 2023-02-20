@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.Extend;
+import frc.robot.armoutreach.commands.LiftArm;
+import frc.robot.armoutreach.commands.LowerArm;
 import frc.robot.armoutreach.commands.Retract;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
@@ -57,6 +59,7 @@ public class RobotContainer {
         pHub.enableCompressorAnalog(Constants.PneumaticConstants.kMinPressure, Constants.PneumaticConstants.kMaxPressure);
         swerve = new SwerveDrive(navx);
         swerve.readoffsets();
+        swerve.initDashboard();
 
         configureDefaultCommands();
         configureButtonBindings();
@@ -74,10 +77,12 @@ public class RobotContainer {
         // new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
         // new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
         // new JoystickButton(driver,4).onTrue(new DriveForwardTime(swerve, 2));
-        new JoystickButton(driver, 2).onTrue(new OpenClaw(claw));
-        new JoystickButton(driver, 3).onTrue(new CloseClaw(claw));
-        new JoystickButton(driver, 5).whileTrue(new RepeatCommand (new Extend(arm)));
-        new JoystickButton(driver, 6).whileTrue(new RepeatCommand (new Retract(arm)));
+        // new JoystickButton(driver, 2).onTrue(new OpenClaw(claw));
+        // new JoystickButton(driver, 3).onTrue(new CloseClaw(claw));
+        // new JoystickButton(driver, 5).whileTrue(new RepeatCommand (new Extend(arm)));
+        // new JoystickButton(driver, 6).whileTrue(new RepeatCommand (new Retract(arm)));
+        new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftArm(arm)));
+        new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerArm(arm)));
 
         
     }
