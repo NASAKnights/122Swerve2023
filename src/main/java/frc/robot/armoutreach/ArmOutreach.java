@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
+import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -33,6 +34,7 @@ public class ArmOutreach extends SubsystemBase {
   private RelativeEncoder extendEncoder;
 
   private CANSparkMax arm;
+  private CANSparkMax armFollower;
   private SparkMaxPIDController pidArm;
   private SparkMaxAbsoluteEncoder pivotAngle;
 
@@ -53,6 +55,7 @@ public class ArmOutreach extends SubsystemBase {
     extendEncoder = outreach.getEncoder();
 
     arm = new CANSparkMax(Constants.ArmConstants.kPivotMotor, MotorType.kBrushless);
+    armFollower = new CANSparkMax(Constants.ArmConstants.kPivotMotorFollower, MotorType.kBrushless);
     pidArm = arm.getPIDController();
     pivotAngle = arm.getAbsoluteEncoder(Type.kDutyCycle);
     
@@ -62,12 +65,15 @@ public class ArmOutreach extends SubsystemBase {
 
     arm.setIdleMode(IdleMode.kBrake);
     outreach.setIdleMode(IdleMode.kBrake);
+    pivotAngle.setZeroOffset(0.47);
+    pivotAngle.setInverted(true);
 
-    pivotAngle.setPositionConversionFactor(1.0 /8192.0);
+    // pivotAngle.setPositionConversionFactor(2 * Math.PI /8192.0); // Sets Units of Encoder to radians
 
     outreach.setSmartCurrentLimit(40);
     arm.setSmartCurrentLimit(40);
 
+    armFollower.follow(arm, true);
 
   }
 
@@ -220,7 +226,7 @@ public class ArmOutreach extends SubsystemBase {
     updateExtendPose();
     updatePivotPose();
     Transform3d curPose = new Transform3d();
-    curPose.plus(robot2rotary.plus(rotary2linear.plus(linear2ee)));
+    curPose.plus(rotary2linear.plus(linear2ee));
 
     robot2ee = curPose;
   }

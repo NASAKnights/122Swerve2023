@@ -91,7 +91,9 @@ public class Constants {
 
         public static final int kExtendMotor = 5;
         public static final int kPivotMotor = 6;
+        public static final int kPivotMotorFollower = 7;
         public static final double kExtensionRotations = 34.785;
+        public static final double kExtensionLength = 0.3556;
     }
 
     
@@ -202,10 +204,10 @@ public class Constants {
         public static final double kMinPressure = 65.0;
         public static final double kMaxPressure = 119.0;
 
-        public static final int kRightSolenoidForward = 0;
-        public static final int kRightSolenoidReverse = 1;
-        public static final int kLeftSolenoidForward = 2;
-        public static final int kLeftSolenoidReverse = 3;
+        public static final int kSolenoidForward = 1;
+        public static final int kSolenoidReverse = 2;
+        // public static final int kLeftSolenoidForward = 2;
+        // public static final int kLeftSolenoidReverse = 3;
     }
 
     public static void main(String[] args) {

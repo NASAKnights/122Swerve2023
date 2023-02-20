@@ -103,6 +103,7 @@ public class RobotContainer {
         swerve.readoffsets();
         
         swerve.updateOffsets();
+        arm.updateBoard();
     }
 
     public void teleopInit() {
@@ -111,6 +112,7 @@ public class RobotContainer {
         // swerve.setCoast();
         swerve.readoffsets();
         swerve.updateOffsets();
+        arm.updateBoard();
        
         
     }
