@@ -10,6 +10,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
@@ -30,12 +31,12 @@ public class ArmOutreach extends SubsystemBase {
   /** Creates a new ArmOutreach. */
   // private NKSpark outreach;
   private CANSparkMax outreach;
-  private SparkMaxPIDController pid;
+  private SparkMaxPIDController extendPID;
   private RelativeEncoder extendEncoder;
 
   private CANSparkMax arm;
   private CANSparkMax armFollower;
-  private SparkMaxPIDController pidArm;
+  private SparkMaxPIDController pivotPID;
   private SparkMaxAbsoluteEncoder pivotAngle;
 
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
@@ -51,12 +52,12 @@ public class ArmOutreach extends SubsystemBase {
 
   public ArmOutreach() {
     outreach = new CANSparkMax(Constants.ArmConstants.kExtendMotor, MotorType.kBrushless); 
-    pid = outreach.getPIDController();
+    extendPID = outreach.getPIDController();
     extendEncoder = outreach.getEncoder();
 
     arm = new CANSparkMax(Constants.ArmConstants.kPivotMotor, MotorType.kBrushless);
     armFollower = new CANSparkMax(Constants.ArmConstants.kPivotMotorFollower, MotorType.kBrushless);
-    pidArm = arm.getPIDController();
+    pivotPID = arm.getPIDController();
     pivotAngle = arm.getAbsoluteEncoder(Type.kDutyCycle);
     
     outreach.restoreFactoryDefaults();
@@ -91,19 +92,19 @@ public class ArmOutreach extends SubsystemBase {
     kMaxOutput = 1; 
     kMinOutput = -1;
 
-    pid.setP(kP);
-    pid.setI(kI);
-    pid.setD(kD);
-    pid.setIZone(kIz);
-    pid.setFF(kFF);
-    pid.setOutputRange(kMinOutput, kMaxOutput);
+    extendPID.setP(kP);
+    extendPID.setI(kI);
+    extendPID.setD(kD);
+    extendPID.setIZone(kIz);
+    extendPID.setFF(kFF);
+    extendPID.setOutputRange(kMinOutput, kMaxOutput);
 
-    pidArm.setP(kP);
-    pidArm.setI(kI);
-    pidArm.setD(kD);
-    pidArm.setIZone(kIz);
-    pidArm.setFF(kFF);
-    pidArm.setOutputRange(kMinOutput, kMaxOutput);
+    pivotPID.setP(kP);
+    pivotPID.setI(kI);
+    pivotPID.setD(kD);
+    pivotPID.setIZone(kIz);
+    pivotPID.setFF(kFF);
+    pivotPID.setOutputRange(kMinOutput, kMaxOutput);
 
   }
 
@@ -136,7 +137,7 @@ public class ArmOutreach extends SubsystemBase {
   }
 
   public void extendFully(){
-    pid.setReference(Constants.ArmConstants.kExtensionRotations, CANSparkMax.ControlType.kPosition);
+    extendPID.setReference(Constants.ArmConstants.kExtensionRotations, CANSparkMax.ControlType.kPosition);
   }
 
   public void liftArm(){
@@ -158,18 +159,26 @@ public class ArmOutreach extends SubsystemBase {
    * @param pos should contain the x y position that the arm needs to go to relative to the axle
    * of the pivot arm
    */
-  public void gotoXY(Translation2d pos) {
+  public boolean gotoXY(Translation2d pos) {
     // Find the goal positions
     double pivotGoal = pos.getAngle().getRadians();
-    double extendGoal = pos.getNorm(); // Maybe minus the arm length while retracted affects lines marked asdf
+    double extendGoal = pos.getNorm() - Constants.ArmConstants.kExtentionRetractedLength; // Maybe minus the arm length while retracted affects lines marked asdf
     
     // Check if goals are within reach since the pivot and extension can only go so far
+    if(pivotGoal > Constants.ArmConstants.kPivotMaxRotation || 
+    extendGoal > Constants.ArmConstants.kExtensionLength ||
+    pivotGoal < Constants.ArmConstants.kPivotMinRotation ||
+    extendGoal < Constants.ArmConstants.kExtentionMinLength){
+      return false;
+    }
     
-    // https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-intro.html
     // Send goals to lower level control loops (motor controllers)
+    extendPID.setReference(extendGoal, ControlType.kPosition);
+    pivotPID.setReference(pivotGoal, ControlType.kPosition);
+
     // A naive approach can apply a feedforward since we know how much torque we can expect the arm to be under
     // The feedforward will be proportional to the torque that the motor needs to exert to maintain it's position
-    // https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-intro.html#visualizing-feedforward
+    return true;
   }
 
   /**
@@ -196,7 +205,10 @@ public class ArmOutreach extends SubsystemBase {
   private void updateExtendPose() {
     // Updates the Extend Pose with the new position from the encoder
     Rotation3d curRot = new Rotation3d();
-    Translation3d curPos = new Translation3d(extendEncoderToMeters(extendEncoder.getPosition()),0,0); // asdf
+    Translation3d curPos = new Translation3d(
+      extendEncoderToMeters(extendEncoder.getPosition()) + Constants.ArmConstants.kExtentionRetractedLength,
+      0,
+      0); // asdf
     linear2ee = new Transform3d(curPos, curRot);
   }
 
@@ -207,9 +219,7 @@ public class ArmOutreach extends SubsystemBase {
    */
   private double extendEncoderToMeters(double val) {
     double newVal = 0;
-
-    // TODO: Write me
-    
+    newVal = val * (Constants.ArmConstants.kExtensionLength / Constants.ArmConstants.kExtensionRotations);
     return newVal;
   }
 
@@ -236,6 +246,9 @@ public class ArmOutreach extends SubsystemBase {
   public void updateBoard(){
     SmartDashboard.putNumber("Extend Encoder",extendEncoder.getPosition());
     SmartDashboard.putNumber("Pivot Encoder Absolute", pivotAngle.getPosition());
-    
+    updateEEPos();
+    SmartDashboard.putNumber("Arm X Pos", robot2ee.getX());
+    SmartDashboard.putNumber("Arm Y Pos", robot2ee.getY());
+
   }
 }
