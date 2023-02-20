@@ -65,6 +65,9 @@ public class ArmOutreach extends SubsystemBase {
 
     pivotAngle.setPositionConversionFactor(1.0 /8192.0);
 
+    outreach.setSmartCurrentLimit(40);
+    arm.setSmartCurrentLimit(40);
+
 
   }
 
@@ -225,8 +228,8 @@ public class ArmOutreach extends SubsystemBase {
 
 
   public void updateBoard(){
-    SmartDashboard.putNumber("Arm Encoder",extendEncoder.getPosition());
-
+    SmartDashboard.putNumber("Extend Encoder",extendEncoder.getPosition());
+    SmartDashboard.putNumber("Pivot Encoder Absolute", pivotAngle.getPosition());
     
   }
 }

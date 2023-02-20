@@ -17,14 +17,15 @@ import frc.robot.Constants;
 public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
   // private PneumaticHub pHub;
-  private NKDoubleSolenoid rightClawSolenoid;
-  private NKDoubleSolenoid leftClawSolenoid;
+  // private NKDoubleSolenoid rightClawSolenoid;
+  // private NKDoubleSolenoid leftClawSolenoid;
+  private NKDoubleSolenoid clawSolenoid;
 
   public Claw() {
 
     // this.pHub = pHub;
-    this.rightClawSolenoid = new NKDoubleSolenoid(2,PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kRightSolenoidForward, Constants.PneumaticConstants.kRightSolenoidReverse);
-    this.leftClawSolenoid = new NKDoubleSolenoid(2,PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kLeftSolenoidForward, Constants.PneumaticConstants.kLeftSolenoidReverse);
+    this.clawSolenoid = new NKDoubleSolenoid(2,PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kSolenoidForward, Constants.PneumaticConstants.kSolenoidReverse);
+    // this.leftClawSolenoid = new NKDoubleSolenoid(2,PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kLeftSolenoidForward, Constants.PneumaticConstants.kLeftSolenoidReverse);
 
   }
 
@@ -40,18 +41,18 @@ public class Claw extends SubsystemBase {
   }
 
   public void openClaw(){
-    rightClawSolenoid.set(Value.kForward);
-    leftClawSolenoid.set(Value.kForward);
+    clawSolenoid.set(Value.kForward);
+    // leftClawSolenoid.set(Value.kForward);
   }
 
   public void closeClaw(){
-    rightClawSolenoid.set(Value.kReverse);
-    leftClawSolenoid.set(Value.kReverse);
+    clawSolenoid.set(Value.kReverse);
+    // leftClawSolenoid.set(Value.kReverse);
   }
 
   public void off(){
-    rightClawSolenoid.set(Value.kOff);
-    leftClawSolenoid.set(Value.kOff);
+    clawSolenoid.set(Value.kOff);
+    // leftClawSolenoid.set(Value.kOff);
   }
 
 }

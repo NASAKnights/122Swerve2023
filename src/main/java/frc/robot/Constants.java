@@ -87,9 +87,14 @@ public class Constants {
                                                     {87.539, 103.359, 0.0}}; // yellow 4, 8, 12
 
     // TODO: adjust 2nd set of modules
+    public static final class ArmConstants {
 
-    public static final int kExtendMotor = 5;
-    public static final double kExtensionRotations = 34.785;
+        public static final int kExtendMotor = 5;
+        public static final int kPivotMotor = 6;
+        public static final double kExtensionRotations = 34.785;
+    }
+
+    
 
     //-----------testing end----------------
 
