@@ -24,6 +24,7 @@ public class LiftArm extends CommandBase {
   @Override
   public void execute() {
     arm.liftArm();
+    // arm.liftArmtoAngle();
   }
 
   // Called once the command ends or is interrupted.

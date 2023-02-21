@@ -24,6 +24,7 @@ public class LowerArm extends CommandBase {
   @Override
   public void execute() {
     arm.lowerArm();
+    // arm.lowerArmtoAngle();
   }
 
   // Called once the command ends or is interrupted.

@@ -11,6 +11,7 @@ import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
@@ -63,18 +64,23 @@ public class ArmOutreach extends SubsystemBase {
     outreach.restoreFactoryDefaults();
     arm.restoreFactoryDefaults();
     resetEncoder();
+    setInitialPID();
 
     arm.setIdleMode(IdleMode.kBrake);
     outreach.setIdleMode(IdleMode.kBrake);
-    pivotAngle.setZeroOffset(0.47);
+    pivotAngle.setZeroOffset(0.474);
+    // 268.23
     pivotAngle.setInverted(true);
 
-    // pivotAngle.setPositionConversionFactor(2 * Math.PI /8192.0); // Sets Units of Encoder to radians
+    // pivotAngle.setPositionConversionFactor(360.0); // Sets Units of Encoder to radians
 
     outreach.setSmartCurrentLimit(40);
     arm.setSmartCurrentLimit(40);
 
+    arm.setClosedLoopRampRate(down);
+
     armFollower.follow(arm, true);
+
 
   }
 
@@ -105,6 +111,9 @@ public class ArmOutreach extends SubsystemBase {
     pivotPID.setIZone(kIz);
     pivotPID.setFF(kFF);
     pivotPID.setOutputRange(kMinOutput, kMaxOutput);
+
+    pivotPID.setOutputRange(0, 0.2);
+    pivotPID.setPositionPIDWrappingEnabled(false); //see what happens
 
   }
 
@@ -141,7 +150,7 @@ public class ArmOutreach extends SubsystemBase {
   }
 
   public void liftArm(){
-    // pidArm.setReference(Constants.kArmUp, CANSparkMax.ControlType.kPosition);
+    // pivotPID.setReference(Constants.kArmUp, CANSparkMax.ControlType.kPosition);
     arm.set(0.1);
   }
   public void lowerArm(){
@@ -149,6 +158,15 @@ public class ArmOutreach extends SubsystemBase {
   }
   public void stopArm(){
     arm.stopMotor();
+  }
+
+  public void liftArmtoAngle(){
+    pivotPID.setReference(0.9, ControlType.kPosition);
+    
+  }
+  public void lowerArmtoAngle(){
+    pivotPID.setReference(0.75, ControlType.kPosition);
+
   }
 
   /**
