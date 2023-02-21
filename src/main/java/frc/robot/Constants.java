@@ -101,13 +101,15 @@ public class Constants {
         public static final double kPivotMinRotation = 0;
         public static final double kExtentionMinLength = 0;
 
-        public static final double kClosedLoopRamp = 0.3;
+        public static final double kPivotClosedLoopRamp = 0.3;
     }
 
 
     public static final class IntakeConstants {
 
-        public static final int kLiftMotor = 8;
+        public static final int kLiftMotor = 8; // motor that lifts the intake
+        public static final int kIntakeMotor = 0; // motor that runs the wheels
+        
     }
     
 

@@ -21,28 +21,23 @@ public class Intake extends SubsystemBase {
   // TalonSRX intakeMotor;
   VictorSP intakeMotor;
   CANSparkMax intakeLiftMotor;
-  double power = 0.5;
 
   public Intake() {
-    intakeMotor = new VictorSP(0); //some motor
+    intakeMotor = new VictorSP(Constants.IntakeConstants.kIntakeMotor); // PWM channels
     intakeLiftMotor = new CANSparkMax(Constants.IntakeConstants.kLiftMotor, MotorType.kBrushless);
     intakeLiftMotor.setIdleMode(IdleMode.kBrake);
-    
-
+  
   }
 
   public void setIntake(){
-    // intakeMotor.set(ControlMode.PercentOutput, power);
     intakeMotor.set(0.2);
   }
 
   public void setReverse(){
-    // intakeMotor.set(ControlMode.PercentOutput, -power);
     intakeMotor.set(-0.2);
   }
 
-  public void stop(){
-    // intakeMotor.set(ControlMode.PercentOutput, 0);
+  public void stopIntake(){
     intakeMotor.stopMotor();
   }
 

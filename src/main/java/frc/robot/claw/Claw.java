@@ -34,25 +34,17 @@ public class Claw extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void checkPressure(){
-    // double pressure = pHub.getPressure(Constants.PneumaticConstants.kAnalogPressureChannel);
-    // SmartDashboard.putNumber("Pressure", pressure);
-
-  }
-
   public void openClaw(){
     clawSolenoid.set(Value.kForward);
-    // leftClawSolenoid.set(Value.kForward);
   }
 
   public void closeClaw(){
     clawSolenoid.set(Value.kReverse);
-    // leftClawSolenoid.set(Value.kReverse);
+
   }
 
   public void off(){
     clawSolenoid.set(Value.kOff);
-    // leftClawSolenoid.set(Value.kOff);
   }
 
 }
