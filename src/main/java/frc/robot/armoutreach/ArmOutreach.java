@@ -63,7 +63,7 @@ public class ArmOutreach extends SubsystemBase {
     
     outreach.restoreFactoryDefaults();
     arm.restoreFactoryDefaults();
-    resetEncoder();
+    resetExtensionEncoder();
     setInitialPID();
 
     arm.setIdleMode(IdleMode.kBrake);
@@ -72,12 +72,12 @@ public class ArmOutreach extends SubsystemBase {
     // 268.23
     pivotAngle.setInverted(true);
 
-    // pivotAngle.setPositionConversionFactor(360.0); // Sets Units of Encoder to radians
+    // pivotAngle.setPositionConversionFactor(360.0); // Sets Units of Encoder to degrees, native untis inn rotations
 
     outreach.setSmartCurrentLimit(40);
     arm.setSmartCurrentLimit(40);
 
-    arm.setClosedLoopRampRate(down);
+    arm.setClosedLoopRampRate(Constants.ArmConstants.kPivotClosedLoopRamp);
 
     armFollower.follow(arm, true);
 
@@ -129,10 +129,10 @@ public class ArmOutreach extends SubsystemBase {
     // o_2 = offset from end of joint 2 to cog of joint 2
   }
 
-  public void resetEncoder(){
+  public void resetExtensionEncoder(){
     extendEncoder.setPosition(0.0);
-
   }
+
 
   public void forward(){
     outreach.set(-0.2);

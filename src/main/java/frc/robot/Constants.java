@@ -93,12 +93,15 @@ public class Constants {
         public static final int kExtendMotor = 5;
         public static final int kPivotMotor = 6;
         public static final int kPivotMotorFollower = 7;
+
         public static final double kExtensionRotations = 34.785;
         public static final double kExtensionLength = 0.3556;
         public static final double kExtentionRetractedLength = 0.76835;
         public static final double kPivotMaxRotation = 0;
         public static final double kPivotMinRotation = 0;
         public static final double kExtentionMinLength = 0;
+
+        public static final double kClosedLoopRamp = 0.3;
     }
 
 
