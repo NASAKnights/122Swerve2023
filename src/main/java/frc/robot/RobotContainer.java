@@ -1,6 +1,5 @@
 package frc.robot;
 
-import static frc.robot.Constants.kDriverPort;
 import static frc.robot.Constants.kNavXPort;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -29,12 +28,15 @@ import frc.robot.drive.SwerveModule;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.DriveForwardTime;
 import frc.robot.intake.Intake;
+import frc.robot.intake.commands.LiftIntake;
+import frc.robot.intake.commands.LowerIntake;
 import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntakeReverse;
 
 public class RobotContainer {
 
     private Joystick driver;
+    private Joystick operator;
 
     private AHRS navx;
     private SwerveDrive swerve;
@@ -46,7 +48,8 @@ public class RobotContainer {
     private Claw claw;
 
     public RobotContainer() {
-        driver = new Joystick(kDriverPort);
+        driver = new Joystick(Constants.kDriverPort);
+        operator = new Joystick(Constants.kOperatorPort);
 
         navx = new AHRS(kNavXPort);
 
@@ -84,6 +87,8 @@ public class RobotContainer {
         new JoystickButton(driver, 6).whileTrue(new RepeatCommand (new Retract(arm)));
         // new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftArm(arm)));
         // new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerArm(arm)));
+        new JoystickButton(driver,2).whileTrue(new RepeatCommand(new LiftIntake(intake)));
+        new JoystickButton(driver,3).whileTrue(new RepeatCommand(new LowerIntake(intake)));
 
         
     }

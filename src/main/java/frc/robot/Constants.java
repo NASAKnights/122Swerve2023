@@ -18,6 +18,7 @@ import frc.lib.sds.SDSModuleType;
 
 public class Constants {
     public static final int kDriverPort = 0;
+    public static final int kOperatorPort = 1;
     public static final SPI.Port kNavXPort = SPI.Port.kMXP;
 
     // public static final SDSModuleType kSDSModule = SDSModuleType.MK4I_L2;
@@ -100,6 +101,11 @@ public class Constants {
         public static final double kExtentionMinLength = 0;
     }
 
+
+    public static final class IntakeConstants {
+
+        public static final int kLiftMotor = 8;
+    }
     
 
     //-----------testing end----------------
