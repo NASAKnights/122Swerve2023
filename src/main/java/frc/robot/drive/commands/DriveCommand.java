@@ -24,8 +24,8 @@ public class DriveCommand extends CommandBase {
     @Override
     public void execute() {
 
-        double limit = 0.20;
-        double rotLimit = limit/2.0;
+        double limit = Constants.kDriveLimit;
+        double rotLimit = Constants.kRotationLimit;
         double xSpeed = -MathUtil.calculateAxis(driver.getY(), Constants.kDefaultAxisDeadband, limit * Constants.kMaxTranslationalVelocity);
         double ySpeed = -MathUtil.calculateAxis(driver.getX(), Constants.kDefaultAxisDeadband, limit * Constants.kMaxTranslationalVelocity);
         double thetaSpeed = -MathUtil.calculateAxis(driver.getZ(), Constants.kDefaultAxisDeadband, rotLimit * Constants.kMaxRotationalVelocity);

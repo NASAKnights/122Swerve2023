@@ -87,6 +87,9 @@ public class Constants {
                                                     {275.273, 257.607, 0.0}, // green 3, 7, 11
                                                     {87.539, 103.359, 0.0}}; // yellow 4, 8, 12
 
+    public static final double kDriveLimit = 0.3;
+    public static final double kRotationLimit = kDriveLimit/2.0;
+
     // TODO: adjust 2nd set of modules
     public static final class ArmConstants {
 
@@ -109,7 +112,7 @@ public class Constants {
 
         public static final int kLiftMotor = 8; // motor that lifts the intake
         public static final int kIntakeMotor = 0; // motor that runs the wheels
-        
+
     }
     
 
@@ -167,6 +170,9 @@ public class Constants {
                         kTurnPeakCurrentLimit,
                         kTurnPeakCurrentDuration);
 
+                this.openloopRamp = kTurnOpenLoopRamp;
+                this.closedloopRamp = kTurnCloseLoopRamp;
+
                 this.initializationStrategy = SensorInitializationStrategy.BootToZero;
                 this.voltageCompSaturation = kTurnVoltageComp;
             }
@@ -180,8 +186,10 @@ public class Constants {
             }
         };
 
-        public static final double kOpenLoopRamp = 0.25;
-        public static final double kClosedLoopRamp = 0.25;
+        public static final double kOpenLoopRamp = 1.00;
+        public static final double kClosedLoopRamp = 1.00;
+        public static final double kTurnOpenLoopRamp = 0.25;
+        public static final double kTurnCloseLoopRamp = 0.25;
 
         public static final boolean kTurnEnableCurrentLimit = true;
         public static final int kTurnContinuousCurrentLimit = 25;

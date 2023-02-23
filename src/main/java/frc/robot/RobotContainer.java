@@ -99,6 +99,7 @@ public class RobotContainer {
         swerve.readoffsets();
         SmartDashboard.putNumber("Pressure", pHub.getPressure(0));
         // test.updateSmartDash();
+        arm.updateBoard();
         
         
     }

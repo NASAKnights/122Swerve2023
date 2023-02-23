@@ -65,6 +65,7 @@ public class ArmOutreach extends SubsystemBase {
     arm.restoreFactoryDefaults();
     resetExtensionEncoder();
     setInitialPID();
+    outreach.setInverted(true);
 
     arm.setIdleMode(IdleMode.kBrake);
     outreach.setIdleMode(IdleMode.kBrake);
@@ -74,6 +75,8 @@ public class ArmOutreach extends SubsystemBase {
 
     // pivotAngle.setPositionConversionFactor(360.0); // Sets Units of Encoder to degrees, native untis inn rotations
 
+    extendEncoder.setPositionConversionFactor((Constants.ArmConstants.kExtensionLength /Constants.ArmConstants.kExtensionRotations));
+    pivotAngle.setPositionConversionFactor(2 * Math.PI);
     outreach.setSmartCurrentLimit(40);
     arm.setSmartCurrentLimit(40);
 
@@ -224,21 +227,10 @@ public class ArmOutreach extends SubsystemBase {
     // Updates the Extend Pose with the new position from the encoder
     Rotation3d curRot = new Rotation3d();
     Translation3d curPos = new Translation3d(
-      extendEncoderToMeters(extendEncoder.getPosition()) + Constants.ArmConstants.kExtentionRetractedLength,
+      extendEncoder.getPosition() + Constants.ArmConstants.kExtentionRetractedLength,
       0,
       0); // asdf
     linear2ee = new Transform3d(curPos, curRot);
-  }
-
-  /**
-   * Converts the extend encoders value to meters
-   * @param val the number of rotations that the motor has detected
-   * @return the number of meters that the arm is extended
-   */
-  private double extendEncoderToMeters(double val) {
-    double newVal = 0;
-    newVal = val * (Constants.ArmConstants.kExtensionLength / Constants.ArmConstants.kExtensionRotations);
-    return newVal;
   }
 
 
@@ -254,9 +246,9 @@ public class ArmOutreach extends SubsystemBase {
     updateExtendPose();
     updatePivotPose();
     Transform3d curPose = new Transform3d();
-    curPose.plus(rotary2linear.plus(linear2ee));
+    robot2ee = curPose.plus(rotary2linear.plus(linear2ee));
 
-    robot2ee = curPose;
+    // robot2ee = curPose;
   }
 
 

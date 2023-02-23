@@ -1,7 +1,5 @@
 package frc.robot.drive;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
