@@ -45,6 +45,8 @@ public class Intake extends SubsystemBase {
 
   private double JKgSquaredMeters = 0.29;
   private double intakeGearing = 45.0;
+  private double stowedPosition = 3.14;
+  private double acceptableError = 0.01;
 
   public Intake() {
     intakeMotor = new VictorSP(Constants.IntakeConstants.kIntakeMotor); // PWM channels
@@ -53,6 +55,26 @@ public class Intake extends SubsystemBase {
 
     intakeLiftEncoder = intakeLiftMotor.getEncoder();
     intakeLiftPID = intakeLiftMotor.getPIDController();
+
+    intakeArm = LinearSystemId.createSingleJointedArmSystem(DCMotor.getNEO(1), JKgSquaredMeters, intakeGearing);
+
+    armObserver = new KalmanFilter<>(Nat.N2(),Nat.N1() ,intakeArm, VecBuilder.fill(0.2, 0.2), VecBuilder.fill(0.01), 0.02);
+    
+    armController =
+    new LinearQuadraticRegulator<>(
+        intakeArm,
+        VecBuilder.fill(0.1,10.0), // qelms. Velocity error tolerance, in radians per second. Decrease
+        // this to more heavily penalize state excursion, or make the controller behave more
+        // aggressively.
+        VecBuilder.fill(12.0), // relms. Control effort (voltage) tolerance. Decrease this to more
+        // heavily penalize control effort, or make the controller less aggressive. 12 is a good
+        // starting point because that is the (approximate) maximum voltage of a battery.
+        0.020); // Nominal time between loops. 0.020 for TimedRobot, but can be
+        // lower if using notifiers.
+
+    // The state-space loop combines a controller, observer, feedforward and plant for easy control.
+    armLoop = new LinearSystemLoop<>(intakeArm, armController, armObserver, 12.0, 0.020);
+
   
   }
 
@@ -71,31 +93,20 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(-0.2);
   }
 
-  public void setIntakePivot(double degrees){
+  public void setIntakePivot(double angle){
+    double speeds = (intakeLiftEncoder.getPosition() - angle);
+    armLoop.setNextR(VecBuilder.fill(angle, speeds));
+    armLoop.correct(VecBuilder.fill(intakeLiftEncoder.getVelocity()));
+    armLoop.predict(0.020);
+    double nextVoltage = armLoop.getU(0);
+    intakeLiftMotor.setVoltage(nextVoltage);
+  }
 
-    intakeArm = LinearSystemId.createSingleJointedArmSystem(DCMotor.getNEO(1), JKgSquaredMeters, intakeGearing);
-
-    armObserver = new KalmanFilter<>(Nat.N2(),Nat.N1() ,intakeArm, VecBuilder.fill(0.2, 0.2), VecBuilder.fill(0.01), 0.3);
-    
-    armController =
-    new LinearQuadraticRegulator<>(
-        intakeArm,
-        VecBuilder.fill(0.1,10.0), // qelms. Velocity error tolerance, in radians per second. Decrease
-        // this to more heavily penalize state excursion, or make the controller behave more
-        // aggressively.
-        VecBuilder.fill(12.0), // relms. Control effort (voltage) tolerance. Decrease this to more
-        // heavily penalize control effort, or make the controller less aggressive. 12 is a good
-        // starting point because that is the (approximate) maximum voltage of a battery.
-        0.020); // Nominal time between loops. 0.020 for TimedRobot, but can be
-// lower if using notifiers.
-
-    // The state-space loop combines a controller, observer, feedforward and plant for easy control.
-    armLoop = new LinearSystemLoop<>(intakeArm, armController, armObserver, 12.0, 0.020);
-
-    
-
-    
-
+  public void stowIntake(){
+    if(Math.abs(intakeLiftEncoder.getPosition() - stowedPosition) > acceptableError)
+    {
+      setIntakePivot(stowedPosition);
+    }
   }
 
   public void stopIntake(){
@@ -113,8 +124,6 @@ public class Intake extends SubsystemBase {
   public void stopIntakeLift(){
     intakeLiftMotor.stopMotor();
   }
-
-  
 
 
 
