@@ -14,20 +14,20 @@ import frc.robot.auto.commands.AutoDriveForSeconds;
 import frc.robot.drive.SwerveDrive;
 
 
-public class AutoSequencer extends SequentialCommandGroup {
+public class AutoHourGlass extends SequentialCommandGroup {
 
   private ChassisSpeeds speeds = new ChassisSpeeds(0.2, 0, 0);
 
-  public AutoSequencer(SwerveDrive swerve) {
+  public AutoHourGlass(SwerveDrive swerve) {
     new Rotation2d();
     addCommands(
-      new AutoDriveForDistance(swerve, 1, 0, Rotation2d.fromDegrees(0)),
-      new WaitCommand(1),
-      new AutoDriveForDistance(swerve, 0,1, Rotation2d.fromDegrees(0)),
+      new AutoDriveForDistance(swerve, 1, 1, Rotation2d.fromDegrees(0)),
       new WaitCommand(1),
       new AutoDriveForDistance(swerve, -1, 0, Rotation2d.fromDegrees(0)),
       new WaitCommand(1),
-      new AutoDriveForDistance(swerve, 0, -1, Rotation2d.fromDegrees(0)),
+      new AutoDriveForDistance(swerve, 1, -1, Rotation2d.fromDegrees(0)),
+      new WaitCommand(1),
+      new AutoDriveForDistance(swerve, -1, 0, Rotation2d.fromDegrees(0)),
       new WaitCommand(1)
       );
   }
