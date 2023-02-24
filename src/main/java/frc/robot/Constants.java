@@ -87,8 +87,8 @@ public class Constants {
                                                     {275.273, 257.607, 0.0}, // green 3, 7, 11
                                                     {87.539, 103.359, 0.0}}; // yellow 4, 8, 12
 
-    public static final double kDriveLimit = 0.3;
-    public static final double kRotationLimit = kDriveLimit/2.0;
+    public static double kDriveLimit = 0.3;
+    public static double kRotationLimit = kDriveLimit/2.0;
 
     // TODO: adjust 2nd set of modules
     public static final class ArmConstants {

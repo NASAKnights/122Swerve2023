@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
+import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.ControlType;
@@ -34,6 +35,7 @@ public class ArmOutreach extends SubsystemBase {
   private CANSparkMax outreach;
   private SparkMaxPIDController extendPID;
   private RelativeEncoder extendEncoder;
+  private SparkMaxLimitSwitch extendLimitSwitch;
 
   private CANSparkMax arm;
   private CANSparkMax armFollower;
@@ -55,6 +57,7 @@ public class ArmOutreach extends SubsystemBase {
     outreach = new CANSparkMax(Constants.ArmConstants.kExtendMotor, MotorType.kBrushless); 
     extendPID = outreach.getPIDController();
     extendEncoder = outreach.getEncoder();
+    extendLimitSwitch = outreach.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
 
     arm = new CANSparkMax(Constants.ArmConstants.kPivotMotor, MotorType.kBrushless);
     armFollower = new CANSparkMax(Constants.ArmConstants.kPivotMotorFollower, MotorType.kBrushless);
@@ -69,11 +72,8 @@ public class ArmOutreach extends SubsystemBase {
 
     arm.setIdleMode(IdleMode.kBrake);
     outreach.setIdleMode(IdleMode.kBrake);
-    pivotAngle.setZeroOffset(0.474);
-    // 268.23
+    pivotAngle.setZeroOffset(0.474); // 268.23
     pivotAngle.setInverted(true);
-
-    // pivotAngle.setPositionConversionFactor(360.0); // Sets Units of Encoder to degrees, native untis inn rotations
 
     extendEncoder.setPositionConversionFactor((Constants.ArmConstants.kExtensionLength /Constants.ArmConstants.kExtensionRotations));
     pivotAngle.setPositionConversionFactor(2 * Math.PI);
@@ -136,6 +136,9 @@ public class ArmOutreach extends SubsystemBase {
     extendEncoder.setPosition(0.0);
   }
 
+  public boolean limitSwitchPressed(){
+    return extendLimitSwitch.isPressed();
+  }
 
   public void forward(){
     outreach.set(-0.2);
