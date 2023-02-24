@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.drive.ModuleTest;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.SwerveModule;
+import frc.robot.auto.AutoHexagon;
+import frc.robot.auto.AutoHourGlass;
+import frc.robot.auto.AutoOutOfCommunity;
 import frc.robot.auto.AutoSequencer;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.DriveForwardTime;
@@ -102,7 +105,7 @@ public class RobotContainer {
     }
 
     public CommandBase autonomousInit(){
-        return new AutoSequencer(swerve);
+        return new AutoOutOfCommunity(swerve);
     }
 
     public void testInit() {

@@ -24,10 +24,11 @@ public class DriveCommand extends CommandBase {
     @Override
     public void execute() {
 
-        double limit = 0.20;
+        double limit = 0.50;
+        double rotLimit = 0.25;
         double xSpeed = -MathUtil.calculateAxis(driver.getY(), Constants.kDefaultAxisDeadband, limit * Constants.kMaxTranslationalVelocity);
         double ySpeed = -MathUtil.calculateAxis(driver.getX(), Constants.kDefaultAxisDeadband, limit * Constants.kMaxTranslationalVelocity);
-        double thetaSpeed = -MathUtil.calculateAxis(driver.getZ(), Constants.kDefaultAxisDeadband, limit * Constants.kMaxRotationalVelocity);
+        double thetaSpeed = -MathUtil.calculateAxis(driver.getZ(), Constants.kDefaultAxisDeadband, rotLimit * Constants.kMaxRotationalVelocity);
 
         // SmartDashboard.putNumber("z", driver.getZ()); 
         // SmartDashboard.putNumber("theta", thetaSpeed);

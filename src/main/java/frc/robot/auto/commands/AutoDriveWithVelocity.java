@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drive.SwerveDrive;
 
-public class AutoDriveForDistance extends CommandBase {
+public class AutoDriveWithVelocity extends CommandBase {
 
   private SwerveDrive swerve;
   private ChassisSpeeds speeds;
@@ -30,12 +30,15 @@ public class AutoDriveForDistance extends CommandBase {
 
   private double velocityLowerLimit = 0.2;
   private double rotationalLowerLimit = 0.2;
+
+  private double maxVelocity = 1;
   
-  public AutoDriveForDistance(SwerveDrive swerve, double metersX, double metersY, Rotation2d rotation) {
+  public AutoDriveWithVelocity(SwerveDrive swerve, double metersX, double metersY, Rotation2d rotation, double maxVelocity) {
     this.swerve = swerve;
     this.metersX = metersX;
     this.metersY = metersY;
     this.rotation = rotation;
+    this.maxVelocity = maxVelocity;
     
     addRequirements(swerve);
   }
@@ -43,8 +46,8 @@ public class AutoDriveForDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pidX = new PIDController(0.5, 0, 0);
-    pidY = new PIDController(0.5, 0, 0);
+    pidX = new PIDController(maxVelocity, 0, 0);
+    pidY = new PIDController(maxVelocity, 0, 0);
     pidRot = new PIDController(0.15, 0, 0);
     pidX.setTolerance(0.05); 
     pidY.setTolerance(0.05);
@@ -56,11 +59,7 @@ public class AutoDriveForDistance extends CommandBase {
     Rotation2d currentRotationTest = swerve.getHeading();
     // swerve.resetHeading();
     //swerve.resetDriveEncoders();
-    System.out.println("HEADING BEFORE" + swerve.getHeading());
-    System.out.println("BEFORE" + swerve.getPose());
     swerve.resetPose(new Pose2d(0, 0, currentRotationTest));
-    System.out.println("AFTER" + swerve.getPose());
-    System.out.println("HEADING AFTER" + swerve.getHeading());
     //NEED TO FIX RESET
 
     System.out.println("Initialized \n Initialized \n Initialized \n Initialized \nInitialized \n Initialized \n Initialized \n");
