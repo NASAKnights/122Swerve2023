@@ -21,6 +21,8 @@ public class Constants {
     public static final int kOperatorPort = 1;
     public static final SPI.Port kNavXPort = SPI.Port.kMXP;
 
+    public static int kGamePiece = -1;
+
     // public static final SDSModuleType kSDSModule = SDSModuleType.MK4I_L2;
     public static final SDSModuleType kSDSModule = SDSModuleType.MK4I_L3;
 
@@ -105,6 +107,10 @@ public class Constants {
         public static final double kExtentionMinLength = 0;
 
         public static final double kPivotClosedLoopRamp = 0.3;
+
+        public static final double kExtensionRatio = 0.3556 / 34.785;
+
+        public static final int kCurrentLimit = 40;
     }
 
 
@@ -170,9 +176,6 @@ public class Constants {
                         kTurnPeakCurrentLimit,
                         kTurnPeakCurrentDuration);
 
-                this.openloopRamp = kTurnOpenLoopRamp;
-                this.closedloopRamp = kTurnCloseLoopRamp;
-
                 this.initializationStrategy = SensorInitializationStrategy.BootToZero;
                 this.voltageCompSaturation = kTurnVoltageComp;
             }
@@ -188,8 +191,6 @@ public class Constants {
 
         public static final double kOpenLoopRamp = 1.00;
         public static final double kClosedLoopRamp = 1.00;
-        public static final double kTurnOpenLoopRamp = 0.25;
-        public static final double kTurnCloseLoopRamp = 0.25;
 
         public static final boolean kTurnEnableCurrentLimit = true;
         public static final int kTurnContinuousCurrentLimit = 25;
@@ -227,24 +228,22 @@ public class Constants {
         public static final double kMinPressure = 65.0;
         public static final double kMaxPressure = 119.0;
 
-        public static final int kSolenoidForward = 1;
-        public static final int kSolenoidReverse = 2;
-        // public static final int kLeftSolenoidForward = 2;
-        // public static final int kLeftSolenoidReverse = 3;
+        public static final int kSolenoidForward = 0;
+        public static final int kSolenoidReverse = 1;
     }
 
-    public static void main(String[] args) {
-        SDSModuleType module = SDSModuleType.MK4_L3;
+    // public static void main(String[] args) {
+    //     SDSModuleType module = SDSModuleType.MK4_L3;
 
-        double trackwidth = 0.4;
-        double wheelbase = 0.4;
+    //     double trackwidth = 0.4;
+    //     double wheelbase = 0.4;
 
-        double maxTransVel = (6380.0 / 60) * module.getWheelDiameter() * Math.PI
-                * module.getDriveReduction();
-        double maxRotVel = kMaxTranslationalVelocity
-                / Math.hypot(trackwidth / 2, wheelbase / 2);
-        System.out.println("max trans vel: " + maxTransVel + " m/s");
-        System.out.println("max rot vel: " + maxRotVel + " rad/s");
-        System.out.println("max rot vel: " + maxRotVel * 180 / Math.PI + " deg/s");
-    }
+    //     double maxTransVel = (6380.0 / 60) * module.getWheelDiameter() * Math.PI
+    //             * module.getDriveReduction();
+    //     double maxRotVel = kMaxTranslationalVelocity
+    //             / Math.hypot(trackwidth / 2, wheelbase / 2);
+    //     System.out.println("max trans vel: " + maxTransVel + " m/s");
+    //     System.out.println("max rot vel: " + maxRotVel + " rad/s");
+    //     System.out.println("max rot vel: " + maxRotVel * 180 / Math.PI + " deg/s");
+    // }
 }

@@ -25,6 +25,7 @@ import edu.wpi.first.math.system.LinearSystemLoop;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -55,6 +56,8 @@ public class Intake extends SubsystemBase {
 
     intakeLiftEncoder = intakeLiftMotor.getEncoder();
     intakeLiftPID = intakeLiftMotor.getPIDController();
+    
+    resetPivotEncoder();
 
     intakeArm = LinearSystemId.createSingleJointedArmSystem(DCMotor.getNEO(1), JKgSquaredMeters, intakeGearing);
 
@@ -75,22 +78,28 @@ public class Intake extends SubsystemBase {
     // The state-space loop combines a controller, observer, feedforward and plant for easy control.
     armLoop = new LinearSystemLoop<>(intakeArm, armController, armObserver, 12.0, 0.020);
 
-  
   }
 
   public void runIntakeForward(){
+    // takes in cone, outputs cube
+    intakeMotor.set(0.6);
 
   }
   public void runIntakeReverse(){
-    
+    // outputs cone, takes in cube
+    intakeMotor.set(-0.6);
   }
 
   public void setIntake(){
-    intakeMotor.set(0.2);
+    intakeMotor.set(0.6);
   }
 
   public void setReverse(){
-    intakeMotor.set(-0.2);
+    intakeMotor.set(-0.6);
+  }
+
+  public void resetPivotEncoder(){
+    intakeLiftEncoder.setPosition(0.0);
   }
 
   public void setIntakePivot(double angle){
@@ -123,6 +132,10 @@ public class Intake extends SubsystemBase {
 
   public void stopIntakeLift(){
     intakeLiftMotor.stopMotor();
+  }
+
+  public void updateBoard(){
+    SmartDashboard.putNumber("Intake Position", intakeLiftEncoder.getPosition());
   }
 
 
