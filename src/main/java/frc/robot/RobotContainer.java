@@ -20,6 +20,7 @@ import frc.robot.armoutreach.commands.ExtendToLength;
 import frc.robot.armoutreach.commands.LiftArm;
 import frc.robot.armoutreach.commands.LiftToAngle;
 import frc.robot.armoutreach.commands.LowerArm;
+import frc.robot.armoutreach.commands.LowerToAngle;
 import frc.robot.armoutreach.commands.Retract;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
@@ -88,9 +89,10 @@ public class RobotContainer {
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
         new JoystickButton(driver, 5).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
         new JoystickButton(driver, 6).whileTrue(new RepeatCommand (new Retract(arm)));
-        // new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftArm(arm)));
-        new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftToAngle(arm)));
-        new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerArm(arm)));
+        new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftArm(arm)));
+        // new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftToAngle(arm)));
+        // new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerArm(arm)));
+        new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
         new JoystickButton(operator,5).whileTrue(new RepeatCommand(new LiftIntake(intake)));
         new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
 
