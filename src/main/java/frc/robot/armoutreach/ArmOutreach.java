@@ -4,6 +4,8 @@
 
 package frc.robot.armoutreach;
 
+import org.opencv.video.TrackerDaSiamRPN_Params;
+
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -18,7 +20,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -208,8 +212,11 @@ public class ArmOutreach extends SubsystemBase {
   /**
    * @return Transform3d for robot2ee
    */
-  public Transform3d getXY() {
-    return robot2ee;
+  public Translation2d getXY() {
+    double x = robot2ee.getX();
+    double y = robot2ee.getY();
+    Translation2d val = new Translation2d(x, y);
+    return val;
   }
 
   /**

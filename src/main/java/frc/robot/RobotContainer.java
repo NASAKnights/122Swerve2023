@@ -27,6 +27,7 @@ import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.SwerveModule;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.DriveForwardTime;
+import frc.robot.indexer.Indexer;
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.LiftIntake;
 import frc.robot.intake.commands.LowerIntake;
@@ -46,6 +47,8 @@ public class RobotContainer {
 
     private PneumaticHub pHub;
     private Claw claw;
+
+    private Indexer indexer = new Indexer();
 
     public RobotContainer() {
         driver = new Joystick(Constants.kDriverPort);
@@ -101,6 +104,7 @@ public class RobotContainer {
         // test.updateSmartDash();
         arm.updateBoard();
         
+        indexer.checkIndex();
         
     }
 
