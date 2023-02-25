@@ -57,7 +57,9 @@ public class ArmOutreach extends SubsystemBase {
     outreach = new CANSparkMax(Constants.ArmConstants.kExtendMotor, MotorType.kBrushless); 
     extendPID = outreach.getPIDController();
     extendEncoder = outreach.getEncoder();
-    extendLimitSwitch = outreach.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    // extendLimitSwitch = outreach.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
+    // extendLimitSwitch = outreach.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+    // extendLimitSwitch.enableLimitSwitch(false);
 
     arm = new CANSparkMax(Constants.ArmConstants.kPivotMotor, MotorType.kBrushless);
     armFollower = new CANSparkMax(Constants.ArmConstants.kPivotMotorFollower, MotorType.kBrushless);
@@ -74,8 +76,10 @@ public class ArmOutreach extends SubsystemBase {
     outreach.setIdleMode(IdleMode.kBrake);
     pivotAngle.setZeroOffset(0.474); // 268.23
     pivotAngle.setInverted(true);
+    double ratio = 0.3556 / 34.785;
 
-    extendEncoder.setPositionConversionFactor((Constants.ArmConstants.kExtensionLength /Constants.ArmConstants.kExtensionRotations));
+    // extendEncoder.setPositionConversionFactor((Constants.ArmConstants.kExtensionLength /Constants.ArmConstants.kExtensionRotations));
+    extendEncoder.setPositionConversionFactor(ratio);
     pivotAngle.setPositionConversionFactor(2 * Math.PI);
     outreach.setSmartCurrentLimit(40);
     arm.setSmartCurrentLimit(40);
@@ -93,6 +97,14 @@ public class ArmOutreach extends SubsystemBase {
   }
 
   public void setInitialPID(){
+    double kPextend = 1.5; 
+    double kIextend = 5e-4;
+    double kDextend = 0.01; 
+    double kIzextend = 0; 
+    double kFFextend = 0; 
+    double kMaxOutputextend = 1; 
+    double kMinOutputextend = -1;
+
     kP = 0.1; 
     kI = 1e-4;
     kD = 1; 
@@ -101,21 +113,21 @@ public class ArmOutreach extends SubsystemBase {
     kMaxOutput = 1; 
     kMinOutput = -1;
 
-    extendPID.setP(kP);
-    extendPID.setI(kI);
-    extendPID.setD(kD);
-    extendPID.setIZone(kIz);
-    extendPID.setFF(kFF);
-    extendPID.setOutputRange(kMinOutput, kMaxOutput);
+    extendPID.setP(kPextend);
+    extendPID.setI(kIextend);
+    extendPID.setD(kDextend);
+    extendPID.setIZone(kIzextend);
+    extendPID.setFF(kFFextend);
+    extendPID.setOutputRange(kMinOutputextend, kMaxOutputextend);
 
     pivotPID.setP(kP);
     pivotPID.setI(kI);
     pivotPID.setD(kD);
     pivotPID.setIZone(kIz);
     pivotPID.setFF(kFF);
-    pivotPID.setOutputRange(kMinOutput, kMaxOutput);
+    // pivotPID.setOutputRange(kMinOutput, kMaxOutput);
 
-    pivotPID.setOutputRange(0, 0.2);
+    pivotPID.setOutputRange(0, 0.1);
     pivotPID.setPositionPIDWrappingEnabled(false); //see what happens
 
   }
@@ -136,23 +148,22 @@ public class ArmOutreach extends SubsystemBase {
     extendEncoder.setPosition(0.0);
   }
 
-  public boolean limitSwitchPressed(){
-    return extendLimitSwitch.isPressed();
-  }
-
   public void forward(){
-    outreach.set(-0.2);
+    outreach.set(0.2);
     // System.out.println("INSIDE THE FORWARD");
   }
   public void stop(){
     outreach.stopMotor();
   }
   public void reverse(){
-    outreach.set(0.2);
+    outreach.set(-0.2);
   }
 
   public void extendFully(){
-    extendPID.setReference(Constants.ArmConstants.kExtensionRotations, CANSparkMax.ControlType.kPosition);
+    extendPID.setReference(0.375, CANSparkMax.ControlType.kPosition);
+  }
+  public void retractToZero(){
+    extendPID.setReference(0.0, CANSparkMax.ControlType.kPosition);
   }
 
   public void liftArm(){
@@ -167,7 +178,7 @@ public class ArmOutreach extends SubsystemBase {
   }
 
   public void liftArmtoAngle(){
-    pivotPID.setReference(0.9, ControlType.kPosition);
+    pivotPID.setReference(1.9 * Math.PI, ControlType.kPosition);
     
   }
   public void lowerArmtoAngle(){
@@ -262,6 +273,7 @@ public class ArmOutreach extends SubsystemBase {
     updateEEPos();
     SmartDashboard.putNumber("Arm X Pos", robot2ee.getX());
     SmartDashboard.putNumber("Arm Y Pos", robot2ee.getY());
+    // SmartDashboard.putBoolean("Limit F switch", limitSwitchPressed());
 
   }
 }

@@ -7,10 +7,10 @@ package frc.robot.armoutreach.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.armoutreach.ArmOutreach;
 
-public class Retract extends CommandBase {
-  /** Creates a new Retract. */
+public class ExtendToLength extends CommandBase {
+  /** Creates a new ExtendToLength. */
   private ArmOutreach arm;
-  public Retract(ArmOutreach arm) {
+  public ExtendToLength(ArmOutreach arm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
     addRequirements(arm);
@@ -23,14 +23,7 @@ public class Retract extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (arm.limitSwitchPressed()) {
-    //   arm.reverse();
-    // }
-    // else {
-    //   arm.stop();
-    // }
-    arm.retractToZero();
-    arm.updateBoard();
+    arm.extendFully();
   }
 
   // Called once the command ends or is interrupted.
