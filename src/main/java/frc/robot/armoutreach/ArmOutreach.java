@@ -12,6 +12,7 @@ import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -40,58 +41,59 @@ public class ArmOutreach extends SubsystemBase {
   private CANSparkMax arm;
   private CANSparkMax armFollower;
   private SparkMaxPIDController pivotPID;
-  private SparkMaxAbsoluteEncoder pivotAngle;
-  // private SparkMaxAlternateEncoder pivotAngle;
-  private RelativeEncoder pivotAngleQuad;
+  private SparkMaxAbsoluteEncoder pivotAngle; // through bore encoder
+  private RelativeEncoder pivotAngleQuad; // integrated encoder
 
 
+  public double kPextend, kIextend, kDextend, kIzextend, kFFextend, kMaxOutputextend, kMinOutputextend;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+
 
   private Transform3d robot2ee;
   private Transform3d robot2rotary;
   private Transform3d rotary2linear;
   private Transform3d linear2ee;
 
-  private double up = 0.5;
-  private double down = -0.5;
-
-
   public ArmOutreach() {
+
     outreach = new CANSparkMax(Constants.ArmConstants.kExtendMotor, MotorType.kBrushless); 
+    arm = new CANSparkMax(Constants.ArmConstants.kPivotMotor, MotorType.kBrushless);
+    armFollower = new CANSparkMax(Constants.ArmConstants.kPivotMotorFollower, MotorType.kBrushless);
+    
+    outreach.restoreFactoryDefaults();
+    arm.restoreFactoryDefaults();
+    
     extendPID = outreach.getPIDController();
     extendEncoder = outreach.getEncoder();
 
-    arm = new CANSparkMax(Constants.ArmConstants.kPivotMotor, MotorType.kBrushless);
-    armFollower = new CANSparkMax(Constants.ArmConstants.kPivotMotorFollower, MotorType.kBrushless);
     pivotPID = arm.getPIDController();
     pivotAngle = arm.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle);
+    // pivotAngleQuad = arm.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 8192);
     pivotAngleQuad = arm.getEncoder();
 
     pivotPID.setFeedbackDevice(pivotAngleQuad);
 
-    pivotAngle.setPositionConversionFactor(2 * Math.PI);
+    pivotAngle.setPositionConversionFactor(2 * Math.PI); // change from rotations to radians
+    pivotAngleQuad.setPositionConversionFactor(2 * Math.PI); // change from rotations to radians
 
-    pivotAngleQuad.setPositionConversionFactor(2* Math.PI);
-    pivotAngleQuad.setPosition(pivotAngle.getPosition());
-    
-    outreach.restoreFactoryDefaults();
-    arm.restoreFactoryDefaults();
     resetExtensionEncoder();
     setInitialPID();
+    
     outreach.setInverted(true);
-
     arm.setIdleMode(IdleMode.kBrake);
     outreach.setIdleMode(IdleMode.kBrake);
+
     pivotAngle.setZeroOffset(0.474); // 268.23
     pivotAngle.setInverted(true);
-    double ratio = 0.3556 / 34.785;
 
     // extendEncoder.setPositionConversionFactor((Constants.ArmConstants.kExtensionLength /Constants.ArmConstants.kExtensionRotations));
-    extendEncoder.setPositionConversionFactor(ratio);
-    outreach.setSmartCurrentLimit(40);
-    arm.setSmartCurrentLimit(40);
+    extendEncoder.setPositionConversionFactor(Constants.ArmConstants.kExtensionRatio); // change from rotations to meters (depends on motor)
+    outreach.setSmartCurrentLimit(Constants.ArmConstants.kCurrentLimit);
+    arm.setSmartCurrentLimit(Constants.ArmConstants.kCurrentLimit);
 
     arm.setClosedLoopRampRate(Constants.ArmConstants.kPivotClosedLoopRamp);
+
+    resetPivotToAbsolute();
 
     armFollower.follow(arm, true);
 
@@ -101,18 +103,23 @@ public class ArmOutreach extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    checkRetracted();
+  }
+
+  public void initEncoders(){
+
   }
 
   public void setInitialPID(){
-    double kPextend = 1.5; 
-    double kIextend = 5e-4;
-    double kDextend = 0.01; 
-    double kIzextend = 0; 
-    double kFFextend = 0; 
-    double kMaxOutputextend = 1; 
-    double kMinOutputextend = -1;
+    kPextend = 1.5; 
+    kIextend = 5e-4;
+    kDextend = 0.01; 
+    kIzextend = 0; 
+    kFFextend = 0; 
+    kMaxOutputextend = 1; 
+    kMinOutputextend = -1;
 
-    kP = 0.8; 
+    kP = 0.9; 
     kI = 1e-4;
     kD = 0.01; 
     kIz = 0; 
@@ -134,7 +141,7 @@ public class ArmOutreach extends SubsystemBase {
     pivotPID.setFF(kFF);
     pivotPID.setOutputRange(kMinOutput, kMaxOutput);
 
-    pivotPID.setPositionPIDWrappingEnabled(false); //see what happens
+    pivotPID.setPositionPIDWrappingEnabled(true); //see what happens
 
   }
 
@@ -150,13 +157,22 @@ public class ArmOutreach extends SubsystemBase {
     // o_2 = offset from end of joint 2 to cog of joint 2
   }
 
+  public void checkRetracted(){
+    if (outreach.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isPressed()){
+      resetExtensionEncoder(); // resets the extension encoder when the limit switch is pressed
+    }
+  }
+
   public void resetExtensionEncoder(){
     extendEncoder.setPosition(0.0);
   }
 
+  public void resetPivotToAbsolute(){
+    pivotAngleQuad.setPosition(pivotAngle.getPosition());
+  }
+
   public void forward(){
     outreach.set(0.2);
-    // System.out.println("INSIDE THE FORWARD");
   }
   public void stop(){
     outreach.stopMotor();
@@ -276,6 +292,7 @@ public class ArmOutreach extends SubsystemBase {
   public void updateBoard(){
     SmartDashboard.putNumber("Extend Encoder",extendEncoder.getPosition());
     SmartDashboard.putNumber("Pivot Encoder Absolute", pivotAngle.getPosition());
+    SmartDashboard.putNumber("Pivot Encoder Relative", pivotAngleQuad.getPosition());
     updateEEPos();
     SmartDashboard.putNumber("Arm X Pos", robot2ee.getX());
     SmartDashboard.putNumber("Arm Y Pos", robot2ee.getY());

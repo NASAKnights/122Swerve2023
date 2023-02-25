@@ -107,6 +107,10 @@ public class Constants {
         public static final double kExtentionMinLength = 0;
 
         public static final double kPivotClosedLoopRamp = 0.3;
+
+        public static final double kExtensionRatio = 0.3556 / 34.785;
+
+        public static final int kCurrentLimit = 40;
     }
 
 

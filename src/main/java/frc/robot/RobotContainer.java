@@ -64,10 +64,11 @@ public class RobotContainer {
         pHub = new PneumaticHub(Constants.PneumaticConstants.kPneumaticHubModule); // 2
         pHub.enableCompressorAnalog(Constants.PneumaticConstants.kMinPressure, Constants.PneumaticConstants.kMaxPressure);
         swerve = new SwerveDrive(navx);
+        
         swerve.readoffsets();
         swerve.initDashboard();
-        // swerve.updateOffsets();
         swerve.updateSmartDash();
+        // swerve.updateOffsets();
 
         configureDefaultCommands();
         configureButtonBindings();
@@ -82,17 +83,21 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         new JoystickButton(driver, 1).onTrue(new InstantCommand(swerve::resetHeading));
-        new JoystickButton(operator, 2).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
-        new JoystickButton(operator, 3).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
+        
         // new JoystickButton(driver,4).onTrue(new DriveForwardTime(swerve, 2));
         new JoystickButton(driver, 7).onTrue(new OpenClaw(claw));
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
+        
         new JoystickButton(driver, 5).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
         new JoystickButton(driver, 6).whileTrue(new RepeatCommand (new Retract(arm)));
+
         new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftArm(arm)));
         // new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftToAngle(arm)));
-        // new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerArm(arm)));
-        new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
+        new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerArm(arm)));
+        // new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
+        
+        new JoystickButton(operator, 2).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
+        new JoystickButton(operator, 3).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
         new JoystickButton(operator,5).whileTrue(new RepeatCommand(new LiftIntake(intake)));
         new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
 
