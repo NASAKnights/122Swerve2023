@@ -8,23 +8,24 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.armoutreach.commands.Retract;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.OpenClaw;
+import frc.robot.colorSensor.ColorInterpreter;
 import frc.robot.armoutreach.commands.HandOff;
 import frc.robot.intake.Intake;
-import frc.robot.intake.commands.SetIntakeReverse;
 import frc.robot.intake.commands.StopIntake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class handoffSequence extends SequentialCommandGroup {
+public class HandOffSequence extends SequentialCommandGroup {
   private ArmOutreach arm;
   private Intake intake;
   private Claw claw;
+  private ColorInterpreter indexer;
   /** Creates a new handoffSequence. */
-  public handoffSequence() {
+  public HandOffSequence() {
     addCommands(
       new OpenClaw(claw),
-      new HandOff(),
+      new HandOff(arm, claw, intake, indexer),
       new Retract(arm),
       new StopIntake()
     );

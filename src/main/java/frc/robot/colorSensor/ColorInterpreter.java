@@ -2,18 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.indexer;
+package frc.robot.colorSensor;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Indexer extends SubsystemBase {
+public class ColorInterpreter extends SubsystemBase {
 
   private AnalogInput input = new AnalogInput(0);
   /** Creates a new Indexer. */
-  public Indexer() {
+  public ColorInterpreter() {
   }
 
   public String checkIndex(){

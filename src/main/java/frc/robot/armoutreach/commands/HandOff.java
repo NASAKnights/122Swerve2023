@@ -4,25 +4,29 @@
 
 package frc.robot.armoutreach.commands;
 
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.claw.Claw;
-import frc.robot.indexer.Indexer;
+import frc.robot.colorSensor.ColorInterpreter;
 import frc.robot.intake.Intake;
 
 public class HandOff extends CommandBase {
   private ArmOutreach arm;
   private Claw claw;
-  private Indexer indexer;
-  private boolean finished = false;
   private Intake intake;
-  /** Creates a new handoffCube. */
-  public HandOff() {
-    // Use addRequirements() here to declare subsystem dependencies.
+
+  private ColorInterpreter indexer;
+
+  private boolean finished = false;
+
+  public HandOff(ArmOutreach arm, Claw claw, Intake intake, ColorInterpreter indexer) {
+    this.arm = arm;
+    this.claw = claw;
+    this.intake = intake;
+    this.indexer = indexer;
+
+    addRequirements(arm, claw, intake, indexer);
   }
 
   // Called when the command is initially scheduled.
@@ -30,6 +34,8 @@ public class HandOff extends CommandBase {
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
+
+  // NOTE/DISCLAIMER: The translations need to be tweaked
   @Override
   public void execute() {
     if(indexer.checkIndex() == "Cube"){

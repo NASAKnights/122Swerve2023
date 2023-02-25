@@ -4,12 +4,8 @@
 
 package frc.robot.claw;
 
-import com.ctre.phoenix.led.CANdle.VBatOutputMode;
-
-import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.control.pneumatics.NKDoubleSolenoid;
 import frc.robot.Constants;
@@ -24,7 +20,8 @@ public class Claw extends SubsystemBase {
   public Claw() {
 
     // this.pHub = pHub;
-    this.clawSolenoid = new NKDoubleSolenoid(2,PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kSolenoidForward, Constants.PneumaticConstants.kSolenoidReverse);
+    this.clawSolenoid = new NKDoubleSolenoid(2,PneumaticsModuleType.REVPH, 
+    Constants.PneumaticConstants.kSolenoidForward, Constants.PneumaticConstants.kSolenoidReverse);
     // this.leftClawSolenoid = new NKDoubleSolenoid(2,PneumaticsModuleType.REVPH, Constants.PneumaticConstants.kLeftSolenoidForward, Constants.PneumaticConstants.kLeftSolenoidReverse);
 
   }

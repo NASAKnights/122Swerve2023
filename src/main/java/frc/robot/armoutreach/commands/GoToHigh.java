@@ -5,7 +5,6 @@
 package frc.robot.armoutreach.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.armoutreach.ArmOutreach;
 
 public class GoToHigh extends CommandBase {
@@ -16,7 +15,6 @@ public class GoToHigh extends CommandBase {
     this.arm = arm;
 
     addRequirements(arm);
-
   }
 
   // Called when the command is initially scheduled.
