@@ -81,12 +81,12 @@ public class RobotContainer {
         new JoystickButton(driver, 7).onTrue(new OpenClaw(claw));
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
         
-        new JoystickButton(driver, 5).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
-        new JoystickButton(driver, 6).whileTrue(new RepeatCommand (new Retract(arm)));
+        new JoystickButton(operator, 1).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
+        new JoystickButton(operator, 4).whileTrue(new RepeatCommand (new Retract(arm)));
 
-        new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftArm(arm)));
+        new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftArm(arm)));
         // new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftToAngle(arm)));
-        new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerArm(arm)));
+        new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerArm(arm)));
         // new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
         
         new JoystickButton(operator, 2).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));

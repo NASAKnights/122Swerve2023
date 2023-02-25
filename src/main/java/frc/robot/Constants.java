@@ -89,7 +89,7 @@ public class Constants {
                                                     {275.273, 257.607, 0.0}, // green 3, 7, 11
                                                     {87.539, 103.359, 0.0}}; // yellow 4, 8, 12
 
-    public static double kDriveLimit = 0.3;
+    public static double kDriveLimit = 0.45;
     public static double kRotationLimit = kDriveLimit/2.0;
 
     // TODO: adjust 2nd set of modules
@@ -226,7 +226,7 @@ public class Constants {
         public static final int kAnalogPressureChannel = 1;
 
         public static final double kMinPressure = 65.0;
-        public static final double kMaxPressure = 119.0;
+        public static final double kMaxPressure = 110.0;
 
         public static final int kSolenoidForward = 0;
         public static final int kSolenoidReverse = 1;
