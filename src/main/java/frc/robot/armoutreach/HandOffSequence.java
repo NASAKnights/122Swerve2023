@@ -23,12 +23,17 @@ public class HandOffSequence extends SequentialCommandGroup {
   private Claw claw;
   private ColorInterpreter indexer;
   /** Creates a new handoffSequence. */
-  public HandOffSequence() {
+  public HandOffSequence(ArmOutreach arm, Intake intake, Claw claw, ColorInterpreter indexer) {
+    this.arm = arm;
+    this.intake = intake;
+    this.claw = claw;
+    this.indexer = indexer;
+  
     addCommands(
       new OpenClaw(claw),
       new HandOff(arm, claw, intake, indexer),
       new Retract(arm),
-      new StopIntake()
+      new StopIntake(intake)
     );
   }
 }

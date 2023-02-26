@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -62,9 +63,13 @@ public class ArmOutreach extends SubsystemBase {
     pivotAngleQuad = arm.getEncoder();
 
     pivotPID.setFeedbackDevice(pivotAngleQuad);
+    pivotAngle.setZeroOffset(0.474); // 268.23
+    // resetPivotToAbsolute();
 
     pivotAngle.setPositionConversionFactor(2 * Math.PI); // change from rotations to radians
-    pivotAngleQuad.setPositionConversionFactor(2 * Math.PI); // change from rotations to radians
+    // pivotAngleQuad.setPositionConversionFactor(2 * Math.PI); // change from rotations to radians
+    // (4.5/1)
+    pivotAngleQuad.setPositionConversionFactor((1.0 / 45.0 /4.5) * 2 * Math.PI);
 
     resetExtensionEncoder();
     setInitialPID();
@@ -73,7 +78,6 @@ public class ArmOutreach extends SubsystemBase {
     arm.setIdleMode(IdleMode.kBrake);
     outreach.setIdleMode(IdleMode.kBrake);
 
-    pivotAngle.setZeroOffset(0.474); // 268.23
     pivotAngle.setInverted(true);
 
     // extendEncoder.setPositionConversionFactor((Constants.ArmConstants.kExtensionLength /Constants.ArmConstants.kExtensionRotations));
@@ -84,6 +88,7 @@ public class ArmOutreach extends SubsystemBase {
     arm.setClosedLoopRampRate(Constants.ArmConstants.kPivotClosedLoopRamp);
 
     resetPivotToAbsolute();
+    // pivotAngleQuad.setPosition(0.0);
 
     armFollower.follow(arm, true);
 
@@ -194,7 +199,7 @@ public class ArmOutreach extends SubsystemBase {
     
   }
   public void lowerArmtoAngle(){
-    pivotPID.setReference(-0.25 * Math.PI, ControlType.kPosition);
+    pivotPID.setReference(1.5 * Math.PI, ControlType.kPosition);
 
   }
 

@@ -14,6 +14,7 @@ import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.ExtendToLength;
 import frc.robot.armoutreach.commands.LiftArm;
 import frc.robot.armoutreach.commands.LowerArm;
+import frc.robot.armoutreach.commands.LowerToAngle;
 import frc.robot.armoutreach.commands.Retract;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
@@ -54,6 +55,8 @@ public class RobotContainer {
         claw = new Claw();
         arm = new ArmOutreach();
 
+        indexer = new ColorInterpreter();
+
         pHub = new PneumaticHub(Constants.PneumaticConstants.kPneumaticHubModule); // 2
         pHub.enableCompressorAnalog(Constants.PneumaticConstants.kMinPressure, Constants.PneumaticConstants.kMaxPressure);
         swerve = new SwerveDrive(navx);
@@ -86,8 +89,8 @@ public class RobotContainer {
 
         new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftArm(arm)));
         // new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftToAngle(arm)));
-        new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerArm(arm)));
-        // new JoystickButton(driver, 3).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
+        // new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerArm(arm)));
+        new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
         
         new JoystickButton(operator, 2).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
         new JoystickButton(operator, 3).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));

@@ -10,8 +10,10 @@ import frc.robot.intake.Intake;
 public class StopIntake extends CommandBase {
   /** Creates a new stopIntake. */
   private Intake intake;
-  public StopIntake() {
+  public StopIntake(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
