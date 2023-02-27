@@ -18,16 +18,9 @@ import frc.robot.intake.commands.StopIntake;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class HandOffSequence extends SequentialCommandGroup {
-  private ArmOutreach arm;
-  private Intake intake;
-  private Claw claw;
-  private ColorInterpreter indexer;
+  
   /** Creates a new handoffSequence. */
   public HandOffSequence(ArmOutreach arm, Intake intake, Claw claw, ColorInterpreter indexer) {
-    this.arm = arm;
-    this.intake = intake;
-    this.claw = claw;
-    this.indexer = indexer;
   
     addCommands(
       new OpenClaw(claw),
