@@ -28,6 +28,7 @@ public class AutoDriveForDistance extends CommandBase {
   private PIDController pidRot;
   private Pose2d desiredPose;
 
+  //TODO: Fine tune the velocity and rotational lower limits
   private double velocityLowerLimit = 0.2;
   private double rotationalLowerLimit = 0.2;
   
@@ -43,6 +44,7 @@ public class AutoDriveForDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Maybe add pid reset function here(???)
     pidX = new PIDController(0.5, 0, 0);
     pidY = new PIDController(0.5, 0, 0);
     pidRot = new PIDController(0.15, 0, 0);
@@ -50,20 +52,11 @@ public class AutoDriveForDistance extends CommandBase {
     pidY.setTolerance(0.05);
     pidRot.setTolerance(0.1);
 
-    //If the rotational tolerance is set too low it tends to make the robot squeak 
-    //(Side Note: Positional tolerance also makes the robot squeak if its too low but its more 'tolerable') 
-
     Rotation2d currentRotationTest = swerve.getHeading();
     // swerve.resetHeading();
-    //swerve.resetDriveEncoders();
-    System.out.println("HEADING BEFORE" + swerve.getHeading());
-    System.out.println("BEFORE" + swerve.getPose());
+    // swerve.resetDriveEncoders();
     swerve.resetPose(new Pose2d(0, 0, currentRotationTest));
-    System.out.println("AFTER" + swerve.getPose());
-    System.out.println("HEADING AFTER" + swerve.getHeading());
-    //NEED TO FIX RESET
-
-    System.out.println("Initialized \n Initialized \n Initialized \n Initialized \nInitialized \n Initialized \n Initialized \n");
+    //TODO: Fix or adjust reset sequence
 
     Translation2d translation = new Translation2d(metersX, metersY);
     Transform2d toMove = new Transform2d(translation, rotation);
@@ -78,25 +71,27 @@ public class AutoDriveForDistance extends CommandBase {
       pidY.calculate(swerve.getPose().getY(), desiredPose.getY()),
       pidRot.calculate(swerve.getPose().getRotation().getDegrees(), desiredPose.getRotation().getDegrees())
     );
+
     RobotDeadzone();
     
-    // System.out.println(speeds);
     SmartDashboard.putNumber("currentRot", swerve.getPose().getRotation().getDegrees());
     SmartDashboard.putNumber("desiredRot", desiredPose.getRotation().getDegrees());
     SmartDashboard.putNumber("rotSpeed", speeds.omegaRadiansPerSecond);
-    System.out.println(speeds);
+
+    // System.out.println(speeds);
+
     swerve.drive(speeds, false);
   }
 
   private void RobotDeadzone() {
     //This is most likely not the best way of doing this.
-    if(speeds.vxMetersPerSecond <= velocityLowerLimit){
+    if(speeds.vxMetersPerSecond < velocityLowerLimit){
       speeds.vxMetersPerSecond = 0;
     }
-    if(speeds.vyMetersPerSecond <= velocityLowerLimit){
+    if(speeds.vyMetersPerSecond < velocityLowerLimit){
       speeds.vyMetersPerSecond = 0;
     }
-    if(speeds.omegaRadiansPerSecond <= rotationalLowerLimit){
+    if(speeds.omegaRadiansPerSecond < rotationalLowerLimit){
       speeds.omegaRadiansPerSecond = 0;
     }
   }
@@ -112,7 +107,9 @@ public class AutoDriveForDistance extends CommandBase {
   public boolean isFinished() {
     if(pidX.atSetpoint() == true && pidY.atSetpoint() == true && pidRot.atSetpoint() == true){
       return true;
-    }else{
+    }
+    else
+    {
       return false;
     }
   }

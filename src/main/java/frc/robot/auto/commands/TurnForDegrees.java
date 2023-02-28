@@ -4,8 +4,6 @@
 
 package frc.robot.auto.commands;
 
-import java.io.ObjectInputStream.GetField;
-
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drive.SwerveDrive;
@@ -46,9 +44,7 @@ public class TurnForDegrees extends CommandBase {
       speeds = new ChassisSpeeds(0,0,rotationSpeed);
     }
   
-
-    if (swerve.getHeading().getDegrees() >=  finalPosition + 5 || swerve.getHeading().getDegrees() <= finalPosition -5){
-      
+    if (swerve.getHeading().getDegrees() >= finalPosition + 5 || swerve.getHeading().getDegrees() <= finalPosition -5){
       swerve.drive(speeds, false);
     }
     else{
