@@ -4,26 +4,14 @@ import static frc.robot.Constants.kDriverPort;
 import static frc.robot.Constants.kNavXPort;
 
 import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.drive.ModuleTest;
+import frc.robot.auto.SequentialCommands.AutoOutOfCommunity;
 import frc.robot.drive.SwerveDrive;
-import frc.robot.drive.SwerveModule;
-import frc.robot.auto.AutoHexagon;
-import frc.robot.auto.AutoHourGlass;
-import frc.robot.auto.AutoOutOfCommunity;
-import frc.robot.auto.AutoSequencer;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.DriveForwardTime;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.drive.commands.DriveCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.intake.Intake;
