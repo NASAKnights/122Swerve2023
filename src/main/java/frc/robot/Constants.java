@@ -101,9 +101,10 @@ public class Constants {
 
         public static final double kExtensionRotations = 34.785;
         public static final double kExtensionLength = 0.3556;
-        public static final double kExtentionRetractedLength = 0.76835;
-        public static final double kPivotMaxRotation = 0;
-        public static final double kPivotMinRotation = 0;
+        public static final double kExtensionRetractedLength = 0.5334;
+        public static final double kExtensionExtendedLength = 0.76835; // 0.76835 (0.5334)
+        public static final double kPivotMaxRotation = 2.2 * Math.PI;
+        public static final double kPivotMinRotation = 1.5 * Math.PI;
         public static final double kExtentionMinLength = 0;
 
         public static final double kPivotClosedLoopRamp = 0.3;

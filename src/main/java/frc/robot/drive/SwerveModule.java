@@ -176,7 +176,7 @@ public class SwerveModule {
 
     public void updateSmartDash() {
         // SmartDashboard.putNumber(id + " Offsets", this.angleOffset.getDegrees());
-        SmartDashboard.putNumber(id + " Last Angle", lastAngle);
+        // SmartDashboard.putNumber(id + " Last Angle", lastAngle);
         SmartDashboard.putNumber(id + "Magnet offset", angleOffset.getDegrees());
         // SmartDashboard.putNumber(id + " Module Angle", turnEncoder.getPosition());
         // SmartDashboard.putNumber(id + " Velocity", getVelocityMPS());

@@ -4,9 +4,11 @@
 
 package frc.robot.intake;
 
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -19,6 +21,7 @@ import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.LinearSystemLoop;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,6 +36,8 @@ public class Intake extends SubsystemBase {
   RelativeEncoder intakeLiftEncoder;
   SparkMaxPIDController intakeLiftPID; 
 
+  private DigitalInput limitSwitch;
+
   private LinearSystem<N2, N1, N1> intakeArm;
   private KalmanFilter<N2, N1, N1> armObserver;
   private LinearQuadraticRegulator<N2, N1, N1> armController;
@@ -41,16 +46,22 @@ public class Intake extends SubsystemBase {
 
   private double JKgSquaredMeters = 0.29;
   private double intakeGearing = 45.0;
-  private double stowedPosition = 3.14;
+  // private double stowedPosition = 3.14;
+  private double stowedPosition = 0.0;
+  private double extendedPosition = 3.14;
   private double acceptableError = 0.01;
 
   public Intake() {
     intakeMotor = new VictorSP(Constants.IntakeConstants.kIntakeMotor); // PWM channels
     intakeLiftMotor = new CANSparkMax(Constants.IntakeConstants.kLiftMotor, MotorType.kBrushless);
     intakeLiftMotor.setIdleMode(IdleMode.kBrake);
+    intakeLiftMotor.setInverted(true);
 
     intakeLiftEncoder = intakeLiftMotor.getEncoder();
     intakeLiftPID = intakeLiftMotor.getPIDController();
+    limitSwitch = new DigitalInput(0);
+
+    intakeLiftEncoder.setPositionConversionFactor((1.0/45.0) * 2*Math.PI); // radian
     
     resetPivotEncoder();
 
@@ -93,6 +104,10 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(-0.6);
   }
 
+  public boolean isIntakeInside(){
+    return !limitSwitch.get();
+  }
+
   public void resetPivotEncoder(){
     intakeLiftEncoder.setPosition(0.0);
   }
@@ -125,12 +140,14 @@ public class Intake extends SubsystemBase {
     intakeLiftMotor.set(-0.1);
   }
 
+
   public void stopIntakeLift(){
     intakeLiftMotor.stopMotor();
   }
 
   public void updateBoard(){
     SmartDashboard.putNumber("Intake Position", intakeLiftEncoder.getPosition());
+    SmartDashboard.putBoolean("Intake Limit", isIntakeInside());
   }
 
 
@@ -138,5 +155,8 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (isIntakeInside()){
+      resetPivotEncoder();
+    }
   }
 }

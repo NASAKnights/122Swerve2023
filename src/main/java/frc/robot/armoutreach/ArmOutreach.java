@@ -5,6 +5,7 @@
 package frc.robot.armoutreach;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxLimitSwitch;
@@ -13,6 +14,8 @@ import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -63,7 +66,7 @@ public class ArmOutreach extends SubsystemBase {
     pivotAngleQuad = arm.getEncoder();
 
     pivotPID.setFeedbackDevice(pivotAngleQuad);
-    pivotAngle.setZeroOffset(0.474); // 268.23
+    pivotAngle.setZeroOffset(0.6563); // 268.23
     // resetPivotToAbsolute();
 
     pivotAngle.setPositionConversionFactor(2 * Math.PI); // change from rotations to radians
@@ -98,7 +101,7 @@ public class ArmOutreach extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    checkRetracted();
+    // checkRetracted();
   }
 
   public void initEncoders(){
@@ -111,16 +114,16 @@ public class ArmOutreach extends SubsystemBase {
     kDextend = 0.01; 
     kIzextend = 0; 
     kFFextend = 0; 
-    kMaxOutputextend = 1; 
-    kMinOutputextend = -1;
+    kMaxOutputextend = 0.75; 
+    kMinOutputextend = -0.75;
 
     kP = 0.9; 
     kI = 1e-4;
     kD = 0.01; 
     kIz = 0; 
     kFF = 0; 
-    kMaxOutput = 0.1; 
-    kMinOutput = -0.1;
+    kMaxOutput = 0.75; 
+    kMinOutput = -0.5;
 
     extendPID.setP(kPextend);
     extendPID.setI(kIextend);
@@ -163,7 +166,11 @@ public class ArmOutreach extends SubsystemBase {
   }
 
   public void resetPivotToAbsolute(){
+    int attempts = 0;
     pivotAngleQuad.setPosition(pivotAngle.getPosition());
+    while (pivotAngleQuad.setPosition(pivotAngle.getPosition()) != REVLibError.kOk && attempts < 8){
+      attempts++;
+    };
   }
 
   public void forward(){
@@ -195,7 +202,7 @@ public class ArmOutreach extends SubsystemBase {
   }
 
   public void liftArmtoAngle(){
-    pivotPID.setReference(0.1 * Math.PI, ControlType.kPosition);
+    pivotPID.setReference(2.15 * Math.PI, ControlType.kPosition);
     
   }
   public void lowerArmtoAngle(){
@@ -213,20 +220,29 @@ public class ArmOutreach extends SubsystemBase {
    */
   public boolean gotoXY(Translation2d pos) {
     // Find the goal positions
-    double pivotGoal = pos.getAngle().getRadians();
-    double extendGoal = pos.getNorm() - Constants.ArmConstants.kExtentionRetractedLength; // Maybe minus the arm length while retracted affects lines marked asdf
+    double pivotGoal = MathUtil.angleModulus(pos.getAngle().getRadians()) + (2*Math.PI);
+    double extendGoal = pos.getNorm() - Constants.ArmConstants.kExtensionRetractedLength; // Maybe minus the arm length while retracted affects lines marked asdf
+    SmartDashboard.putNumber("PivotGoal", pivotGoal);
+    SmartDashboard.putNumber("extendGoal", extendGoal);
+
+    if (extendGoal < 0) {
+      extendGoal = 0.0;
+    }
     
     // Check if goals are within reach since the pivot and extension can only go so far
     if(pivotGoal > Constants.ArmConstants.kPivotMaxRotation || 
     extendGoal > Constants.ArmConstants.kExtensionLength ||
     pivotGoal < Constants.ArmConstants.kPivotMinRotation ||
     extendGoal < Constants.ArmConstants.kExtentionMinLength){
+      System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFF");
       return false;
     }
     
     // Send goals to lower level control loops (motor controllers)
-    extendPID.setReference(extendGoal, ControlType.kPosition);
     pivotPID.setReference(pivotGoal, ControlType.kPosition);
+    if (Math.abs(pivotAngleQuad.getPosition() - pivotGoal) < 0.1 * Math.PI){
+      extendPID.setReference(extendGoal, ControlType.kPosition);
+    }
 
     // A naive approach can apply a feedforward since we know how much torque we can expect the arm to be under
     // The feedforward will be proportional to the torque that the motor needs to exert to maintain it's position
@@ -261,7 +277,7 @@ public class ArmOutreach extends SubsystemBase {
     // Updates the Extend Pose with the new position from the encoder
     Rotation3d curRot = new Rotation3d();
     Translation3d curPos = new Translation3d(
-      extendEncoder.getPosition() + Constants.ArmConstants.kExtentionRetractedLength,
+      extendEncoder.getPosition() + Constants.ArmConstants.kExtensionRetractedLength,
       0,
       0); // asdf
     linear2ee = new Transform3d(curPos, curRot);
@@ -289,11 +305,12 @@ public class ArmOutreach extends SubsystemBase {
 
   public void updateBoard(){
     SmartDashboard.putNumber("Extend Encoder",extendEncoder.getPosition());
-    SmartDashboard.putNumber("Pivot Encoder Absolute", pivotAngle.getPosition());
+    // SmartDashboard.putNumber("Pivot Encoder Absolute", pivotAngle.getPosition());
     SmartDashboard.putNumber("Pivot Encoder Relative", pivotAngleQuad.getPosition());
     updateEEPos();
     SmartDashboard.putNumber("Arm X Pos", robot2ee.getX());
     SmartDashboard.putNumber("Arm Y Pos", robot2ee.getY());
+    
     // SmartDashboard.putBoolean("Limit F switch", limitSwitchPressed());
 
   }

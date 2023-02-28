@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.ExtendToLength;
+import frc.robot.armoutreach.commands.GoToHigh;
 import frc.robot.armoutreach.commands.LiftArm;
+import frc.robot.armoutreach.commands.LiftToAngle;
 import frc.robot.armoutreach.commands.LowerArm;
 import frc.robot.armoutreach.commands.LowerToAngle;
 import frc.robot.armoutreach.commands.Retract;
@@ -87,8 +89,8 @@ public class RobotContainer {
         new JoystickButton(operator, 1).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
         new JoystickButton(operator, 4).whileTrue(new RepeatCommand (new Retract(arm)));
 
-        new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftArm(arm)));
-        // new JoystickButton(driver, 2).whileTrue(new RepeatCommand(new LiftToAngle(arm)));
+        // new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftArm(arm)));
+        new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftToAngle(arm)));
         // new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerArm(arm)));
         new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
         
@@ -96,6 +98,8 @@ public class RobotContainer {
         new JoystickButton(operator, 3).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
         new JoystickButton(operator,5).whileTrue(new RepeatCommand(new LiftIntake(intake)));
         new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
+
+        new JoystickButton(operator, 9).whileTrue(new RepeatCommand(new GoToHigh(arm)));
 
         
     }
@@ -109,6 +113,7 @@ public class RobotContainer {
         arm.updateBoard();
         
         indexer.checkIndex();
+        intake.updateBoard();
         
     }
 
@@ -119,6 +124,7 @@ public class RobotContainer {
         
         swerve.updateOffsets();
         arm.updateBoard();
+        intake.updateBoard();
     }
 
     public void teleopInit() {

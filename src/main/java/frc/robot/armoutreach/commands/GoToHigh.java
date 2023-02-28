@@ -4,6 +4,7 @@
 
 package frc.robot.armoutreach.commands;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.armoutreach.ArmOutreach;
 
@@ -34,12 +35,15 @@ public class GoToHigh extends CommandBase {
     // else { // Cone Outside
     //   arm.gotoXY(Constants.kConeHigh);
     // }
+    // arm.gotoXY(new Translation2d(0.767,0.0323));
+    // arm.gotoXY(new Translation2d(0.7672,0.1471));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    arm.stop();
+    arm.stopArm();
   }
 
   // Returns true when the command should end.
