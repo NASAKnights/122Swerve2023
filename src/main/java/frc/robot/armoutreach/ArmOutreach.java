@@ -66,7 +66,7 @@ public class ArmOutreach extends SubsystemBase {
     pivotAngleQuad = arm.getEncoder();
 
     pivotPID.setFeedbackDevice(pivotAngleQuad);
-    pivotAngle.setZeroOffset(0.6563); // 268.23
+    pivotAngle.setZeroOffset(0.6372); // 268.23
     // resetPivotToAbsolute();
 
     pivotAngle.setPositionConversionFactor(2 * Math.PI); // change from rotations to radians
@@ -248,6 +248,52 @@ public class ArmOutreach extends SubsystemBase {
     // The feedforward will be proportional to the torque that the motor needs to exert to maintain it's position
     return true;
   }
+
+  //----------------------USE ONLY FOR STOWING CONE----------------------------
+
+  /**
+   * Make the end effector go to an x/y position
+   * <p>
+   * Can be used to set x/y positions to pick/place various game elements
+   * 
+   * @param pos should contain the x y position that the arm needs to go to relative to the axle
+   * of the pivot arm
+   */
+  public boolean gotoXYextend(Translation2d pos) {
+    // Find the goal positions
+    double pivotGoal = MathUtil.angleModulus(pos.getAngle().getRadians()) + (2*Math.PI);
+    double extendGoal = pos.getNorm() - Constants.ArmConstants.kExtensionRetractedLength; // Maybe minus the arm length while retracted affects lines marked asdf
+    SmartDashboard.putNumber("PivotGoal", pivotGoal);
+    SmartDashboard.putNumber("extendGoal", extendGoal);
+
+    if (extendGoal < 0) {
+      extendGoal = 0.0;
+    }
+    
+    // Check if goals are within reach since the pivot and extension can only go so far
+    if(pivotGoal > Constants.ArmConstants.kPivotMaxRotation || 
+    extendGoal > Constants.ArmConstants.kExtensionLength ||
+    pivotGoal < Constants.ArmConstants.kPivotMinRotation ||
+    extendGoal < Constants.ArmConstants.kExtentionMinLength){
+      System.out.println("FFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+      return false;
+    }
+    
+    // Send goals to lower level control loops (motor controllers)
+    extendPID.setReference(extendGoal, ControlType.kPosition);    
+    if (Math.abs(extendEncoder.getPosition() - extendGoal) < 0.01){
+      pivotPID.setReference(pivotGoal, ControlType.kPosition);
+    }
+
+    // A naive approach can apply a feedforward since we know how much torque we can expect the arm to be under
+    // The feedforward will be proportional to the torque that the motor needs to exert to maintain it's position
+    return true;
+  }
+
+
+
+  //---------------------------------------------------------------------------
+
 
   /**
    * @return Transform3d for robot2ee

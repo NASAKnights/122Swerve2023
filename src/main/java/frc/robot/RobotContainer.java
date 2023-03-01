@@ -4,20 +4,28 @@ import static frc.robot.Constants.kNavXPort;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.event.BooleanEvent;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.ExtendToLength;
+import frc.robot.armoutreach.commands.GoInside;
 import frc.robot.armoutreach.commands.GoToHigh;
+import frc.robot.armoutreach.commands.GoToLow;
+import frc.robot.armoutreach.commands.GoToMid;
 import frc.robot.armoutreach.commands.LiftArm;
 import frc.robot.armoutreach.commands.LiftToAngle;
 import frc.robot.armoutreach.commands.LowerArm;
 import frc.robot.armoutreach.commands.LowerToAngle;
 import frc.robot.armoutreach.commands.Retract;
+import frc.robot.armoutreach.commands.StowInside;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
@@ -58,6 +66,7 @@ public class RobotContainer {
         arm = new ArmOutreach();
 
         indexer = new ColorInterpreter();
+        CameraServer.startAutomaticCapture();
 
         pHub = new PneumaticHub(Constants.PneumaticConstants.kPneumaticHubModule); // 2
         pHub.enableCompressorAnalog(Constants.PneumaticConstants.kMinPressure, Constants.PneumaticConstants.kMaxPressure);
@@ -86,20 +95,34 @@ public class RobotContainer {
         new JoystickButton(driver, 7).onTrue(new OpenClaw(claw));
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
         
-        new JoystickButton(operator, 1).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
-        new JoystickButton(operator, 4).whileTrue(new RepeatCommand (new Retract(arm)));
+        // new JoystickButton(operator, 1).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
+        // new JoystickButton(operator, 4).whileTrue(new RepeatCommand (new Retract(arm)));
 
         // new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftArm(arm)));
-        new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftToAngle(arm)));
+        // new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftToAngle(arm)));
         // new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerArm(arm)));
-        new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
-        
-        new JoystickButton(operator, 2).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
-        new JoystickButton(operator, 3).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
-        new JoystickButton(operator,5).whileTrue(new RepeatCommand(new LiftIntake(intake)));
-        new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
+        // new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
 
-        new JoystickButton(operator, 9).whileTrue(new RepeatCommand(new GoToHigh(arm)));
+        new JoystickButton(operator, 1).whileTrue(new RepeatCommand(new GoInside(arm)));
+        new JoystickButton(operator, 2).whileTrue(new RepeatCommand(new GoToLow(arm)));
+        new JoystickButton(operator, 3).whileTrue(new RepeatCommand(new GoToMid(arm)));
+        new JoystickButton(operator, 4).whileTrue(new RepeatCommand(new GoToHigh(arm)));
+        
+        new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
+        new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
+        // new JoystickButton(operator,5).whileTrue(new RepeatCommand(new LiftIntake(intake)));
+        // new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
+        new JoystickButton(operator, 5).whileTrue(new RepeatCommand(new StowInside(arm)));
+
+        BooleanEvent liftaxis = operator.axisGreaterThan(0, 0.15, new EventLoop());
+        BooleanEvent loweraxis = operator.axisLessThan(0, -0.15, new EventLoop());
+
+        new Trigger(liftaxis).whileTrue(new RepeatCommand(new LiftIntake(intake)));
+        new Trigger(loweraxis).whileTrue(new RepeatCommand(new LowerIntake(intake)));
+
+
+
+        // new JoystickButton(operator, 9).whileTrue(new RepeatCommand(new GoToHigh(arm)));
 
         
     }

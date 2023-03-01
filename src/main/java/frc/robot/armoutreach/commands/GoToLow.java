@@ -8,13 +8,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.armoutreach.ArmOutreach;
 
-public class GoToHigh extends CommandBase {
-  /** Creates a new GoToHigh. */
-  private ArmOutreach arm;
-  public GoToHigh(ArmOutreach arm) {
+public class GoToLow extends CommandBase {
+  /** Creates a new GoToLow. */
+  ArmOutreach arm;
+  public GoToLow(ArmOutreach arm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
-
     addRequirements(arm);
   }
 
@@ -25,8 +24,7 @@ public class GoToHigh extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    arm.gotoXY(new Translation2d(0.769,0.291));
+    arm.gotoXY(new Translation2d(0.196,-0.733));
   }
 
   // Called once the command ends or is interrupted.

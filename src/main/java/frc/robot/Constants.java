@@ -89,7 +89,7 @@ public class Constants {
                                                     {275.273, 257.607, 0.0}, // green 3, 7, 11
                                                     {87.539, 103.359, 0.0}}; // yellow 4, 8, 12
 
-    public static double kDriveLimit = 0.45;
+    public static double kDriveLimit = 0.7;
     public static double kRotationLimit = kDriveLimit/2.0;
 
     // TODO: adjust 2nd set of modules
@@ -104,7 +104,7 @@ public class Constants {
         public static final double kExtensionRetractedLength = 0.5334;
         public static final double kExtensionExtendedLength = 0.76835; // 0.76835 (0.5334)
         public static final double kPivotMaxRotation = 2.2 * Math.PI;
-        public static final double kPivotMinRotation = 1.5 * Math.PI;
+        public static final double kPivotMinRotation = 1.475 * Math.PI;
         public static final double kExtentionMinLength = 0;
 
         public static final double kPivotClosedLoopRamp = 0.3;
