@@ -94,6 +94,8 @@ public class RobotContainer {
         // new JoystickButton(driver,4).onTrue(new DriveForwardTime(swerve, 2));
         new JoystickButton(driver, 7).onTrue(new OpenClaw(claw));
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
+
+        new JoystickButton(driver, 5).whileTrue(new ToggleTurbo(swerve));
         
         // new JoystickButton(operator, 1).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
         // new JoystickButton(operator, 4).whileTrue(new RepeatCommand (new Retract(arm)));
@@ -119,7 +121,6 @@ public class RobotContainer {
 
         new Trigger(liftaxis).whileTrue(new RepeatCommand(new LiftIntake(intake)));
         new Trigger(loweraxis).whileTrue(new RepeatCommand(new LowerIntake(intake)));
-
 
 
         // new JoystickButton(operator, 9).whileTrue(new RepeatCommand(new GoToHigh(arm)));
