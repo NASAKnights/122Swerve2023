@@ -15,17 +15,12 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.armoutreach.ArmOutreach;
-import frc.robot.armoutreach.commands.ExtendToLength;
 import frc.robot.armoutreach.commands.GoInside;
 import frc.robot.armoutreach.commands.GoToHigh;
 import frc.robot.armoutreach.commands.GoToLow;
 import frc.robot.armoutreach.commands.GoToMid;
-import frc.robot.armoutreach.commands.LiftArm;
-import frc.robot.armoutreach.commands.LiftToAngle;
-import frc.robot.armoutreach.commands.LowerArm;
-import frc.robot.armoutreach.commands.LowerToAngle;
-import frc.robot.armoutreach.commands.Retract;
 import frc.robot.armoutreach.commands.StowInside;
+import frc.robot.auto.AutoSequencer;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
@@ -33,7 +28,6 @@ import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.ToggleTurbo;
 import frc.robot.colorSensor.ColorInterpreter;
-import frc.robot.drive.commands.DriveForwardTime;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.intake.Intake;
@@ -157,9 +151,7 @@ public class RobotContainer {
         // swerve.setCoast();
         swerve.readoffsets();
         swerve.updateOffsets();
-        arm.updateBoard();
-       
-        
+        arm.updateBoard(); 
     }
 
     public void disabledInit(){
@@ -169,9 +161,8 @@ public class RobotContainer {
 
     public CommandBase autonomousInit(){
         return new AutoSequencer(swerve);
-        arm.resetPivotToAbsolute();
-             
-
+        // arm.resetPivotToAbsolute();
+        // The arm.resetPivotToAbsolute does not work inside CommandBase.
     }
 
     public void testInit() {
