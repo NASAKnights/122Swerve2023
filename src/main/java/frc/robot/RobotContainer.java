@@ -31,6 +31,7 @@ import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.commands.DriveCommand;
+import frc.robot.drive.commands.ToggleTurbo;
 import frc.robot.colorSensor.ColorInterpreter;
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.LiftIntake;
@@ -95,7 +96,7 @@ public class RobotContainer {
         new JoystickButton(driver, 7).onTrue(new OpenClaw(claw));
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
 
-        new JoystickButton(driver, 5).whileTrue(new ToggleTurbo(swerve));
+        new JoystickButton(driver, 5).whileTrue(new RepeatCommand(new ToggleTurbo(swerve)));
         
         // new JoystickButton(operator, 1).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
         // new JoystickButton(operator, 4).whileTrue(new RepeatCommand (new Retract(arm)));
