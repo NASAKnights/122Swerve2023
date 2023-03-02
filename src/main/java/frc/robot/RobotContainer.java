@@ -84,9 +84,6 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         swerve.setDefaultCommand(new DriveCommand(driver, swerve));
-        // swerve.setDefaultCommand(new VelocityTest(swerve, 0.0));
-        // swerve.setDefaultCommand(new VoltageTest(swerve, 0));
-        // test.setDefaultCommand(new ModuleTestCommand(driver, test));
     }
 
     private void configureButtonBindings() {
@@ -97,6 +94,8 @@ public class RobotContainer {
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
 
         new JoystickButton(driver, 5).whileTrue(new RepeatCommand(new ToggleTurbo(swerve)));
+
+        //------------Operator Buttons----------------------------------------------------------
         
         // new JoystickButton(operator, 1).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
         // new JoystickButton(operator, 4).whileTrue(new RepeatCommand (new Retract(arm)));
@@ -122,9 +121,6 @@ public class RobotContainer {
 
         new Trigger(liftaxis).whileTrue(new RepeatCommand(new LiftIntake(intake)));
         new Trigger(loweraxis).whileTrue(new RepeatCommand(new LowerIntake(intake)));
-
-
-        // new JoystickButton(operator, 9).whileTrue(new RepeatCommand(new GoToHigh(arm)));
 
         
     }
@@ -169,6 +165,7 @@ public class RobotContainer {
     }
 
     public void autonomousInit(){
+        arm.resetPivotToAbsolute();
 
     }
 

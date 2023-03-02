@@ -171,6 +171,9 @@ public class ArmOutreach extends SubsystemBase {
     while (pivotAngleQuad.setPosition(pivotAngle.getPosition()) != REVLibError.kOk && attempts < 8){
       attempts++;
     };
+    if (pivotAngleQuad.getPosition() < Math.PI){
+      pivotAngleQuad.setPosition(pivotAngleQuad.getPosition() + (2 * Math.PI));
+    }
   }
 
   public void forward(){
@@ -214,6 +217,7 @@ public class ArmOutreach extends SubsystemBase {
    * Make the end effector go to an x/y position
    * <p>
    * Can be used to set x/y positions to pick/place various game elements
+   * Pivots the arm before extension/retraction
    * 
    * @param pos should contain the x y position that the arm needs to go to relative to the axle
    * of the pivot arm
@@ -255,6 +259,7 @@ public class ArmOutreach extends SubsystemBase {
    * Make the end effector go to an x/y position
    * <p>
    * Can be used to set x/y positions to pick/place various game elements
+   * Extends/retracts the arm before pivoting
    * 
    * @param pos should contain the x y position that the arm needs to go to relative to the axle
    * of the pivot arm
