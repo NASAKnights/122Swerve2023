@@ -113,7 +113,7 @@ public class ArmOutreach extends SubsystemBase {
     kIextend = 5e-4;
     kDextend = 0.01; 
     kIzextend = 0; 
-    kFFextend = 0; 
+    kFFextend = 0.35; 
     kMaxOutputextend = 0.75; 
     kMinOutputextend = -0.75;
 

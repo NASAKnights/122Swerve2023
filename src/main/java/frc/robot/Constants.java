@@ -84,10 +84,10 @@ public class Constants {
     //-----------testing--------------------
 
     // select color and then version
-    public static final double[][] encoderoffsets = {{103.711, 358.188, 0.0}, // Red 1, 5, 9
-                                                    {318.427, 330.654, 0.0}, // Blue 2, 6, 10
-                                                    {275.273, 257.607, 0.0}, // green 3, 7, 11
-                                                    {87.539, 103.359, 0.0}}; // yellow 4, 8, 12
+    public static final double[][] encoderoffsets = {{358.188, 103.711, 0.0}, // Red 1, 5, 9
+                                                    {330.654, 318.427,  0.0}, // Blue 2, 6, 10
+                                                    {257.607, 275.273, 0.0}, // green 3, 7, 11
+                                                    {103.359, 87.539,  0.0}}; // yellow 4, 8, 12
 
     public static double kDriveLimit = 0.45; // 0.7 fast
     public static double kRotationLimit = kDriveLimit/2.0;
@@ -104,7 +104,7 @@ public class Constants {
         public static final double kExtensionRetractedLength = 0.5334;
         public static final double kExtensionExtendedLength = 0.76835; // 0.76835 (0.5334)
         public static final double kPivotMaxRotation = 2.2 * Math.PI;
-        public static final double kPivotMinRotation = 1.475 * Math.PI;
+        public static final double kPivotMinRotation = 1.42 * Math.PI;
         public static final double kExtentionMinLength = 0;
 
         public static final double kPivotClosedLoopRamp = 0.3;
