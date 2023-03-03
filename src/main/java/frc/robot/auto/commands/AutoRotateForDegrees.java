@@ -46,6 +46,11 @@ public class AutoRotateForDegrees extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(pid.atSetpoint()){
+      return true;
+    }
+    else{
+      return false;   
+    }
   }
 }
