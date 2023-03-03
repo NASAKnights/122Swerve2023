@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.auto.SequentialCommands.AutoOutOfCommunity;
 import frc.robot.auto.SequentialCommands.AutoRamp;
 import frc.robot.auto.commands.AutoDriveForDistance;
+import frc.robot.auto.commands.AutoRotateForDegrees;
+import frc.robot.auto.commands.TurnForDegrees;
 import frc.robot.drive.SwerveDrive;
 
 
@@ -19,11 +21,14 @@ public class AutoSequencer extends SequentialCommandGroup {
 
   public AutoSequencer(SwerveDrive swerve) {
     //Which sequence would you like today?
-    Square(swerve);
-    new WaitCommand(2.5);
-    Hexagon(swerve);
-    new WaitCommand(2.5);
-    Hourglass(swerve);
+    //DISCLAIMER: THIS DOES NOT WORK
+    //TODO: Figure out why it does not work
+    swerve.resetHeading();
+    addCommands(
+      new AutoDriveForDistance(swerve, 1, 0, Rotation2d.fromDegrees(0)),
+      new TurnForDegrees(swerve, 30, 0.5),
+      new AutoDriveForDistance(swerve, 0, 1, Rotation2d.fromDegrees(0))
+    );
   }
 
   //These are all of the presets! Feel free to add some more.

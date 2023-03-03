@@ -27,8 +27,8 @@ public class AutoRotateForDegrees extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pid = new PIDController(0, 0, 0);
-    pid.setTolerance(0.01);
+    pid = new PIDController(0.1, 0, 0);
+    pid.setTolerance(1);
     double desiredDouble = swerve.getHeading().getDegrees() + degrees;
     Rotation2d desiredDegrees = new Rotation2d().fromDegrees(desiredDouble);
   }

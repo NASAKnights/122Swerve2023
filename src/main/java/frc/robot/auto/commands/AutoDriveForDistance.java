@@ -29,8 +29,8 @@ public class AutoDriveForDistance extends CommandBase {
   private Pose2d desiredPose;
 
   //TODO: Fine tune the velocity and rotational lower limits
-  private double velocityLowerLimit = 0.2;
-  private double rotationalLowerLimit = 0.2;
+  private double velocityLowerLimit = 0.05;
+  private double rotationalLowerLimit = 0.05;
   
   public AutoDriveForDistance(SwerveDrive swerve, double metersX, double metersY, Rotation2d rotation) {
     this.swerve = swerve;
@@ -45,12 +45,12 @@ public class AutoDriveForDistance extends CommandBase {
   @Override
   public void initialize() {
     // Maybe add pid reset function here(???)
-    pidX = new PIDController(0.5, 0, 0);
-    pidY = new PIDController(0.5, 0, 0);
-    pidRot = new PIDController(0.15, 0, 0);
+    pidX = new PIDController(0.95, 0, 0);
+    pidY = new PIDController(0.95, 0, 0);
+    pidRot = new PIDController(0.5, 0, 0);
     pidX.setTolerance(0.05); 
     pidY.setTolerance(0.05);
-    pidRot.setTolerance(0.1);
+    pidRot.setTolerance(1);
 
     Rotation2d currentRotationTest = swerve.getHeading();
     // swerve.resetHeading();
@@ -105,7 +105,8 @@ public class AutoDriveForDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(pidX.atSetpoint() == true && pidY.atSetpoint() == true && pidRot.atSetpoint() == true){
+    if(pidX.atSetpoint() && pidY.atSetpoint() && pidRot.atSetpoint()){
+      System.out.println("FINISED\nFINISHED");
       return true;
     }
     else
