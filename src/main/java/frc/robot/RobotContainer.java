@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.armoutreach.ArmOutreach;
+import frc.robot.armoutreach.HandOffSequence;
 import frc.robot.armoutreach.commands.ExtendToLength;
 import frc.robot.armoutreach.commands.GoInside;
 import frc.robot.armoutreach.commands.GoToHigh;
@@ -93,7 +94,7 @@ public class RobotContainer {
         new JoystickButton(driver, 7).onTrue(new OpenClaw(claw));
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
 
-        new JoystickButton(driver, 5).whileTrue(new RepeatCommand(new ToggleTurbo(swerve)));
+        new JoystickButton(driver, 5).whileTrue(new ToggleTurbo(swerve));
 
         //------------Operator Buttons----------------------------------------------------------
         
@@ -115,6 +116,7 @@ public class RobotContainer {
         // new JoystickButton(operator,5).whileTrue(new RepeatCommand(new LiftIntake(intake)));
         // new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
         new JoystickButton(operator, 5).whileTrue(new RepeatCommand(new StowInside(arm)));
+        // new JoystickButton(operator, 6).onTrue(new HandOffSequence(arm, intake, claw, indexer)); // Handoff Sequence
 
         BooleanEvent liftaxis = operator.axisGreaterThan(0, 0.15, new EventLoop());
         BooleanEvent loweraxis = operator.axisLessThan(0, -0.15, new EventLoop());

@@ -56,7 +56,7 @@ public class HandOff extends CommandBase {
       Translation2d targetLocation = new Translation2d(-1, 0);
 
       arm.gotoXY(targetLocation);
-      claw.openClaw();
+      // claw.openClaw();
 
       Translation2d xy = arm.getXY();
       Translation2d xyError = targetLocation.minus(xy);
@@ -71,7 +71,7 @@ public class HandOff extends CommandBase {
       Translation2d targetLocation = new Translation2d(-1, 0);
 
       arm.gotoXY(targetLocation);
-      claw.openClaw();
+      // claw.openClaw();
 
       Translation2d xy = arm.getXY();
       Translation2d xyError = targetLocation.minus(xy);

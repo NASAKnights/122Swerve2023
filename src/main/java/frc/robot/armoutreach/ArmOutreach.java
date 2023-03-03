@@ -156,7 +156,7 @@ public class ArmOutreach extends SubsystemBase {
   }
 
   public void checkRetracted(){
-    if (outreach.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isPressed()){
+    if (isRetracted()){
       resetExtensionEncoder(); // resets the extension encoder when the limit switch is pressed
     }
   }
@@ -167,13 +167,14 @@ public class ArmOutreach extends SubsystemBase {
 
   public void resetPivotToAbsolute(){
     int attempts = 0;
+    pivotAngleQuad.setPosition(0.0);
     pivotAngleQuad.setPosition(pivotAngle.getPosition());
     while (pivotAngleQuad.setPosition(pivotAngle.getPosition()) != REVLibError.kOk && attempts < 8){
       attempts++;
     };
-    if (pivotAngleQuad.getPosition() < Math.PI){
-      pivotAngleQuad.setPosition(pivotAngleQuad.getPosition() + (2 * Math.PI));
-    }
+    // if (pivotAngleQuad.getPosition() < Math.PI){
+    //   pivotAngleQuad.setPosition(pivotAngleQuad.getPosition() + (2 * Math.PI));
+    // }
   }
 
   public void forward(){
@@ -191,6 +192,10 @@ public class ArmOutreach extends SubsystemBase {
   }
   public void retractToZero(){
     extendPID.setReference(0.0, CANSparkMax.ControlType.kPosition);
+  }
+
+  public boolean isRetracted(){
+    return outreach.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isPressed();
   }
 
   public void liftArm(){
@@ -358,6 +363,7 @@ public class ArmOutreach extends SubsystemBase {
     SmartDashboard.putNumber("Extend Encoder",extendEncoder.getPosition());
     // SmartDashboard.putNumber("Pivot Encoder Absolute", pivotAngle.getPosition());
     SmartDashboard.putNumber("Pivot Encoder Relative", pivotAngleQuad.getPosition());
+    SmartDashboard.putBoolean("Extend Limit",isRetracted());
     updateEEPos();
     SmartDashboard.putNumber("Arm X Pos", robot2ee.getX());
     SmartDashboard.putNumber("Arm Y Pos", robot2ee.getY());
