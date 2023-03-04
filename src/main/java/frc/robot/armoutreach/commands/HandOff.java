@@ -19,6 +19,7 @@ public class HandOff extends CommandBase {
   private ColorInterpreter indexer;
 
   private boolean finished = false;
+  private String item = "None";
 
   public HandOff(ArmOutreach arm, Claw claw, Intake intake, ColorInterpreter indexer) {
     this.arm = arm;
@@ -31,14 +32,17 @@ public class HandOff extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    indexer.setItem();
+    item = indexer.checkItem();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
 
   // NOTE/DISCLAIMER: The translations need to be tweaked
   @Override
   public void execute() {
-    if(indexer.checkIndex() == "Cube"){
+    if(item == "Cube"){
       Translation2d targetLocation = new Translation2d(-1, 0);
 
       arm.gotoXY(targetLocation);
@@ -52,7 +56,7 @@ public class HandOff extends CommandBase {
         finished = true;
       }
     }
-    else if(indexer.checkIndex() == "Low Cone"){
+    else if(item == "Low Cone"){
       Translation2d targetLocation = new Translation2d(-1, 0);
 
       arm.gotoXY(targetLocation);
@@ -67,7 +71,7 @@ public class HandOff extends CommandBase {
         finished = true;
       }
     }
-    else if(indexer.checkIndex() == "High Cone"){
+    else if(item == "High Cone"){
       Translation2d targetLocation = new Translation2d(-1, 0);
 
       arm.gotoXY(targetLocation);

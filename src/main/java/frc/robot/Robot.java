@@ -10,6 +10,8 @@ public class Robot extends TimedRobot {
     private RobotContainer container;
     private CommandBase autoSequencer;
 
+    private CommandBase m_autoCommand;
+
     @Override
     public void robotInit() {
         container = new RobotContainer();
@@ -23,7 +25,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        container.autonomousInit().schedule();
+        m_autoCommand = container.autonomousInit();
+        if (m_autoCommand != null){
+            m_autoCommand.schedule();
+        }
     }
 
     @Override
@@ -32,10 +37,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        container.teleopInit();
-        if (autoSequencer != null){
-            autoSequencer.cancel();
+        if (m_autoCommand != null){
+            m_autoCommand.cancel();
         }
+        container.teleopInit();
     }
 
     @Override

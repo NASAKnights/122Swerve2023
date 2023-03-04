@@ -26,6 +26,7 @@ import frc.robot.armoutreach.commands.LowerArm;
 import frc.robot.armoutreach.commands.LowerToAngle;
 import frc.robot.armoutreach.commands.Retract;
 import frc.robot.armoutreach.commands.StowInside;
+import frc.robot.auto.SequentialCommands.AutoOutOfCommunity;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
@@ -168,8 +169,10 @@ public class RobotContainer {
     }
 
     public CommandBase autonomousInit(){
-        return new AutoSequencer(swerve);
-        arm.resetPivotToAbsolute();
+        // return new AutoSequencer(swerve);
+        // arm.resetPivotToAbsolute();
+
+        return new AutoOutOfCommunity(swerve);
              
 
     }
