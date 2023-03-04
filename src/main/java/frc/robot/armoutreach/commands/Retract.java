@@ -6,31 +6,40 @@ package frc.robot.armoutreach.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.armoutreach.ArmOutreach;
+import frc.robot.colorSensor.ColorInterpreter;
+import frc.robot.intake.Intake;
 
 public class Retract extends CommandBase {
   /** Creates a new Retract. */
   private ArmOutreach arm;
-  public Retract(ArmOutreach arm) {
+  private ColorInterpreter indexer;
+  private Intake intake;
+  public Retract(ArmOutreach arm, ColorInterpreter indexer, Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
+    this.indexer = indexer;
+    this.intake = intake;
     addRequirements(arm);
+    addRequirements(indexer);
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if (indexer.checkIndex() == "High Cone") {
+      intake.setReverse();
+    }
+    else if (indexer.checkIndex() == "Low Cone") {
+      intake.setReverse();
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if (arm.limitSwitchPressed()) {
-    //   arm.reverse();
-    // }
-    // else {
-    //   arm.stop();
-    // }
     arm.retractToZero();
-    arm.updateBoard();
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +51,7 @@ public class Retract extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return arm.isRetracted();
   }
 }
+

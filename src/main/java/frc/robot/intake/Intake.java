@@ -104,6 +104,10 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(-0.6);
   }
 
+  public void handOffCube(){
+    intakeMotor.set(0.1);
+  }
+
   public boolean isIntakeInside(){
     return !limitSwitch.get();
   }
