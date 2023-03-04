@@ -113,7 +113,7 @@ public class ArmOutreach extends SubsystemBase {
     kIextend = 5e-4;
     kDextend = 0.01; 
     kIzextend = 0; 
-    kFFextend = 0; 
+    kFFextend = 0.35; 
     kMaxOutputextend = 0.75; 
     kMinOutputextend = -0.75;
 
@@ -191,6 +191,10 @@ public class ArmOutreach extends SubsystemBase {
   }
   public void retractToZero(){
     extendPID.setReference(0.0, CANSparkMax.ControlType.kPosition);
+  }
+
+  public boolean isRetracted(){
+    return outreach.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isPressed();
   }
 
   public void liftArm(){

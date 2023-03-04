@@ -43,7 +43,7 @@ public class HandOff extends CommandBase {
   @Override
   public void execute() {
     if(item == "Cube"){
-      Translation2d targetLocation = new Translation2d(-1, 0);
+      Translation2d targetLocation = new Translation2d(-0.15, -0.622);
 
       arm.gotoXY(targetLocation);
 
@@ -51,13 +51,13 @@ public class HandOff extends CommandBase {
       Translation2d xyError = targetLocation.minus(xy);
 
       //check xy error, then continue when xy is within maximum allowed error.
-      if(xyError.getNorm() < 0.01){
+      if(xyError.getNorm() < 0.05){
         claw.closeClaw();
         finished = true;
       }
     }
     else if(item == "Low Cone"){
-      Translation2d targetLocation = new Translation2d(-1, 0);
+      Translation2d targetLocation = new Translation2d(-0.15, -0.622);
 
       arm.gotoXY(targetLocation);
       claw.openClaw();
@@ -72,7 +72,7 @@ public class HandOff extends CommandBase {
       }
     }
     else if(item == "High Cone"){
-      Translation2d targetLocation = new Translation2d(-1, 0);
+      Translation2d targetLocation = new Translation2d(0.0728, -0.6801);
 
       arm.gotoXY(targetLocation);
       claw.openClaw();
