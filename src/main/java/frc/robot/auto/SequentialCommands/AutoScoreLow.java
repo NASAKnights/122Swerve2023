@@ -4,9 +4,13 @@
 
 package frc.robot.auto.SequentialCommands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.armoutreach.ArmOutreach;
+import frc.robot.armoutreach.commands.LiftToAngle;
 import frc.robot.auto.commands.AutoDriveForDistance;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.intake.Intake;
@@ -19,16 +23,15 @@ import frc.robot.intake.commands.StowIntake;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoScoreLow extends SequentialCommandGroup {
   /** Creates a new AutoScoreLow. */
-  public AutoScoreLow(SwerveDrive swerve, Intake intake) {
+  public AutoScoreLow(SwerveDrive swerve, Intake intake, ArmOutreach arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetIntaketoAngle(intake, Math.PI),
-      new WaitCommand(0.5),
-      new ParallelCommandGroup(
-        new AutoDriveForDistance(swerve, 4, 0, null),  
-        new StowIntake(intake)
-      )
+      new LiftToAngle(arm, new Translation2d(0.1, -0.53)),
+      new SetIntaketoAngle(intake, Math.PI * 0.5),
+      // new WaitCommand(0.5),
+      // new StowIntake(intake),
+      new AutoDriveForDistance(swerve, 2, 0, Rotation2d.fromDegrees(0))
     );
   }
 }

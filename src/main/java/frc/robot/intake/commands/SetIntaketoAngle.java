@@ -11,6 +11,8 @@ public class SetIntaketoAngle extends CommandBase {
   /** Creates a new SetIntaketoAngle. */
   private Intake intake;
   private double angle; //in radians
+
+  private boolean finished = false;
   public SetIntaketoAngle(Intake intake, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
@@ -25,7 +27,11 @@ public class SetIntaketoAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.setIntakePivot(angle);
+    // intake.setIntakePivot(angle);
+    intake.liftIntake();
+    if (Math.abs(intake.checkAngle() - angle) < 0.5){
+      finished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -38,10 +44,7 @@ public class SetIntaketoAngle extends CommandBase {
   @Override
   public boolean isFinished() {
     // return false;
-    if (Math.abs(intake.checkAngle() - angle) < 0.5){
-      return true;
-    }
-    return false;
+    return finished;
     
   }
 }

@@ -10,7 +10,7 @@ import frc.robot.intake.Intake;
 public class StowIntake extends CommandBase {
 
   private Intake intake;
-
+  private boolean finished = false;
   /** Creates a new StowIntake. */
   public StowIntake(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,7 +25,11 @@ public class StowIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.stowIntake();
+    // intake.stowIntake();
+    intake.lowerIntake();
+    if (Math.abs(intake.checkAngle()) < 0.5){
+      finished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -37,10 +41,7 @@ public class StowIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // return false;
-    if (intake.isIntakeInside()){
-      return true;
-    }
-    return false;
+    return finished;
+    
   }
 }

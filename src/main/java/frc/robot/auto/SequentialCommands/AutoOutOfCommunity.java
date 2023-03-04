@@ -18,7 +18,7 @@ public class AutoOutOfCommunity extends SequentialCommandGroup {
     new Rotation2d();
     swerve.resetHeading();
     addCommands(
-      new AutoDriveForDistance(swerve, 2, 0, Rotation2d.fromDegrees(0))
+      new AutoDriveForDistance(swerve, 4, 0, Rotation2d.fromDegrees(0))
       );
   }
 }

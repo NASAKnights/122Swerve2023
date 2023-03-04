@@ -108,9 +108,6 @@ public class AutoDriveForDistance extends CommandBase {
     if(pidX.atSetpoint() == true && pidY.atSetpoint() == true && pidRot.atSetpoint() == true){
       return true;
     }
-    else
-    {
-      return false;
-    }
+    return false;
   }
 }

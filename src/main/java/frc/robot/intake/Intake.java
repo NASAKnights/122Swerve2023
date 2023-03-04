@@ -49,7 +49,7 @@ public class Intake extends SubsystemBase {
   // private double stowedPosition = 3.14;
   private double stowedPosition = 0.0;
   private double extendedPosition = 3.14;
-  private double acceptableError = 0.01;
+  private double acceptableError = 0.5;
 
   public Intake() {
     intakeMotor = new VictorSP(Constants.IntakeConstants.kIntakeMotor); // PWM channels
@@ -62,6 +62,7 @@ public class Intake extends SubsystemBase {
     limitSwitch = new DigitalInput(0);
 
     intakeLiftEncoder.setPositionConversionFactor((1.0/45.0) * 2*Math.PI); // radian
+    intakeLiftEncoder.setVelocityConversionFactor((1.0/45.0) * 2*Math.PI);
     
     resetPivotEncoder();
 
@@ -125,6 +126,7 @@ public class Intake extends SubsystemBase {
       return;
     }
     double speeds = (intakeLiftEncoder.getPosition() - angle);
+    // double speeds = Math.min(0.3, intakeLiftEncoder.getPosition() - angle);
     armLoop.setNextR(VecBuilder.fill(angle, speeds));
     armLoop.correct(VecBuilder.fill(intakeLiftEncoder.getVelocity()));
     armLoop.predict(0.020);
@@ -135,7 +137,9 @@ public class Intake extends SubsystemBase {
   public void stowIntake(){
     if(Math.abs(intakeLiftEncoder.getPosition() - stowedPosition) > acceptableError)
     {
-      setIntakePivot(stowedPosition);
+      // setIntakePivot(stowedPosition);
+      // setReverse();
+      lowerIntake();
     }
   }
 
@@ -148,7 +152,7 @@ public class Intake extends SubsystemBase {
 
   }
   public void lowerIntake(){
-    intakeLiftMotor.set(-0.3);
+    intakeLiftMotor.set(-0.15);
   }
 
 

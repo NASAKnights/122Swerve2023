@@ -60,7 +60,6 @@ public class HandOff extends CommandBase {
       Translation2d targetLocation = new Translation2d(-0.15, -0.622);
 
       arm.gotoXY(targetLocation);
-      claw.openClaw();
 
       Translation2d xy = arm.getXY();
       Translation2d xyError = targetLocation.minus(xy);
@@ -75,7 +74,6 @@ public class HandOff extends CommandBase {
       Translation2d targetLocation = new Translation2d(0.0728, -0.6801);
 
       arm.gotoXY(targetLocation);
-      claw.openClaw();
 
       Translation2d xy = arm.getXY();
       Translation2d xyError = targetLocation.minus(xy);
@@ -94,7 +92,9 @@ public class HandOff extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     if(!interrupted){
-      intake.setReverse();
+      if (indexer.checkItem() == "Cube"){
+        intake.handOffCube();
+      }
     }
   }
 

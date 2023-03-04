@@ -5,6 +5,7 @@
 package frc.robot.armoutreach;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.HandOff;
 import frc.robot.armoutreach.commands.Retract;
@@ -25,6 +26,7 @@ public class HandOffSequence extends SequentialCommandGroup {
     addCommands(
       new OpenClaw(claw),
       new HandOff(arm, claw, intake, indexer),
+      new WaitCommand(0.25),
       new Retract(arm, indexer, intake),
       new StopIntake(intake)
     );

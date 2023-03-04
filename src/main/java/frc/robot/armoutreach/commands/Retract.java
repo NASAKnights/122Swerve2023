@@ -39,7 +39,6 @@ public class Retract extends CommandBase {
   @Override
   public void execute() {
     arm.retractToZero();
-    
   }
 
   // Called once the command ends or is interrupted.

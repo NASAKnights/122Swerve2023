@@ -20,7 +20,9 @@ public class ColorInterpreter extends SubsystemBase {
   
 
   public String checkIndex(){
-    double x = ((input.getAverageValue() / 4095.0) * 255);
+
+    double scaling = 1.25;
+    double x = scaling * ((input.getAverageValue() / 4095.0) * 255);
     if(x < 42){
       SmartDashboard.putString("Whats in my robot", "None");
       return "No Object";
@@ -44,7 +46,7 @@ public class ColorInterpreter extends SubsystemBase {
     item = checkIndex();
 
   }
-  public String checkItem(){
+  public String checkItem() {
     return item;
   }
 
