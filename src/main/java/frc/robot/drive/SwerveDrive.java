@@ -116,7 +116,7 @@ public class SwerveDrive extends SubsystemBase {
         Constants.kDriveLimit = 0.7;
 
     }
-    public void setDefaultSpeed(){
+    public void setSlowSpeed(){
         Constants.kDriveLimit = 0.45;
     }
 

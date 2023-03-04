@@ -37,6 +37,7 @@ import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.ToggleTurbo;
 import frc.robot.colorSensor.ColorInterpreter;
 import frc.robot.drive.commands.DriveForwardTime;
+import frc.robot.drive.commands.ToggleSlow;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.intake.Intake;
@@ -100,7 +101,8 @@ public class RobotContainer {
         new JoystickButton(driver, 7).onTrue(new OpenClaw(claw));
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
 
-        // new JoystickButton(driver, 5).whileTrue(new RepeatCommand(new ToggleTurbo(swerve)));
+        new JoystickButton(driver, 5).onTrue(new ToggleSlow(swerve))
+                                                .onFalse(new ToggleTurbo(swerve));
 
         //------------Operator Buttons----------------------------------------------------------
         
@@ -178,8 +180,8 @@ public class RobotContainer {
         // return new AutoSequencer(swerve);
         // arm.resetPivotToAbsolute();
 
-        return new AutoOutOfCommunity(swerve);
-        // return new AutoScoreLow(swerve, intake, arm);
+        // return new AutoOutOfCommunity(swerve);
+        return new AutoScoreLow(swerve, intake, arm);
              
 
     }

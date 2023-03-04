@@ -25,8 +25,8 @@ public class GoToHigh extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    arm.gotoXY(new Translation2d(0.769,0.291));
+    // 877, 205
+    arm.gotoXY(new Translation2d(0.851,0.205));
   }
 
   // Called once the command ends or is interrupted.
