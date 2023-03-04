@@ -31,7 +31,7 @@ public class AutoScoreLow extends SequentialCommandGroup {
       new SetIntaketoAngle(intake, Math.PI * 0.5),
       // new WaitCommand(0.5),
       // new StowIntake(intake),
-      new AutoDriveForDistance(swerve, 4, 0, Rotation2d.fromDegrees(0))
+      new AutoDriveForDistance(swerve, 6.0, 0, Rotation2d.fromDegrees(0))
     );
   }
 }

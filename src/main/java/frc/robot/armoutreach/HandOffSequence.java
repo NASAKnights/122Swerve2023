@@ -25,6 +25,7 @@ public class HandOffSequence extends SequentialCommandGroup {
   
     addCommands(
       new OpenClaw(claw),
+      new WaitCommand(0.25),
       new HandOff(arm, claw, intake, indexer),
       new WaitCommand(0.25),
       new Retract(arm, indexer, intake),

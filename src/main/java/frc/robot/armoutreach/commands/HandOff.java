@@ -43,7 +43,7 @@ public class HandOff extends CommandBase {
   @Override
   public void execute() {
     if(item == "Cube"){
-      Translation2d targetLocation = new Translation2d(-0.15, -0.622);
+      Translation2d targetLocation = new Translation2d(-0.198, -0.607);
 
       arm.gotoXY(targetLocation);
 

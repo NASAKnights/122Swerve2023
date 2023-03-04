@@ -9,14 +9,18 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.event.BooleanEvent;
 import edu.wpi.first.wpilibj.event.EventLoop;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.armoutreach.ArmOutreach;
+import frc.robot.armoutreach.HandOffSequence;
 import frc.robot.armoutreach.commands.ExtendToLength;
 import frc.robot.armoutreach.commands.GoInside;
+import frc.robot.armoutreach.commands.GoToHP;
 import frc.robot.armoutreach.commands.GoToHigh;
 import frc.robot.armoutreach.commands.GoToLow;
 import frc.robot.armoutreach.commands.GoToMid;
@@ -62,6 +66,8 @@ public class RobotContainer {
     private Claw claw;
 
     private ColorInterpreter indexer;
+
+    // private ShuffleboardTab swerveModuleInfo = Shuffleboard.getTab("Swerve Modules");
 
     public RobotContainer() {
         driver = new Joystick(Constants.kDriverPort);
@@ -115,7 +121,7 @@ public class RobotContainer {
         // new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
 
         // new JoystickButton(operator, 1).whileTrue(new RepeatCommand(new GoInside(arm)));
-        new JoystickButton(operator, 1).onTrue(new HandOff(arm, claw, intake, indexer));
+        new JoystickButton(operator, 1).onTrue(new HandOffSequence(arm, intake, claw, indexer));
 
         new JoystickButton(operator, 2).whileTrue(new RepeatCommand(new GoToLow(arm)));
         new JoystickButton(operator, 3).whileTrue(new RepeatCommand(new GoToMid(arm)));
@@ -126,7 +132,8 @@ public class RobotContainer {
         // new JoystickButton(operator,5).whileTrue(new RepeatCommand(new LiftIntake(intake)));
         // new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
         new JoystickButton(operator, 5).whileTrue(new RepeatCommand(new StowInside(arm)));
-        new JoystickButton(operator, 6).whileTrue(new RepeatCommand(new SetIntaketoAngle(intake, Math.PI * 1.0)));
+        // new JoystickButton(operator, 6).whileTrue(new RepeatCommand(new SetIntaketoAngle(intake, Math.PI * 1.0)));
+        new JoystickButton(operator, 6).whileTrue(new RepeatCommand(new GoToHP(arm)));
 
         BooleanEvent liftaxis = operator.axisGreaterThan(0, 0.15, new EventLoop());
         BooleanEvent loweraxis = operator.axisLessThan(0, -0.15, new EventLoop());
@@ -158,6 +165,7 @@ public class RobotContainer {
         swerve.updateOffsets();
         arm.updateBoard();
         intake.updateBoard();
+        arm.cycleAbsolute();
     }
 
     public void teleopInit() {

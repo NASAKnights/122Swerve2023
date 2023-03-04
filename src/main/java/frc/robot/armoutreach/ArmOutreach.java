@@ -38,6 +38,8 @@ public class ArmOutreach extends SubsystemBase {
   private SparkMaxAbsoluteEncoder pivotAngle; // through bore encoder
   private RelativeEncoder pivotAngleQuad; // integrated encoder
 
+  private REVLibError sticky = REVLibError.kError;
+
 
   public double kPextend, kIextend, kDextend, kIzextend, kFFextend, kMaxOutputextend, kMinOutputextend;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
@@ -90,7 +92,7 @@ public class ArmOutreach extends SubsystemBase {
 
     arm.setClosedLoopRampRate(Constants.ArmConstants.kPivotClosedLoopRamp);
 
-    resetPivotToAbsolute();
+    // resetPivotToAbsolute();
     // pivotAngleQuad.setPosition(0.0);
 
     armFollower.follow(arm, true);
@@ -215,6 +217,12 @@ public class ArmOutreach extends SubsystemBase {
   public void lowerArmtoAngle(){
     pivotPID.setReference(1.5 * Math.PI, ControlType.kPosition);
 
+  }
+
+  public void cycleAbsolute(){
+    if (sticky != REVLibError.kOk){
+      sticky = pivotAngleQuad.setPosition(pivotAngle.getPosition());
+    }
   }
 
   /**
