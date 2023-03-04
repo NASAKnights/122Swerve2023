@@ -226,7 +226,7 @@ public class Constants {
 
         public static final int kAnalogPressureChannel = 1;
 
-        public static final double kMinPressure = 65.0;
+        public static final double kMinPressure = 85.0;
         public static final double kMaxPressure = 110.0;
 
         public static final int kSolenoidForward = 0;

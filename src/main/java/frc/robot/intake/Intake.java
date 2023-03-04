@@ -116,7 +116,14 @@ public class Intake extends SubsystemBase {
     intakeLiftEncoder.setPosition(0.0);
   }
 
+  public double checkAngle(){
+    return intakeLiftEncoder.getPosition();
+  }
+
   public void setIntakePivot(double angle){
+    if (angle > Math.PI * 1.1){
+      return;
+    }
     double speeds = (intakeLiftEncoder.getPosition() - angle);
     armLoop.setNextR(VecBuilder.fill(angle, speeds));
     armLoop.correct(VecBuilder.fill(intakeLiftEncoder.getVelocity()));
@@ -137,11 +144,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void liftIntake(){
-    intakeLiftMotor.set(0.1);
+    intakeLiftMotor.set(0.3);
 
   }
   public void lowerIntake(){
-    intakeLiftMotor.set(-0.1);
+    intakeLiftMotor.set(-0.3);
   }
 
 
