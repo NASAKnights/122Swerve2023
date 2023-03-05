@@ -117,7 +117,7 @@ public class SwerveDrive extends SubsystemBase {
 
     }
     public void setSlowSpeed(){
-        Constants.kDriveLimit = 0.45;
+        Constants.kDriveLimit = 0.15;
     }
 
     public Rotation2d getHeading() {
