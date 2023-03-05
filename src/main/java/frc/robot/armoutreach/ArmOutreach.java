@@ -298,7 +298,7 @@ public class ArmOutreach extends SubsystemBase {
     
     // Send goals to lower level control loops (motor controllers)
     extendPID.setReference(extendGoal, ControlType.kPosition);    
-    if (Math.abs(extendEncoder.getPosition() - extendGoal) < 0.01){
+    if (Math.abs(extendEncoder.getPosition() - extendGoal) < 0.1){
       pivotPID.setReference(pivotGoal, ControlType.kPosition);
     }
 
