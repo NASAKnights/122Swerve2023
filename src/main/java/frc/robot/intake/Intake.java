@@ -102,7 +102,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void setReverse(){
-    intakeMotor.set(-0.6);
+    intakeMotor.set(-0.8);
   }
 
   public void handOffCube(){

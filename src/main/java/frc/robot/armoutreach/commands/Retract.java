@@ -14,6 +14,8 @@ public class Retract extends CommandBase {
   private ArmOutreach arm;
   private ColorInterpreter indexer;
   private Intake intake;
+
+  private boolean finished = false;
   public Retract(ArmOutreach arm, ColorInterpreter indexer, Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
@@ -39,6 +41,10 @@ public class Retract extends CommandBase {
   @Override
   public void execute() {
     arm.retractToZero();
+    if (Math.abs(arm.getExtendLength()) < 0.025){
+      finished = true;
+    }
+
   }
 
   // Called once the command ends or is interrupted.
@@ -50,7 +56,8 @@ public class Retract extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return arm.isRetracted();
+    // return arm.isRetracted();
+    return finished;
   }
 }
 

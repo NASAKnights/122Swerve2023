@@ -114,7 +114,7 @@ public class ArmOutreach extends SubsystemBase {
     kPextend = 1.5; 
     kIextend = 5e-4;
     kDextend = 0.01; 
-    kIzextend = 0; 
+    kIzextend = 0.0; 
     kFFextend = 0.35; 
     kMaxOutputextend = 0.75; 
     kMinOutputextend = -0.75;
@@ -195,6 +195,10 @@ public class ArmOutreach extends SubsystemBase {
     extendPID.setReference(0.0, CANSparkMax.ControlType.kPosition);
   }
 
+  public double getExtendLength(){
+    return extendEncoder.getPosition();
+  }
+
   public boolean isRetracted(){
     return outreach.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isPressed();
   }
@@ -256,7 +260,7 @@ public class ArmOutreach extends SubsystemBase {
     
     // Send goals to lower level control loops (motor controllers)
     pivotPID.setReference(pivotGoal, ControlType.kPosition);
-    if (Math.abs(pivotAngleQuad.getPosition() - pivotGoal) < 0.1 * Math.PI){
+    if (Math.abs(pivotAngleQuad.getPosition() - pivotGoal) < 0.075 * Math.PI){
       extendPID.setReference(extendGoal, ControlType.kPosition);
     }
 
