@@ -155,6 +155,12 @@ public class Intake extends SubsystemBase {
     intakeLiftMotor.set(-0.15);
   }
 
+  public void intakeCube(){
+    runIntakeReverse();
+  }
+  public void intakeCone(){
+    runIntakeForward();
+  }
 
   public void stopIntakeLift(){
     intakeLiftMotor.stopMotor();

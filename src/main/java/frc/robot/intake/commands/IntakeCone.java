@@ -25,13 +25,17 @@ public class IntakeCone extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //after the button has been pressed do the following
     intake.setIntakePivot(0);
-    intake.setIntake();
+    intake.intakeCone();
+    //once the button is released, stop
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intake.stopIntake();
+  }
 
   // Returns true when the command should end.
   @Override
