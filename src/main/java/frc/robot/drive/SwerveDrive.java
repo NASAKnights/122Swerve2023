@@ -84,6 +84,10 @@ public class SwerveDrive extends SubsystemBase {
         // System.out.println("Data: "+red+" "+yellow);
     }
 
+    public void drive(ChassisSpeeds speeds) {
+        drive(speeds, false);
+    }
+
     public void drive(ChassisSpeeds speeds, boolean isOpenLoop) {
         this.speeds = speeds;
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
@@ -255,6 +259,9 @@ public class SwerveDrive extends SubsystemBase {
         this.odometry.update(this.getHeading(), this.getModulePositions());
     }
 
+    public SwerveDriveKinematics getKinematics() {
+        return kinematics;
+    }
 
 
     @Override
