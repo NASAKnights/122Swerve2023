@@ -45,6 +45,8 @@ import frc.robot.drive.commands.ToggleSlow;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.intake.Intake;
+import frc.robot.intake.commands.IntakeCone;
+import frc.robot.intake.commands.IntakeCube;
 import frc.robot.intake.commands.LiftIntake;
 import frc.robot.intake.commands.LowerIntake;
 import frc.robot.intake.commands.SetIntakeForward;
@@ -127,8 +129,8 @@ public class RobotContainer {
         new JoystickButton(operator, 3).whileTrue(new RepeatCommand(new GoToMid(arm)));
         new JoystickButton(operator, 4).whileTrue(new RepeatCommand(new GoToHigh(arm)));
         
-        new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
-        new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
+        new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new IntakeCone(intake)));
+        new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new IntakeCube(intake)));
         // new JoystickButton(operator,5).whileTrue(new RepeatCommand(new LiftIntake(intake)));
         // new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
         new JoystickButton(operator, 5).whileTrue(new RepeatCommand(new StowInside(arm)));
