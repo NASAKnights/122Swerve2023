@@ -107,20 +107,11 @@ public class RobotContainer {
         new JoystickButton(driver, 7).onTrue(new OpenClaw(claw));
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
 
-        new JoystickButton(driver, 5).onTrue(new ToggleSlow(swerve))
-                                                .onFalse(new ToggleTurbo(swerve));
+        new JoystickButton(driver, 5).onFalse(new ToggleSlow(swerve))
+                                                .onTrue(new ToggleTurbo(swerve));
 
         //------------Operator Buttons----------------------------------------------------------
-        
-        // new JoystickButton(operator, 1).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
-        // new JoystickButton(operator, 4).whileTrue(new RepeatCommand (new Retract(arm)));
-
-        // new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftArm(arm)));
-        // new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftToAngle(arm)));
-        // new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerArm(arm)));
-        // new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
-
-        // new JoystickButton(operator, 1).whileTrue(new RepeatCommand(new GoInside(arm)));
+    
         new JoystickButton(operator, 1).onTrue(new HandOffSequence(arm, intake, claw, indexer));
 
         new JoystickButton(operator, 2).whileTrue(new RepeatCommand(new GoToLow(arm)));
@@ -129,10 +120,8 @@ public class RobotContainer {
         
         new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
         new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
-        // new JoystickButton(operator,5).whileTrue(new RepeatCommand(new LiftIntake(intake)));
-        // new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
+        
         new JoystickButton(operator, 5).whileTrue(new RepeatCommand(new StowInside(arm)));
-        // new JoystickButton(operator, 6).whileTrue(new RepeatCommand(new SetIntaketoAngle(intake, Math.PI * 1.0)));
         new JoystickButton(operator, 6).whileTrue(new RepeatCommand(new GoToHP(arm)));
 
         BooleanEvent liftaxis = operator.axisGreaterThan(0, 0.15, new EventLoop());
