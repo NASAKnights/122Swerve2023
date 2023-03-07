@@ -11,12 +11,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ColorInterpreter extends SubsystemBase {
 
   private AnalogInput input = new AnalogInput(0);
+
+  private String item = "None";
   /** Creates a new Indexer. */
   public ColorInterpreter() {
   }
 
+  
+
   public String checkIndex(){
-    double scaling = 1.2;
+
+    double scaling = 1.25;
     double x = scaling * ((input.getAverageValue() / 4095.0) * 255);
     if(x < 42){
       SmartDashboard.putString("Whats in my robot", "None");
@@ -35,6 +40,14 @@ public class ColorInterpreter extends SubsystemBase {
       return "High Cone";
     }
     return "";
+  }
+
+  public void setItem(){
+    item = checkIndex();
+
+  }
+  public String checkItem() {
+    return item;
   }
 
   @Override

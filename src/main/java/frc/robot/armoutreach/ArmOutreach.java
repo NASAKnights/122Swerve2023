@@ -38,6 +38,8 @@ public class ArmOutreach extends SubsystemBase {
   private SparkMaxAbsoluteEncoder pivotAngle; // through bore encoder
   private RelativeEncoder pivotAngleQuad; // integrated encoder
 
+  private REVLibError sticky = REVLibError.kError;
+
 
   public double kPextend, kIextend, kDextend, kIzextend, kFFextend, kMaxOutputextend, kMinOutputextend;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
@@ -90,7 +92,7 @@ public class ArmOutreach extends SubsystemBase {
 
     arm.setClosedLoopRampRate(Constants.ArmConstants.kPivotClosedLoopRamp);
 
-    resetPivotToAbsolute();
+    // resetPivotToAbsolute();
     // pivotAngleQuad.setPosition(0.0);
 
     armFollower.follow(arm, true);
@@ -112,7 +114,7 @@ public class ArmOutreach extends SubsystemBase {
     kPextend = 1.5; 
     kIextend = 5e-4;
     kDextend = 0.01; 
-    kIzextend = 0; 
+    kIzextend = 0.0; 
     kFFextend = 0.35; 
     kMaxOutputextend = 0.75; 
     kMinOutputextend = -0.75;
@@ -194,6 +196,10 @@ public class ArmOutreach extends SubsystemBase {
     extendPID.setReference(0.0, CANSparkMax.ControlType.kPosition);
   }
 
+  public double getExtendLength(){
+    return extendEncoder.getPosition();
+  }
+
   public boolean isRetracted(){
     return outreach.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen).isPressed();
   }
@@ -216,6 +222,12 @@ public class ArmOutreach extends SubsystemBase {
   public void lowerArmtoAngle(){
     pivotPID.setReference(1.5 * Math.PI, ControlType.kPosition);
 
+  }
+
+  public void cycleAbsolute(){
+    if (sticky != REVLibError.kOk){
+      sticky = pivotAngleQuad.setPosition(pivotAngle.getPosition());
+    }
   }
 
   /**
@@ -249,7 +261,7 @@ public class ArmOutreach extends SubsystemBase {
     
     // Send goals to lower level control loops (motor controllers)
     pivotPID.setReference(pivotGoal, ControlType.kPosition);
-    if (Math.abs(pivotAngleQuad.getPosition() - pivotGoal) < 0.1 * Math.PI){
+    if (Math.abs(pivotAngleQuad.getPosition() - pivotGoal) < 0.075 * Math.PI){
       extendPID.setReference(extendGoal, ControlType.kPosition);
     }
 
@@ -291,7 +303,7 @@ public class ArmOutreach extends SubsystemBase {
     
     // Send goals to lower level control loops (motor controllers)
     extendPID.setReference(extendGoal, ControlType.kPosition);    
-    if (Math.abs(extendEncoder.getPosition() - extendGoal) < 0.01){
+    if (Math.abs(extendEncoder.getPosition() - extendGoal) < 0.1){
       pivotPID.setReference(pivotGoal, ControlType.kPosition);
     }
 

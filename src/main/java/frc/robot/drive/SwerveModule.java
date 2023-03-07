@@ -1,5 +1,6 @@
 package frc.robot.drive;
 
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -120,11 +121,7 @@ public class SwerveModule {
 
 
     private void resetToAbsolute() {
-        // lastAngle = -angleOffset.getDegrees();
-        lastAngle = getCANCoder().minus(angleOffset).getDegrees();
-        // turnEncoder.setPositionToAbsolute();
-        // lastAngle = turnEncoder.getAbsolutePosition();
-        
+        lastAngle = (getCANCoder().minus(angleOffset).getDegrees());
         double absolutePosition = Conversions.degreesToFalcon(lastAngle, ModuleConstants.kTurnGearRatio);
         turn.setSelectedSensorPosition(absolutePosition);
         
@@ -175,14 +172,14 @@ public class SwerveModule {
     }
 
     public void updateSmartDash() {
-        // SmartDashboard.putNumber(id + " Offsets", this.angleOffset.getDegrees());
         // SmartDashboard.putNumber(id + " Last Angle", lastAngle);
+        // SmartDashboard.putNumber(id + " Current Angle", getAngleRotation2d().getDegrees());
+        // SmartDashboard.putNumber(id + " Module Encoder Raw Position", turnEncoder.getAbsolutePosition());
+        // SmartDashboard.putNumber(id + " Motor Integrated Sensor Position", turn.getSelectedSensorPosition());
         SmartDashboard.putNumber(id + "Magnet offset", angleOffset.getDegrees());
         // SmartDashboard.putNumber(id + " Module Angle", turnEncoder.getPosition());
-        // SmartDashboard.putNumber(id + " Velocity", getVelocityMPS());
         // SmartDashboard.putNumber(id + " turn.getPos()", turn.getSelectedSensorPosition());
         // SmartDashboard.putNumber(id + " cancoder", turnEncoder.getAbsolutePosition());
-        // SmartDashboard.putNumber(id + " CancoderID", turnEncoder.getDeviceID());
     }
 
     private SwerveModuleState checkForWrapAround(SwerveModuleState desiredState, Rotation2d currentState){

@@ -19,6 +19,7 @@ public class HandOff extends CommandBase {
   private ColorInterpreter indexer;
 
   private boolean finished = false;
+  private String item = "None";
 
   public HandOff(ArmOutreach arm, Claw claw, Intake intake, ColorInterpreter indexer) {
     this.arm = arm;
@@ -31,15 +32,18 @@ public class HandOff extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    indexer.setItem();
+    item = indexer.checkItem();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
 
   // NOTE/DISCLAIMER: The translations need to be tweaked
   @Override
   public void execute() {
-    if(indexer.checkIndex() == "Cube"){
-      Translation2d targetLocation = new Translation2d(-0.15, -0.622);
+    if(item == "Cube"){
+      Translation2d targetLocation = new Translation2d(-0.198, -0.607);
 
       arm.gotoXY(targetLocation);
 
@@ -52,26 +56,24 @@ public class HandOff extends CommandBase {
         finished = true;
       }
     }
-    else if(indexer.checkIndex() == "Low Cone"){
-      Translation2d targetLocation = new Translation2d(-0.15, -0.622);
+    else if(item == "Low Cone"){
+      Translation2d targetLocation = new Translation2d(-0.218, -0.602);
 
       arm.gotoXY(targetLocation);
-      // claw.openClaw();
 
       Translation2d xy = arm.getXY();
       Translation2d xyError = targetLocation.minus(xy);
 
       //check xy error, then continue when xy is within maximum allowed error.
-      if(xyError.getNorm() < 0.01){
+      if(xyError.getNorm() < 0.025){
         claw.closeClaw();
         finished = true;
       }
     }
-    else if(indexer.checkIndex() == "High Cone"){
+    else if(item == "High Cone"){
       Translation2d targetLocation = new Translation2d(0.0728, -0.6801);
 
       arm.gotoXY(targetLocation);
-      // claw.openClaw();
 
       Translation2d xy = arm.getXY();
       Translation2d xyError = targetLocation.minus(xy);
@@ -79,7 +81,7 @@ public class HandOff extends CommandBase {
       
 
       //check xy error, then continue when xy is within maximum allowed error.
-      if(xyError.getNorm() < 0.01){
+      if(xyError.getNorm() < 0.025){
         claw.closeClaw();
         finished = true;
       }
@@ -91,8 +93,7 @@ public class HandOff extends CommandBase {
   public void end(boolean interrupted) {
     
     if(!interrupted){
-      
-      if (indexer.checkIndex() == "Cube"){
+      if (indexer.checkItem() == "Cube"){
         intake.handOffCube();
       }
     }

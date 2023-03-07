@@ -3,10 +3,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Robot extends TimedRobot {
 
     private RobotContainer container;
+    private CommandBase autoSequencer;
+
+    private CommandBase m_autoCommand;
 
     @Override
     public void robotInit() {
@@ -21,6 +25,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        m_autoCommand = container.autonomousInit();
+        if (m_autoCommand != null){
+            m_autoCommand.schedule();
+        }
     }
 
     @Override
@@ -29,6 +37,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        if (m_autoCommand != null){
+            m_autoCommand.cancel();
+        }
         container.teleopInit();
     }
 

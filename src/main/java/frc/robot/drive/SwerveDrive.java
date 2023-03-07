@@ -96,6 +96,10 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
+    public double getDistanceMeters(){
+        return frontLeft.getDistanceMeters();
+    }
+
     public void setCoast(){
         for (int i = 0; i < 4; i++){
             this.modules[i].setTurnCoast();
@@ -112,8 +116,8 @@ public class SwerveDrive extends SubsystemBase {
         Constants.kDriveLimit = 0.7;
 
     }
-    public void setDefaultSpeed(){
-        Constants.kDriveLimit = 0.45;
+    public void setSlowSpeed(){
+        Constants.kDriveLimit = 0.15;
     }
 
     public Rotation2d getHeading() {
