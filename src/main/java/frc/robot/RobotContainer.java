@@ -107,8 +107,8 @@ public class RobotContainer {
         new JoystickButton(driver, 7).onTrue(new OpenClaw(claw));
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
 
-        new JoystickButton(driver, 5).onTrue(new ToggleSlow(swerve))
-                                                .onFalse(new ToggleTurbo(swerve));
+        new JoystickButton(driver, 5).onFalse(new ToggleSlow(swerve))
+                                                .onTrue(new ToggleTurbo(swerve));
 
         //------------Operator Buttons----------------------------------------------------------
     

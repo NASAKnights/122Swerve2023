@@ -89,7 +89,7 @@ public class Constants {
                                                     {257.607, 275.273, 0.0}, // green 3, 7, 11
                                                     {103.359 - 5, 87.539,  0.0}}; // yellow 4, 8, 12
 
-    public static double kDriveLimit = 0.7; // 0.7 fast
+    public static double kDriveLimit = 0.15; // 0.7 fast
     public static double kRotationLimit = kDriveLimit/2.0;
 
     // TODO: adjust 2nd set of modules
