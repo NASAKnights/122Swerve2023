@@ -92,6 +92,10 @@ public class Constants {
     public static double kDriveLimit = 0.15; // 0.7 fast
     public static double kRotationLimit = kDriveLimit/2.0;
 
+    public static final class LEDConstants {
+        public static final int kBlinkinID = 0;
+    }
+
     // TODO: adjust 2nd set of modules
     public static final class ArmConstants {
 
