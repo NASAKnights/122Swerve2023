@@ -2,7 +2,13 @@ package frc.robot;
 
 import static frc.robot.Constants.kNavXPort;
 
+import java.util.HashMap;
+
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
@@ -42,6 +48,7 @@ import frc.robot.drive.commands.ToggleTurbo;
 import frc.robot.colorSensor.ColorInterpreter;
 import frc.robot.drive.commands.DriveForwardTime;
 import frc.robot.drive.commands.ToggleSlow;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.intake.Intake;
@@ -171,6 +178,27 @@ public class RobotContainer {
     public void disabledInit(){
         swerve.setCoast();
         
+    }
+
+    public CommandBase getAutonomousCommand() {
+        var group = PathPlanner.loadPathGroup(
+            "DriveStraightThreeMeters",
+            new PathConstraints(3, 2)
+        );
+
+        HashMap<String, Command> eventMap = new HashMap<>();
+
+        SwerveAutoBuilder builder = new SwerveAutoBuilder(
+            swerve::getPose,
+            swerve::resetPose,
+            new PIDConstants(0, 0, 0),
+            new PIDConstants(0, 0, 0),
+            swerve::drive,
+            eventMap,
+            swerve
+        );
+
+        return builder.fullAuto(group);
     }
 
     public CommandBase autonomousInit(){
