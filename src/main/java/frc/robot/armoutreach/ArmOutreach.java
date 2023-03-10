@@ -392,4 +392,30 @@ public class ArmOutreach extends SubsystemBase {
     // SmartDashboard.putBoolean("Limit F switch", limitSwitchPressed());
 
   }
+
+  public enum State{
+    Inside(-0.069,-0.659),
+    HPStation(0.533, 0.0),
+    High(0.851, 0.205),
+    Mid(0.533, 0.0283),
+    Low(0.196, -0.733);
+
+    private double x, y;
+
+    State(double x, double y) {
+      this.x = x;
+      this.y = y;
+    }
+
+    public double getX() {
+      return x;
+    }
+
+    public double getY() {
+      return y;
+    }
+  }
+
+
+
 }
