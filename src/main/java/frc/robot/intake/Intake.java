@@ -122,16 +122,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void setIntakePivot(double angle){
-    if (angle > Math.PI * 1.1){
-      return;
-    }
-    double speeds = (intakeLiftEncoder.getPosition() - angle);
-    // double speeds = Math.min(0.3, intakeLiftEncoder.getPosition() - angle);
-    armLoop.setNextR(VecBuilder.fill(angle, speeds));
-    armLoop.correct(VecBuilder.fill(intakeLiftEncoder.getVelocity()));
-    armLoop.predict(0.020);
-    double nextVoltage = armLoop.getU(0);
-    intakeLiftMotor.setVoltage(nextVoltage);
+    intakeLiftPID.setReference(angle, ControlType.kPosition);
   }
 
   public void stowIntake(){

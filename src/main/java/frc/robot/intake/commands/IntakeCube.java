@@ -5,12 +5,14 @@
 package frc.robot.intake.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.intake.Intake;
 
 public class IntakeCube extends CommandBase {
   /** Creates a new IntakeCube. */
 
   private Intake intake;
+  private ArmOutreach arm;
 
   public IntakeCube(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,8 +28,11 @@ public class IntakeCube extends CommandBase {
   @Override
   public void execute() {
     //after the button has been pressed do the following
-    intake.setIntakePivot(10);
-    intake.intakeCube();
+    arm.setArmToAngle((20 * Math.PI) / 12);
+    if(arm.getArmAngle() > (19 * Math.PI) / 12){
+      intake.setIntakePivot(5 * Math.PI / 6);
+      intake.intakeCube();
+    }
   }
 
   // Called once the command ends or is interrupted.
