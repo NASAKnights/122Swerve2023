@@ -23,8 +23,8 @@ public class Constants {
 
     public static int kGamePiece = -1;
 
-    // public static final SDSModuleType kSDSModule = SDSModuleType.MK4I_L2;
-    public static final SDSModuleType kSDSModule = SDSModuleType.MK4I_L3;
+    public static final SDSModuleType kSDSModule = SDSModuleType.MK4I_L2;
+    // public static final SDSModuleType kSDSModule = SDSModuleType.MK4I_L3;
 
     public static final double kTrackwidthMeters = 0.4;
     public static final double kWheelbaseMeters = 0.4;
@@ -89,7 +89,7 @@ public class Constants {
                                                     {257.607, 275.273, 0.0}, // green 3, 7, 11
                                                     {103.359 - 5, 87.539,  0.0}}; // yellow 4, 8, 12
 
-    public static double kDriveLimit = 0.15; // 0.7 fast
+    public static double kDriveLimit = 0.7; // 0.7 fast
     public static double kRotationLimit = kDriveLimit/2.0;
 
     // TODO: adjust 2nd set of modules
@@ -193,7 +193,7 @@ public class Constants {
         };
 
         public static final double kOpenLoopRamp = 1.00;
-        public static final double kClosedLoopRamp = 1.00;
+        public static final double kClosedLoopRamp = 0.50;
 
         public static final boolean kTurnEnableCurrentLimit = true;
         public static final int kTurnContinuousCurrentLimit = 25;
@@ -216,7 +216,8 @@ public class Constants {
 
         public static final double kTurnP = 0.6;
         public static final double kTurnI = 0;
-        public static final double kTurnD = 0.6; // 12.0
+        public static final double kTurnD = 12.0;
+        // public static final double kTurnD = 0.6;
         public static final double kTurnF = 0.0;
 
         public static final Rotation2d kAllowableAngleTolerance = Rotation2d.fromDegrees(5.0);

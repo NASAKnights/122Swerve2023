@@ -114,8 +114,8 @@ public class RobotContainer {
         new JoystickButton(driver, 7).onTrue(new OpenClaw(claw));
         new JoystickButton(driver,8).onTrue(new CloseClaw(claw));
 
-        new JoystickButton(driver, 5).onFalse(new ToggleSlow(swerve))
-                                                .onTrue(new ToggleTurbo(swerve));
+        // new JoystickButton(driver, 5).onFalse(new ToggleSlow(swerve))
+        //                                         .onTrue(new ToggleTurbo(swerve));
 
         //------------Operator Buttons----------------------------------------------------------
     
@@ -191,8 +191,8 @@ public class RobotContainer {
         SwerveAutoBuilder builder = new SwerveAutoBuilder(
             swerve::getPose,
             swerve::resetPose,
-            new PIDConstants(0, 0, 0),
-            new PIDConstants(0, 0, 0),
+            new PIDConstants(9, 0, 0),
+            new PIDConstants(3, 0, 0),
             swerve::drive,
             eventMap,
             swerve
