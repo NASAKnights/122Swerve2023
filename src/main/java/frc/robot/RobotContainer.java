@@ -52,6 +52,7 @@ import frc.robot.intake.commands.LowerIntake;
 import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntakeReverse;
 import frc.robot.intake.commands.SetIntaketoAngle;
+import frc.robot.intake.commands.StowIntake;
 
 public class RobotContainer {
 
@@ -100,6 +101,7 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         swerve.setDefaultCommand(new DriveCommand(driver, swerve));
+        intake.setDefaultCommand(new StowIntake(intake));
     }
 
     private void configureButtonBindings() {

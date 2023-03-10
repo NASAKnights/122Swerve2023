@@ -120,7 +120,7 @@ public class Constants {
     public static final class IntakeConstants {
 
         public static final int kLiftMotor = 8; // motor that lifts the intake
-        public static final int kIntakeMotor = 0; // motor that runs the wheels
+        public static final int kIntakeMotor = 4; // motor that runs the wheels
 
     }
     
