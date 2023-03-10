@@ -116,8 +116,8 @@ public class ArmOutreach extends SubsystemBase {
     kDextend = 0.01; 
     kIzextend = 0.0; 
     kFFextend = 0.35; 
-    kMaxOutputextend = 0.75; 
-    kMinOutputextend = -0.75;
+    kMaxOutputextend = 1.0; 
+    kMinOutputextend = -1.0;
 
     kP = 0.9; 
     kI = 1e-4;
@@ -125,7 +125,7 @@ public class ArmOutreach extends SubsystemBase {
     kIz = 0; 
     kFF = 0; 
     kMaxOutput = 0.75; 
-    kMinOutput = -0.5;
+    kMinOutput = -0.75;
 
     extendPID.setP(kPextend);
     extendPID.setI(kIextend);
@@ -383,4 +383,30 @@ public class ArmOutreach extends SubsystemBase {
     // SmartDashboard.putBoolean("Limit F switch", limitSwitchPressed());
 
   }
+
+  public enum State{
+    Inside(-0.069,-0.659),
+    HPStation(0.533, 0.0),
+    High(0.851, 0.205),
+    Mid(0.533, 0.0283),
+    Low(0.196, -0.733);
+
+    private double x, y;
+
+    State(double x, double y) {
+      this.x = x;
+      this.y = y;
+    }
+
+    public double getX() {
+      return x;
+    }
+
+    public double getY() {
+      return y;
+    }
+  }
+
+
+
 }
