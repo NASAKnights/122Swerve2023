@@ -69,9 +69,7 @@ public class AutoCommand extends CommandBase {
     else{
       end(isFinished());
     }
-    else{
-      end(isFinished());
-    }
+    
 
   }
 
@@ -152,7 +150,7 @@ public class AutoCommand extends CommandBase {
     //driveForSeconds(speeds, 3);
     driveForMeters(speeds, 1);
 
-    System.out.println(pid.calculate(swerve.getDistanceMeters(), 1));
+    //System.out.println(pid.calculate(swerve.getDistanceMeters(), 1));
   }
 
   // Called once the command ends or is interrupted.

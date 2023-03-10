@@ -71,9 +71,7 @@ public class AutoCommand extends CommandBase {
     else{
       end(isFinished());
     }
-    else{
-      end(isFinished());
-    }
+    
 
   }
 
@@ -120,13 +118,13 @@ public class AutoCommand extends CommandBase {
     //driveToTarget(0.2, 2);
     //driveForSeconds(speeds, 3);
 
-    SmartDashboard.putBoolean("toleranceStop", pid.atSetpoint());
-    if(pid.atSetpoint() == false){
-      driveForMeters(speeds, 1);
-    }else{
-      end(isFinished());
+    // SmartDashboard.putBoolean("toleranceStop", pid.atSetpoint());
+    // if(pid.atSetpoint() == false){
+    //   driveForMeters(speeds, 1);
+    // }else{
+    //   end(isFinished());
     }
-  }
+  
 
   // Called once the command ends or is interrupted.
   @Override
