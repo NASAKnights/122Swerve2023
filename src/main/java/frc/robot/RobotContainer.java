@@ -43,7 +43,7 @@ import frc.robot.colorSensor.ColorInterpreter;
 import frc.robot.drive.commands.DriveForwardTime;
 import frc.robot.drive.commands.ToggleSlow;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.robot.intake.Intake;
 import frc.robot.intake.commands.IntakeCone;
 import frc.robot.intake.commands.IntakeCube;
@@ -101,7 +101,6 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         swerve.setDefaultCommand(new DriveCommand(driver, swerve));
-        intake.setDefaultCommand(new StowIntake(intake));
     }
 
     private void configureButtonBindings() {
@@ -121,6 +120,9 @@ public class RobotContainer {
         new JoystickButton(operator, 2).whileTrue(new RepeatCommand(new GoToLow(arm)));
         new JoystickButton(operator, 3).whileTrue(new RepeatCommand(new GoToMid(arm)));
         new JoystickButton(operator, 4).whileTrue(new RepeatCommand(new GoToHigh(arm)));
+
+        Trigger op7 =  new JoystickButton(operator, 7);
+        Trigger op8 = new JoystickButton(operator, 8);
         
         new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
         new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));

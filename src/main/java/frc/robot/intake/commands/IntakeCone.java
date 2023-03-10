@@ -31,7 +31,10 @@ public class IntakeCone extends CommandBase {
   @Override
   public void execute() {
     //after the button has been pressed do the following
-    arm.setArmToAngle((20.0 * Math.PI) / 12.0);
+    if(!armClear)
+    {
+      arm.setArmToAngle((20.0 * Math.PI) / 12.0);
+    }
     if(arm.getArmAngle() > (19.0 * Math.PI) / 12.0 && !armClear){
       armClear = true;
     }
@@ -47,6 +50,7 @@ public class IntakeCone extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     intake.stopIntake();
+    arm.stopArm();
   }
 
   // Returns true when the command should end.

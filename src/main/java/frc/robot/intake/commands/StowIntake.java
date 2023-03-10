@@ -25,7 +25,12 @@ public class StowIntake extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if(intake.getAngle() < 0.05)
+    {
+      finished = true;
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -45,6 +50,7 @@ public class StowIntake extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     intake.stopIntakeLift();
+    arm.stopArm();
   }
 
   // Returns true when the command should end.
