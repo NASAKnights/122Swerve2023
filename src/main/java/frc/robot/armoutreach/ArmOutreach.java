@@ -224,6 +224,14 @@ public class ArmOutreach extends SubsystemBase {
 
   }
 
+  public double getArmAngle(){
+    return pivotAngle.getPosition();
+  }
+
+  public void setArmToAngle(double angle){
+    pivotPID.setReference(angle, ControlType.kPosition);
+  }
+
   public void cycleAbsolute(){
     if (sticky != REVLibError.kOk){
       sticky = pivotAngleQuad.setPosition(pivotAngle.getPosition());
