@@ -20,19 +20,26 @@ public class IntakeCone extends CommandBase {
     this.intake = intake;
     addRequirements(intake);
   }
-
+  private boolean armClear;
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    armClear = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //after the button has been pressed do the following
-    arm.setArmToAngle((20 * Math.PI) / 12);
-    if(arm.getArmAngle() > (19 * Math.PI) / 12){
+    arm.setArmToAngle((20.0 * Math.PI) / 12.0);
+    if(arm.getArmAngle() > (19.0 * Math.PI) / 12.0 && !armClear){
+      armClear = true;
+    }
+    if(armClear)
+    {
       intake.setIntakePivot(Math.PI);
       intake.intakeCone();
+      arm.setArmToAngle(1.5 * Math.PI);
     }
   }
 

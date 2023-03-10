@@ -5,17 +5,22 @@
 package frc.robot.intake.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.intake.Intake;
 
 public class StowIntake extends CommandBase {
 
   private Intake intake;
+  private ArmOutreach arm;
   private boolean finished = false;
+  private boolean intakeVert = false;
   /** Creates a new StowIntake. */
-  public StowIntake(Intake intake) {
+  public StowIntake(Intake intake, ArmOutreach arm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
+    this.arm = arm;
     addRequirements(intake);
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
@@ -25,10 +30,14 @@ public class StowIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // intake.stowIntake();
-    intake.lowerIntake();
-    if (Math.abs(intake.checkAngle()) < 0.5){
-      finished = true;
+    intake.setIntakePivot(0);
+    if(intake.getAngle() < Math.PI/2 && !intakeVert)
+    {
+      intakeVert = true;
+    }
+    else
+    {
+      arm.setArmToAngle((20.0 * Math.PI) / 12.0);
     }
   }
 

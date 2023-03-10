@@ -29,7 +29,7 @@ public class SetIntaketoAngle extends CommandBase {
   public void execute() {
     // intake.setIntakePivot(angle);
     intake.liftIntake();
-    if (Math.abs(intake.checkAngle() - angle) < 0.5){
+    if (Math.abs(intake.getAngle() - angle) < 0.5){
       finished = true;
     }
   }
