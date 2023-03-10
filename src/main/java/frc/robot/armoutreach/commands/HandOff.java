@@ -71,7 +71,12 @@ public class HandOff extends CommandBase {
       }
     }
     else if(item == "High Cone"){
-      Translation2d targetLocation = new Translation2d(0.0728, -0.6801);
+      // Translation2d targetLocation = new Translation2d(0.0728, -0.6801); \
+      // 0.036, -0.630
+      // 0.0123, -0.586
+      // 0.0159, -0.585
+      // 0.0088, -0.590
+      Translation2d targetLocation = new Translation2d(0.03, -0.62);
 
       arm.gotoXY(targetLocation);
 
