@@ -13,11 +13,17 @@ public class ColorInterpreter extends SubsystemBase {
   private AnalogInput input = new AnalogInput(0);
 
   private String item = "None";
+  private String lastItem = "None";
   /** Creates a new Indexer. */
   public ColorInterpreter() {
   }
 
-  
+  public String getLast(){
+    return lastItem;
+  }
+  public void setLast(String item){
+    lastItem = item;
+  }
 
   public String checkIndex(){
 
