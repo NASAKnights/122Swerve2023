@@ -2,6 +2,8 @@ package frc.robot;
 
 import static frc.robot.Constants.kNavXPort;
 
+import java.util.function.BooleanSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -45,6 +47,7 @@ import frc.robot.drive.commands.ToggleSlow;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.robot.intake.Intake;
+import frc.robot.intake.StowIntakeSequence;
 import frc.robot.intake.commands.IntakeCone;
 import frc.robot.intake.commands.IntakeCube;
 import frc.robot.intake.commands.LiftIntake;
@@ -124,19 +127,22 @@ public class RobotContainer {
         // new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
 
         // new JoystickButton(operator, 1).whileTrue(new RepeatCommand(new GoInside(arm)));
-        new JoystickButton(operator, 1).onTrue(new HandOffSequence(arm, intake, claw, indexer));
-
-        new JoystickButton(operator, 2).whileTrue(new RepeatCommand(new GoToLow(arm)));
-        new JoystickButton(operator, 3).whileTrue(new RepeatCommand(new GoToMid(arm)));
-        new JoystickButton(operator, 4).whileTrue(new RepeatCommand(new GoToHigh(arm)));
-
+        HandOffSequence handoff = new HandOffSequence(arm, intake, claw, indexer);
+        Trigger op1 = new JoystickButton(operator, 1);
+        op1.onTrue(handoff);
+        Trigger op2 = new JoystickButton(operator, 2);
+        op2.whileTrue(new RepeatCommand(new GoToLow(arm)));
+        Trigger op3 = new JoystickButton(operator, 3);
+        op3.whileTrue(new RepeatCommand(new GoToMid(arm)));
+        Trigger op4 = new JoystickButton(operator, 4);
+        op4.whileTrue(new RepeatCommand(new GoToHigh(arm)));
         Trigger op7 =  new JoystickButton(operator, 7);
         Trigger op8 = new JoystickButton(operator, 8);
         
         op7.whileTrue(new RepeatCommand(new IntakeCone(intake)));
         op8.whileTrue(new RepeatCommand(new IntakeCube(intake)));
 
-        op7.and(op8).whileFalse(new StowIntake(intake, arm));
+        op7.and(op8).and(op1).and(op2).and(op3).and(op4).and(handoff::isScheduled).whileFalse(new RepeatCommand(new StowIntakeSequence(arm, intake)));
 
         // new ConditionalCommand(new StowIntake(intake, arm), new InstantCommand(),
         //     () -> !operator.getRawButton(7) && !operator.getRawButton(8));
