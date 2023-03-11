@@ -13,9 +13,12 @@ public class IntakeCube extends CommandBase {
 
   private Intake intake;
   private ArmOutreach arm;
+  private boolean armHasReachedOut = false;
+  private int stage = 1;
 
-  public IntakeCube(Intake intake) {
+  public IntakeCube(Intake intake, ArmOutreach arm) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.arm = arm;
     this.intake = intake;
     addRequirements(intake);
   }
@@ -27,10 +30,17 @@ public class IntakeCube extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //after the button has been pressed do the following
-    arm.setArmToAngle((20 * Math.PI) / 12);
-    if(arm.getArmAngle() > (19 * Math.PI) / 12){
-      intake.setIntakePivot(5 * Math.PI / 6);
+    //Stage1, Move arm out of the way
+    //Stage2, Move intake out AND move the arm in
+    if(stage == 1){
+      arm.setArmToAngle(4.85);
+      if(arm.getArmAngle() > 4.8){
+        stage++;
+      }
+    }
+    else if(stage == 2){
+      intake.setIntakePivot(2.65);
+      arm.setArmToAngle(4.712);
       intake.intakeCube();
     }
   }

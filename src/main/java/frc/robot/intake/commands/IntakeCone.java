@@ -14,9 +14,9 @@ public class IntakeCone extends CommandBase {
   private Intake intake;
   private ArmOutreach arm;
 
-  public IntakeCone(Intake intake) {
+  public IntakeCone(Intake intake, ArmOutreach arm) {
     // Use addRequirements() here to declare subsystem dependencies.
-    
+    this.arm = arm;
     this.intake = intake;
     addRequirements(intake);
   }
@@ -33,9 +33,9 @@ public class IntakeCone extends CommandBase {
     //after the button has been pressed do the following
     if(!armClear)
     {
-      arm.setArmToAngle((20.0 * Math.PI) / 12.0);
+      arm.setArmToAngle(4.85);
     }
-    if(arm.getArmAngle() > (19.0 * Math.PI) / 12.0 && !armClear){
+    if(arm.getArmAngle() > 4.8 && !armClear){
       armClear = true;
     }
     if(armClear)

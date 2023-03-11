@@ -139,8 +139,8 @@ public class RobotContainer {
         Trigger op7 =  new JoystickButton(operator, 7);
         Trigger op8 = new JoystickButton(operator, 8);
         
-        op7.whileTrue(new RepeatCommand(new IntakeCone(intake)));
-        op8.whileTrue(new RepeatCommand(new IntakeCube(intake)));
+        op7.whileTrue(new RepeatCommand(new IntakeCone(intake, arm)));
+        op8.whileTrue(new RepeatCommand(new IntakeCube(intake, arm)));
 
         op7.and(op8).and(op1).and(op2).and(op3).and(op4).and(handoff::isScheduled).whileFalse(new RepeatCommand(new StowIntakeSequence(arm, intake)));
 

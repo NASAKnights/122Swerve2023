@@ -6,6 +6,8 @@ package frc.robot.intake;
 
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -23,7 +25,7 @@ import frc.robot.Constants;
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   // TalonSRX intakeMotor;
-  NKTalonSRX intakeMotor;
+  TalonSRX intakeMotor;
   CANSparkMax intakeLiftMotor;
 
   RelativeEncoder intakeLiftEncoder;
@@ -36,7 +38,7 @@ public class Intake extends SubsystemBase {
   private double acceptableError = 0.01;
 
   public Intake() {
-    intakeMotor = new NKTalonSRX(Constants.IntakeConstants.kIntakeMotor);
+    intakeMotor = new TalonSRX(Constants.IntakeConstants.kIntakeMotor);
     intakeLiftMotor = new CANSparkMax(Constants.IntakeConstants.kLiftMotor, MotorType.kBrushless);
     intakeLiftMotor.setIdleMode(IdleMode.kBrake);
     intakeLiftMotor.setInverted(true);
@@ -62,24 +64,24 @@ public class Intake extends SubsystemBase {
 
   public void runIntakeForward(){
     // takes in cone, outputs cube
-    intakeMotor.set(0.6);
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.6);
 
   }
   public void runIntakeReverse(){
     // outputs cone, takes in cube
-    intakeMotor.set(-0.6);
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, -0.6);
   }
 
   public void setIntake(){
-    intakeMotor.set(0.6);
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.6);
   }
 
   public void handOffCube() {
-    intakeMotor.set(0.1);
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.1);
   }
 
   public void setReverse(){
-    intakeMotor.set(-0.8);
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, -0.8);
   }
 
   public boolean isIntakeInside(){
@@ -106,7 +108,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void stopIntake(){
-    intakeMotor.stopMotor();
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
   }
 
   public void liftIntake(){
