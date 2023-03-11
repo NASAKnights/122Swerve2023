@@ -21,11 +21,14 @@ public class StowIntake extends CommandBase {
     this.arm = arm;
     addRequirements(intake);
     addRequirements(arm);
+    
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    finished = false;
+    intakeVert = false;
     if(intake.getAngle() < 0.05)
     {
       finished = true;
@@ -35,6 +38,11 @@ public class StowIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(intake.getAngle() < 0.05)
+    {
+      finished = true;
+      return;
+    }
     intake.setIntakePivot(0);
     if(intake.getAngle() < Math.PI/2 && !intakeVert)
     {

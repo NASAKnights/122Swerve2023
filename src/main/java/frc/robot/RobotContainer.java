@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.HandOffSequence;
@@ -48,6 +49,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.robot.intake.Intake;
 import frc.robot.intake.StowIntakeSequence;
+import frc.robot.intake.commands.EjectCone;
+import frc.robot.intake.commands.EjectCube;
 import frc.robot.intake.commands.IntakeCone;
 import frc.robot.intake.commands.IntakeCube;
 import frc.robot.intake.commands.LiftIntake;
@@ -115,6 +118,8 @@ public class RobotContainer {
 
         new JoystickButton(driver, 5).onFalse(new ToggleSlow(swerve))
                                                 .onTrue(new ToggleTurbo(swerve));
+        new JoystickButton(driver, 5).onFalse(new ToggleSlow(swerve))
+                                                .onTrue(new ToggleTurbo(swerve));
 
         //------------Operator Buttons----------------------------------------------------------
     
@@ -127,9 +132,20 @@ public class RobotContainer {
         Trigger op7 =  new JoystickButton(operator, 7);
         Trigger op8 = new JoystickButton(operator, 8);
         
-        new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new SetIntakeForward(intake)));
-        new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new SetIntakeReverse(intake)));
-        
+        op7.whileTrue(new RepeatCommand(new IntakeCone(intake, arm)));
+        op8.whileTrue(new RepeatCommand(new IntakeCube(intake, arm)));
+
+        POVButton povDown = new POVButton(operator, 180);
+        POVButton povLeft = new POVButton(operator, 270);
+        POVButton povRight = new POVButton(operator, 90);
+        povDown.onTrue(new StowIntakeSequence(arm, intake));
+        povRight.whileTrue(new RepeatCommand(new EjectCube(intake)));
+        povLeft.whileTrue(new RepeatCommand(new EjectCone(intake)));
+
+        // new ConditionalCommand(new StowIntake(intake, arm), new InstantCommand(),
+        //     () -> !operator.getRawButton(7) && !operator.getRawButton(8));
+        // new JoystickButton(operator,5).whileTrue(new RepeatCommand(new LiftIntake(intake)));
+        // new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
         new JoystickButton(operator, 5).whileTrue(new RepeatCommand(new StowInside(arm)));
         new JoystickButton(operator, 6).whileTrue(new RepeatCommand(new GoToHP(arm)));
 

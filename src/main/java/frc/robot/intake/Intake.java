@@ -48,12 +48,12 @@ public class Intake extends SubsystemBase {
     intakeLiftPID = intakeLiftMotor.getPIDController();
     limitSwitch = new DigitalInput(0);
 
-    intakeLiftPID.setP(3);
-    intakeLiftPID.setI(1e-5);
+    intakeLiftPID.setP(0.3);
+    intakeLiftPID.setI(1e-3);
     intakeLiftPID.setD(1);
     intakeLiftPID.setFF(0.0);
-    intakeLiftPID.setIZone(0.01);
-    intakeLiftPID.setOutputRange(-1, 1);
+    intakeLiftPID.setIZone(0.5);
+    intakeLiftPID.setOutputRange(-0.5, 0.5);
 
     intakeLiftEncoder.setPositionConversionFactor((1.0/45.0) * 2*Math.PI); // radian
     intakeLiftEncoder.setVelocityConversionFactor((1.0/45.0) * 2*Math.PI); // radian/s
@@ -64,8 +64,7 @@ public class Intake extends SubsystemBase {
 
   public void runIntakeForward(){
     // takes in cone, outputs cube
-    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.6);
-
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.9);
   }
   public void runIntakeReverse(){
     // outputs cone, takes in cube
@@ -81,7 +80,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void setReverse(){
-    intakeMotor.set(TalonSRXControlMode.PercentOutput, -0.8);
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, -1);
   }
 
   public boolean isIntakeInside(){
@@ -120,10 +119,16 @@ public class Intake extends SubsystemBase {
   }
 
   public void intakeCube(){
-    runIntakeReverse();
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, -0.6);
+  }
+  public void outputCube(){
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.6);
   }
   public void intakeCone(){
-    runIntakeForward();
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.9);
+  }
+  public void outputCone(){
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, -0.9);
   }
 
   public void stopIntakeLift(){

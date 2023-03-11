@@ -35,6 +35,7 @@ public class HandOff extends CommandBase {
   public void initialize() {
     indexer.setItem();
     item = indexer.checkItem();
+    indexer.setLast(item);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -81,7 +82,7 @@ public class HandOff extends CommandBase {
       
 
       //check xy error, then continue when xy is within maximum allowed error.
-      if(xyError.getNorm() < 0.025){
+      if(xyError.getNorm() < 0.03){
         claw.closeClaw();
         finished = true;
       }
@@ -92,11 +93,11 @@ public class HandOff extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     
-    if(!interrupted){
-      if (indexer.checkItem() == "Cube"){
-        intake.handOffCube();
-      }
-    }
+    // if(!interrupted){
+    //   if (indexer.checkItem() == "Cube"){
+    //     intake.handOffCube();
+    //   }
+    // }
   }
 
   // Returns true when the command should end.

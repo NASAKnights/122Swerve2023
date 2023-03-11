@@ -13,6 +13,7 @@ public class IntakeCone extends CommandBase {
 
   private Intake intake;
   private ArmOutreach arm;
+  private int stage;
 
   public IntakeCone(Intake intake, ArmOutreach arm) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,24 +26,24 @@ public class IntakeCone extends CommandBase {
   @Override
   public void initialize() {
     armClear = false;
+    stage = 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //after the button has been pressed do the following
-    if(!armClear)
-    {
+    if(stage == 1){
       arm.setArmToAngle(4.85);
+      if(arm.getArmAngle() > 4.8){
+        stage++;
+      }
     }
-    if(arm.getArmAngle() > 4.8 && !armClear){
-      armClear = true;
-    }
-    if(armClear)
+    if(stage == 2)
     {
-      intake.setIntakePivot(Math.PI);
+      intake.setIntakePivot(3.04159);
       intake.intakeCone();
-      arm.setArmToAngle(1.5 * Math.PI);
+      arm.setArmToAngle(4.712);
     }
   }
 
