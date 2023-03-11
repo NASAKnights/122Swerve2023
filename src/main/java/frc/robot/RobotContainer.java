@@ -2,6 +2,8 @@ package frc.robot;
 
 import static frc.robot.Constants.kNavXPort;
 
+import java.util.function.BooleanSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -45,6 +47,7 @@ import frc.robot.drive.commands.ToggleSlow;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.robot.intake.Intake;
+import frc.robot.intake.StowIntakeSequence;
 import frc.robot.intake.commands.IntakeCone;
 import frc.robot.intake.commands.IntakeCube;
 import frc.robot.intake.commands.LiftIntake;
