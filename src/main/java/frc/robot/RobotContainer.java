@@ -118,17 +118,27 @@ public class RobotContainer {
 
         new JoystickButton(driver, 5).onFalse(new ToggleSlow(swerve))
                                                 .onTrue(new ToggleTurbo(swerve));
-        new JoystickButton(driver, 5).onFalse(new ToggleSlow(swerve))
-                                                .onTrue(new ToggleTurbo(swerve));
 
         //------------Operator Buttons----------------------------------------------------------
-    
-        new JoystickButton(operator, 1).onTrue(new HandOffSequence(arm, intake, claw, indexer));
+        
+        // new JoystickButton(operator, 1).whileTrue(new RepeatCommand (new ExtendToLength(arm)));
+        // new JoystickButton(operator, 4).whileTrue(new RepeatCommand (new Retract(arm)));
 
-        new JoystickButton(operator, 2).whileTrue(new RepeatCommand(new GoToLow(arm)));
-        new JoystickButton(operator, 3).whileTrue(new RepeatCommand(new GoToMid(arm)));
-        new JoystickButton(operator, 4).whileTrue(new RepeatCommand(new GoToHigh(arm)));
+        // new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftArm(arm)));
+        // new JoystickButton(operator, 7).whileTrue(new RepeatCommand(new LiftToAngle(arm)));
+        // new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerArm(arm)));
+        // new JoystickButton(operator, 8).whileTrue(new RepeatCommand(new LowerToAngle(arm)));
 
+        // new JoystickButton(operator, 1).whileTrue(new RepeatCommand(new GoInside(arm)));
+        HandOffSequence handoff = new HandOffSequence(arm, intake, claw, indexer);
+        Trigger op1 = new JoystickButton(operator, 1);
+        op1.onTrue(handoff);
+        Trigger op2 = new JoystickButton(operator, 2);
+        op2.whileTrue(new RepeatCommand(new GoToLow(arm)));
+        Trigger op3 = new JoystickButton(operator, 3);
+        op3.whileTrue(new RepeatCommand(new GoToMid(arm)));
+        Trigger op4 = new JoystickButton(operator, 4);
+        op4.whileTrue(new RepeatCommand(new GoToHigh(arm)));
         Trigger op7 =  new JoystickButton(operator, 7);
         Trigger op8 = new JoystickButton(operator, 8);
         
