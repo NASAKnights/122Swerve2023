@@ -123,7 +123,7 @@ public class ArmOutreach extends SubsystemBase {
     kI = 1e-4;
     kD = 0.01; 
     kIz = 0; 
-    kFF = 0; 
+    kFF = -0.2; 
     kMaxOutput = 0.9; 
     kMinOutput = -0.9;
 
@@ -194,7 +194,7 @@ public class ArmOutreach extends SubsystemBase {
     extendPID.setReference(0.375, CANSparkMax.ControlType.kPosition);
   }
   public void retractToZero(){
-    extendPID.setReference(0.0, CANSparkMax.ControlType.kPosition);
+    outreach.set(-0.2);
   }
 
   public double getExtendLength(){

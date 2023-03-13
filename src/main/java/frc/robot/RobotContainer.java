@@ -33,6 +33,7 @@ import frc.robot.armoutreach.commands.LiftToAngle;
 import frc.robot.armoutreach.commands.LowerArm;
 import frc.robot.armoutreach.commands.LowerToAngle;
 import frc.robot.armoutreach.commands.Retract;
+import frc.robot.armoutreach.commands.RetractFully;
 import frc.robot.armoutreach.commands.StowInside;
 import frc.robot.auto.SequentialCommands.AutoOutOfCommunity;
 import frc.robot.auto.SequentialCommands.AutoScoreLow;
@@ -158,6 +159,7 @@ public class RobotContainer {
         // new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
         new JoystickButton(operator, 5).whileTrue(new RepeatCommand(new StowInside(arm)));
         new JoystickButton(operator, 6).whileTrue(new RepeatCommand(new GoToHP(arm)));
+        new JoystickButton(operator, 9).whileTrue(new RepeatCommand(new RetractFully(arm)));
 
         BooleanEvent liftaxis = operator.axisGreaterThan(0, 0.15, new EventLoop());
         BooleanEvent loweraxis = operator.axisLessThan(0, -0.15, new EventLoop());

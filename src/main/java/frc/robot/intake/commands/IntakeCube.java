@@ -15,7 +15,10 @@ public class IntakeCube extends CommandBase {
   private ArmOutreach arm;
   private boolean armHasReachedOut = false;
   private int stage = 1;
-
+  private double armSetpoint = 4.85;
+  private double intakeSetpoint = 2.85;
+  private double allErr = 0.1;
+  private double armDown = 4.712;
   public IntakeCube(Intake intake, ArmOutreach arm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
@@ -35,15 +38,15 @@ public class IntakeCube extends CommandBase {
     //Stage1, Move arm out of the way
     //Stage2, Move intake out AND move the arm in
     if(stage == 1){
-      arm.setArmToAngle(4.85);
-      if(arm.getArmAngle() > 4.81){
+      arm.setArmToAngle(armSetpoint);
+      if(arm.getArmAngle() > armSetpoint-allErr){
         stage++;
       }
     }
     else if(stage == 2){
-      intake.setIntakePivot(2.75);
+      intake.setIntakePivot(intakeSetpoint);
       intake.intakeCube();
-      arm.setArmToAngle(4.712);
+      arm.setArmToAngle(armDown);
     }
   }
 
