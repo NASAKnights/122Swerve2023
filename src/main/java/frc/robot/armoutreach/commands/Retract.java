@@ -29,19 +29,22 @@ public class Retract extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (indexer.checkIndex() == "High Cone") {
+    if (indexer.getLast() == "High Cone") {
       intake.setReverse();
     }
-    else if (indexer.checkIndex() == "Low Cone") {
+    else if (indexer.getLast() == "Low Cone") {
       intake.setReverse();
     }
+    // else if (indexer.checkIndex() == "Cube") {
+    //   intake.handOffCube();
+    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     arm.retractToZero();
-    if (Math.abs(arm.getExtendLength()) < 0.025){
+    if (arm.isRetracted()){
       finished = true;
     }
 

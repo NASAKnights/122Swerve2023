@@ -10,6 +10,7 @@ import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.HandOff;
 import frc.robot.armoutreach.commands.Retract;
 import frc.robot.claw.Claw;
+import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
 import frc.robot.colorSensor.ColorInterpreter;
 import frc.robot.intake.Intake;
@@ -27,6 +28,8 @@ public class HandOffSequence extends SequentialCommandGroup {
       new OpenClaw(claw),
       new WaitCommand(0.25),
       new HandOff(arm, claw, intake, indexer),
+      new WaitCommand(0.25),
+      new CloseClaw(claw),
       new WaitCommand(0.25),
       new Retract(arm, indexer, intake),
       new StopIntake(intake)

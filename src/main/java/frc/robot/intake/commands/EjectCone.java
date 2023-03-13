@@ -5,49 +5,24 @@
 package frc.robot.intake.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.intake.Intake;
 
-public class IntakeCube extends CommandBase {
-  /** Creates a new IntakeCube. */
-
+public class EjectCone extends CommandBase {
+  /** Creates a new ejectCone. */
   private Intake intake;
-  private ArmOutreach arm;
-  private boolean armHasReachedOut = false;
-  private int stage = 1;
-  private double armSetpoint = 4.85;
-  private double intakeSetpoint = 2.85;
-  private double allErr = 0.1;
-  private double armDown = 4.712;
-  public IntakeCube(Intake intake, ArmOutreach arm) {
+  public EjectCone(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.arm = arm;
     this.intake = intake;
-    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    stage = 1;
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Stage1, Move arm out of the way
-    //Stage2, Move intake out AND move the arm in
-    if(stage == 1){
-      arm.setArmToAngle(armSetpoint);
-      if(arm.getArmAngle() > armSetpoint-allErr){
-        stage++;
-      }
-    }
-    else if(stage == 2){
-      intake.setIntakePivot(intakeSetpoint);
-      intake.intakeCube();
-      arm.setArmToAngle(armDown);
-    }
+    intake.outputCone();
   }
 
   // Called once the command ends or is interrupted.

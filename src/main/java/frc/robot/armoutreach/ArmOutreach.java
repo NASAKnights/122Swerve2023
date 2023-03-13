@@ -111,21 +111,21 @@ public class ArmOutreach extends SubsystemBase {
   }
 
   public void setInitialPID(){
-    kPextend = 1.5; 
+    kPextend = 1.5;
     kIextend = 5e-4;
-    kDextend = 0.01; 
-    kIzextend = 0.0; 
+    kDextend = 0.01;
+    kIzextend = 0.0;
     kFFextend = 0.35; 
-    kMaxOutputextend = 0.75; 
-    kMinOutputextend = -0.75;
+    kMaxOutputextend = 1.0; 
+    kMinOutputextend = -1.0;
 
     kP = 0.9; 
     kI = 1e-4;
     kD = 0.01; 
     kIz = 0; 
-    kFF = 0; 
-    kMaxOutput = 0.75; 
-    kMinOutput = -0.5;
+    kFF = -0.2; 
+    kMaxOutput = 0.9; 
+    kMinOutput = -0.9;
 
     extendPID.setP(kPextend);
     extendPID.setI(kIextend);
@@ -171,9 +171,10 @@ public class ArmOutreach extends SubsystemBase {
     int attempts = 0;
     pivotAngleQuad.setPosition(0.0);
     pivotAngleQuad.setPosition(pivotAngle.getPosition());
-    while (pivotAngleQuad.setPosition(pivotAngle.getPosition()) != REVLibError.kOk && attempts < 8){
+    while (pivotAngleQuad.setPosition(pivotAngle.getPosition()) != REVLibError.kOk && attempts < 8)
+    {
       attempts++;
-    };
+    }
     // if (pivotAngleQuad.getPosition() < Math.PI){
     //   pivotAngleQuad.setPosition(pivotAngleQuad.getPosition() + (2 * Math.PI));
     // }
@@ -193,7 +194,7 @@ public class ArmOutreach extends SubsystemBase {
     extendPID.setReference(0.375, CANSparkMax.ControlType.kPosition);
   }
   public void retractToZero(){
-    extendPID.setReference(0.0, CANSparkMax.ControlType.kPosition);
+    outreach.set(-0.2);
   }
 
   public double getExtendLength(){
@@ -222,6 +223,14 @@ public class ArmOutreach extends SubsystemBase {
   public void lowerArmtoAngle(){
     pivotPID.setReference(1.5 * Math.PI, ControlType.kPosition);
 
+  }
+
+  public double getArmAngle(){
+    return pivotAngle.getPosition();
+  }
+
+  public void setArmToAngle(double angle){
+    pivotPID.setReference(angle, ControlType.kPosition);
   }
 
   public void cycleAbsolute(){

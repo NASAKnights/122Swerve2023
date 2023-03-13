@@ -5,33 +5,54 @@
 package frc.robot.intake.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.intake.Intake;
 
 public class IntakeCone extends CommandBase {
   /** Creates a new IntakeCone. */
 
   private Intake intake;
+  private ArmOutreach arm;
+  private int stage;
 
-  public IntakeCone(Intake intake) {
+  public IntakeCone(Intake intake, ArmOutreach arm) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.arm = arm;
     this.intake = intake;
     addRequirements(intake);
   }
-
+  private boolean armClear;
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    armClear = false;
+    stage = 1;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.setIntakePivot(0);
-    intake.setIntake();
+    //after the button has been pressed do the following
+    if(stage == 1){
+      arm.setArmToAngle(4.85);
+      if(arm.getArmAngle() > 4.8){
+        stage++;
+      }
+    }
+    if(stage == 2)
+    {
+      intake.setIntakePivot(3.04159);
+      intake.intakeCone();
+      arm.setArmToAngle(4.712);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intake.stopIntake();
+    arm.stopArm();
+  }
 
   // Returns true when the command should end.
   @Override
