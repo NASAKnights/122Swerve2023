@@ -18,7 +18,7 @@ public class AutoCommand extends CommandBase {
   private Timer timer;
   private PhotonVision photon;
   private ChassisSpeeds speeds;
-  //private TurnForDegrees turn;
+  
 
   /** Creates a new AutoTest. */
   public AutoCommand(SwerveDrive swerve) {
@@ -36,10 +36,8 @@ public class AutoCommand extends CommandBase {
     }
   }
 
-  public void driveForMeters(double xSpeed, Double distance){
-    double seconds = distance / xSpeed;
-    if (timer.get() < seconds){
-      speeds = new ChassisSpeeds(xSpeed, 0, 0);
+  public void driveForMeters(ChassisSpeeds speeds, double distance){
+    if (swerve.getDistanceMeters() < distance){
       swerve.drive(speeds, false);
     }else{
       end(isFinished());
@@ -71,6 +69,7 @@ public class AutoCommand extends CommandBase {
     else{
       end(isFinished());
     }
+    
 
   }
 
@@ -144,13 +143,14 @@ public class AutoCommand extends CommandBase {
   @Override
   public void execute() {
     //ChassisSpeeds speeds = new ChassisSpeeds(0.3, 0, 0);
-    //aimAtTarget(.3);
-    //new TurnForDegrees(90, .3);
-    //driveToTarget(0.2, 2);
+
+    driveToTarget(0.2, 2);
     //driveForSeconds(speeds, 3);
 
-    //driveForMeters(0.3, 1.0);
-      
+    //driveForSeconds(speeds, 3);
+    driveForMeters(speeds, 1);
+
+    //System.out.println(pid.calculate(swerve.getDistanceMeters(), 1));
   }
 
   // Called once the command ends or is interrupted.
