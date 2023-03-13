@@ -102,8 +102,8 @@ public class RobotContainer {
     }
 
     public CommandBase autonomousInit(){
-        //return new AutoCommand(swerve);
-        return new TurnForDegrees(swerve,-90, .3);
+        return new AutoCommand(swerve);
+        //return new TurnForDegrees(swerve,-90, .3);
     }
 
    
