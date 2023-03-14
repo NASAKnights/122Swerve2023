@@ -89,7 +89,8 @@ public class Constants {
                                                     {257.607, 275.273, 0.0}, // green 3, 7, 11
                                                     {103.359 - 5, 87.539,  0.0}}; // yellow 4, 8, 12
 
-    public static double kDriveLimit = 0.15; // 0.7 fast
+    // public static double kDriveLimit = 0.15; // 0.7 fast
+    public static double kDriveLimit = 0.8; // babyswerve
     public static double kRotationLimit = kDriveLimit * 0.8;
 
     // TODO: adjust 2nd set of modules
@@ -193,7 +194,9 @@ public class Constants {
         };
 
         public static final double kOpenLoopRamp = 1.00;
-        public static final double kClosedLoopRamp = 1.00;
+        // public static final double kClosedLoopRamp = 1.00;
+        public static final double kClosedLoopRamp = 0.50; //baby swerve
+
 
         public static final boolean kTurnEnableCurrentLimit = true;
         public static final int kTurnContinuousCurrentLimit = 25;
