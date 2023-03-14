@@ -36,6 +36,7 @@ public class HandOff extends CommandBase {
     indexer.setItem();
     item = indexer.checkItem();
     indexer.setLast(item);
+    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

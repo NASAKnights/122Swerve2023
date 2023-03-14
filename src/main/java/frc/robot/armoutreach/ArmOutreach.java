@@ -113,13 +113,13 @@ public class ArmOutreach extends SubsystemBase {
   public void setInitialPID(){
     kPextend = 1.5;
     kIextend = 5e-4;
-    kDextend = 0.01;
-    kIzextend = 0.0;
+    kDextend = 1e-3;
+    kIzextend = 0.25;
     kFFextend = 0.35; 
     kMaxOutputextend = 1.0; 
     kMinOutputextend = -1.0;
 
-    kP = 0.9; 
+    kP = 1.0; 
     kI = 1e-4;
     kD = 0.01; 
     kIz = 0; 

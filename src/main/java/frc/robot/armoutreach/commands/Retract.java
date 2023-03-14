@@ -38,6 +38,7 @@ public class Retract extends CommandBase {
     // else if (indexer.checkIndex() == "Cube") {
     //   intake.handOffCube();
     // }
+    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
