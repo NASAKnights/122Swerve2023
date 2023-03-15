@@ -36,6 +36,7 @@ import frc.robot.armoutreach.commands.Retract;
 import frc.robot.armoutreach.commands.RetractFully;
 import frc.robot.armoutreach.commands.StowInside;
 import frc.robot.auto.SequentialCommands.AutoOutOfCommunity;
+import frc.robot.auto.SequentialCommands.AutoScoreHighBalance;
 import frc.robot.auto.SequentialCommands.AutoScoreLow;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
@@ -215,7 +216,7 @@ public class RobotContainer {
         // arm.resetPivotToAbsolute();
 
         // return new AutoOutOfCommunity(swerve);
-        return new AutoScoreLow(swerve, intake, arm);
+        return new AutoScoreHighBalance(swerve, intake, arm, claw);
              
 
     }

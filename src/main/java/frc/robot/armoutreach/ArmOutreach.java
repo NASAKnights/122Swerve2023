@@ -68,7 +68,7 @@ public class ArmOutreach extends SubsystemBase {
     pivotAngleQuad = arm.getEncoder();
 
     pivotPID.setFeedbackDevice(pivotAngleQuad);
-    pivotAngle.setZeroOffset(0.6372); // 268.23
+    pivotAngle.setZeroOffset(0.6372 - 0.0155); // 268.23
     // resetPivotToAbsolute();
 
     pivotAngle.setPositionConversionFactor(2 * Math.PI); // change from rotations to radians

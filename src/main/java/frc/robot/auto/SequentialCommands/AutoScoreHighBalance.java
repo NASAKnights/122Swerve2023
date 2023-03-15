@@ -22,9 +22,10 @@ public class AutoScoreHighBalance extends SequentialCommandGroup {
   public AutoScoreHighBalance(SwerveDrive swerve, Intake intake, ArmOutreach arm, Claw claw) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    swerve.resetHeading();
     addCommands(new GoToHigh(arm),
-                new AutoDriveForDistance(swerve, 1, 0, new Rotation2d()),
+                new AutoDriveForDistance(swerve, 0.7, 0, new Rotation2d()),
                 new OpenClaw(claw),
-                new AutoDriveForDistance(swerve, -4, 0, new Rotation2d()));
+                new AutoDriveForDistance(swerve, -2.54, 0, new Rotation2d()));
   }
 }

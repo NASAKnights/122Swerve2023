@@ -11,6 +11,7 @@ import frc.robot.armoutreach.ArmOutreach;
 public class GoToHigh extends CommandBase {
   /** Creates a new GoToHigh. */
   private ArmOutreach arm;
+  private boolean isFinished;
   public GoToHigh(ArmOutreach arm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
@@ -20,13 +21,24 @@ public class GoToHigh extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    isFinished = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     // 877, 205
-    arm.gotoXY(new Translation2d(0.851,0.205));
+    Translation2d targetLocation = new Translation2d(0.851,0.205);
+
+    arm.gotoXY(targetLocation);
+
+    Translation2d xy = arm.getXY();
+    Translation2d xyError = targetLocation.minus(xy);
+
+    if(xyError.getNorm() < 0.1){
+      isFinished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +51,6 @@ public class GoToHigh extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }
