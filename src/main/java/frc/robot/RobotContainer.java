@@ -213,7 +213,6 @@ public class RobotContainer {
 
     public CommandBase autonomousInit(){
         // return new AutoSequencer(swerve);
-        // arm.resetPivotToAbsolute();
 
         // return new AutoOutOfCommunity(swerve);
         return new AutoScoreHighBalance(swerve, intake, arm, claw);

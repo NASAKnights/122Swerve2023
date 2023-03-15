@@ -69,7 +69,6 @@ public class ArmOutreach extends SubsystemBase {
 
     pivotPID.setFeedbackDevice(pivotAngleQuad);
     pivotAngle.setZeroOffset(0.6372 - 0.0155); // 268.23
-    // resetPivotToAbsolute();
 
     pivotAngle.setPositionConversionFactor(2 * Math.PI); // change from rotations to radians
     // pivotAngleQuad.setPositionConversionFactor(2 * Math.PI); // change from rotations to radians
@@ -92,7 +91,6 @@ public class ArmOutreach extends SubsystemBase {
 
     arm.setClosedLoopRampRate(Constants.ArmConstants.kPivotClosedLoopRamp);
 
-    // resetPivotToAbsolute();
     // pivotAngleQuad.setPosition(0.0);
 
     armFollower.follow(arm, true);
@@ -167,19 +165,6 @@ public class ArmOutreach extends SubsystemBase {
     extendEncoder.setPosition(0.0);
   }
 
-  public void resetPivotToAbsolute(){
-    int attempts = 0;
-    pivotAngleQuad.setPosition(0.0);
-    pivotAngleQuad.setPosition(pivotAngle.getPosition());
-    while (pivotAngleQuad.setPosition(pivotAngle.getPosition()) != REVLibError.kOk && attempts < 8)
-    {
-      attempts++;
-    }
-    // if (pivotAngleQuad.getPosition() < Math.PI){
-    //   pivotAngleQuad.setPosition(pivotAngleQuad.getPosition() + (2 * Math.PI));
-    // }
-  }
-
   public void forward(){
     outreach.set(0.2);
   }
@@ -235,7 +220,12 @@ public class ArmOutreach extends SubsystemBase {
 
   public void cycleAbsolute(){
     if (sticky != REVLibError.kOk){
-      sticky = pivotAngleQuad.setPosition(pivotAngle.getPosition());
+      double angle = pivotAngle.getPosition();
+      if (angle < Math.PI)
+      {
+        angle += (Math.PI*2);
+      }
+      sticky = pivotAngleQuad.setPosition(angle);
     }
   }
 
