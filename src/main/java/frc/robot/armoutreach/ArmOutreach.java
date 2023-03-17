@@ -80,6 +80,7 @@ public class ArmOutreach extends SubsystemBase {
     
     outreach.setInverted(true);
     arm.setIdleMode(IdleMode.kBrake);
+    armFollower.setIdleMode(IdleMode.kBrake);
     outreach.setIdleMode(IdleMode.kBrake);
 
     pivotAngle.setInverted(true);

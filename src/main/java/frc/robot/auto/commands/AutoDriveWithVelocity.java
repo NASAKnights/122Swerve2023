@@ -27,10 +27,11 @@ public class AutoDriveWithVelocity extends CommandBase {
   private PIDController pidY;
   private PIDController pidRot;
   private Pose2d desiredPose;
+  private boolean finished = false;
 
   //TODO: Fine tune the velocity and rotational lower limits
-  private double velocityLowerLimit = 0.2;
-  private double rotationalLowerLimit = 0.2;
+  private double velocityLowerLimit = 0.05;
+  private double rotationalLowerLimit = 0.1;
 
   private double p = 1;
   
@@ -55,6 +56,8 @@ public class AutoDriveWithVelocity extends CommandBase {
     pidY.setTolerance(0.05);
     pidRot.setTolerance(0.1);
 
+    speeds = new ChassisSpeeds();
+
     Rotation2d currentRotationTest = swerve.getHeading();
     // swerve.resetHeading();
     // swerve.resetDriveEncoders();
@@ -64,6 +67,9 @@ public class AutoDriveWithVelocity extends CommandBase {
     Translation2d translation = new Translation2d(metersX, metersY);
     Transform2d toMove = new Transform2d(translation, rotation);
     desiredPose = swerve.getPose().transformBy(toMove);
+    // speeds.vxMetersPerSecond = velocityLowerLimit;
+
+    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -88,13 +94,13 @@ public class AutoDriveWithVelocity extends CommandBase {
 
   private void RobotDeadzone() {
     //This is most likely not the best way of doing this.
-    if(speeds.vxMetersPerSecond < velocityLowerLimit){
+    if(Math.abs(speeds.vxMetersPerSecond) < velocityLowerLimit){
       speeds.vxMetersPerSecond = 0;
     }
-    if(speeds.vyMetersPerSecond < velocityLowerLimit){
+    if(Math.abs(speeds.vyMetersPerSecond) < velocityLowerLimit){
       speeds.vyMetersPerSecond = 0;
     }
-    if(speeds.omegaRadiansPerSecond < rotationalLowerLimit){
+    if(Math.abs(speeds.omegaRadiansPerSecond) < rotationalLowerLimit){
       speeds.omegaRadiansPerSecond = 0;
     }
   }
@@ -108,12 +114,12 @@ public class AutoDriveWithVelocity extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(pidX.atSetpoint() == true && pidY.atSetpoint() == true && pidRot.atSetpoint() == true){
-      return true;
+    if(speeds.vxMetersPerSecond == 0 && speeds.vyMetersPerSecond == 0 && speeds.omegaRadiansPerSecond == 0){
+      System.out.println("Yes I am done moving");
+      // return true;
+      finished = true;
     }
-    else
-    {
-      return false;
-    }
+    // return false;
+    return finished;
   }
 }

@@ -100,7 +100,7 @@ public class Constants {
         public static final int kPivotMotorFollower = 7;
 
         public static final double kExtensionRotations = 34.785;
-        public static final double kExtensionLength = 0.3556;
+        public static final double kExtensionLength = 0.39;
         public static final double kExtensionRetractedLength = 0.5334;
         public static final double kExtensionExtendedLength = 0.76835; // 0.76835 (0.5334)
         public static final double kPivotMaxRotation = 2.2 * Math.PI;

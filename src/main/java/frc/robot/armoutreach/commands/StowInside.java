@@ -11,6 +11,7 @@ import frc.robot.armoutreach.ArmOutreach;
 public class StowInside extends CommandBase {
   /** Creates a new StowInside. */
   private ArmOutreach arm;
+  private boolean isFinished;
   public StowInside(ArmOutreach arm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
@@ -19,13 +20,23 @@ public class StowInside extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    isFinished = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     // arm.gotoXY(new Translation2d(0.0, -0.533));
-    arm.gotoXYextend(new Translation2d(0.0, -0.533)); // retracts first and then pivots
+    Translation2d targetLocation = new Translation2d(0.0, -0.533); 
+    arm.gotoXYextend(targetLocation); // retracts first and then pivots
+
+    Translation2d xy = arm.getXY();
+    Translation2d xyError = targetLocation.minus(xy);
+
+    if(xyError.getNorm() < 0.02){
+      isFinished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -38,6 +49,6 @@ public class StowInside extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }

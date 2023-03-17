@@ -38,6 +38,7 @@ import frc.robot.armoutreach.commands.StowInside;
 import frc.robot.auto.SequentialCommands.AutoOutOfCommunity;
 import frc.robot.auto.SequentialCommands.AutoScoreHighBalance;
 import frc.robot.auto.SequentialCommands.AutoScoreLow;
+import frc.robot.auto.SequentialCommands.AutoScoreMidBalance;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
@@ -215,7 +216,7 @@ public class RobotContainer {
         // return new AutoSequencer(swerve);
 
         // return new AutoOutOfCommunity(swerve);
-        return new AutoScoreHighBalance(swerve, intake, arm, claw);
+        return new AutoScoreMidBalance(swerve, intake, arm, claw);
              
 
     }

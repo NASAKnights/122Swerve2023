@@ -29,14 +29,14 @@ public class GoToHigh extends CommandBase {
   @Override
   public void execute() {
     // 877, 205
-    Translation2d targetLocation = new Translation2d(0.851,0.205);
+    Translation2d targetLocation = new Translation2d(0.9,0.2);
 
     arm.gotoXY(targetLocation);
 
     Translation2d xy = arm.getXY();
     Translation2d xyError = targetLocation.minus(xy);
 
-    if(xyError.getNorm() < 0.1){
+    if(xyError.getNorm() < 0.01){
       isFinished = true;
     }
   }
