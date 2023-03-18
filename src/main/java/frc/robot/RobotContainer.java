@@ -39,6 +39,7 @@ import frc.robot.auto.SequentialCommands.AutoOutOfCommunity;
 import frc.robot.auto.SequentialCommands.AutoScoreHighBalance;
 import frc.robot.auto.SequentialCommands.AutoScoreLow;
 import frc.robot.auto.SequentialCommands.AutoScoreMidBalance;
+import frc.robot.auto.SequentialCommands.RotationTest;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
@@ -161,6 +162,7 @@ public class RobotContainer {
         // new JoystickButton(operator,6).whileTrue(new RepeatCommand(new LowerIntake(intake)));
         new JoystickButton(operator, 5).whileTrue(new RepeatCommand(new StowInside(arm)));
         new JoystickButton(operator, 6).whileTrue(new RepeatCommand(new GoToHP(arm)));
+        
         new JoystickButton(operator, 9).whileTrue(new RepeatCommand(new RetractFully(arm)));
         new JoystickButton(operator, 10).whileTrue(new RepeatCommand(new LowerArm(arm)));
 
@@ -218,7 +220,8 @@ public class RobotContainer {
         // return new AutoSequencer(swerve);
 
         // return new AutoOutOfCommunity(swerve);
-        return new AutoScoreMidBalance(swerve, intake, arm, claw);
+        // return new AutoScoreMidBalance(swerve, intake, arm, claw);
+        return new RotationTest(swerve);
              
 
     }
