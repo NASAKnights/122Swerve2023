@@ -35,7 +35,7 @@ public class AutoScoreMidBalance extends SequentialCommandGroup {
                 new AutoDriveForDistance(swerve, 0.75, 0, new Rotation2d()),
                 new OpenClaw(claw),
                 new StowInside(arm),
-                new AutoDriveWithVelocity(swerve, -2.65, 0, new Rotation2d(), 0.7)
+                new AutoDriveWithVelocity(swerve, -3.05, 0, new Rotation2d(), 0.7)
                 // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),
                 // new InstantCommand(swerve::resetHeading)
                 );
