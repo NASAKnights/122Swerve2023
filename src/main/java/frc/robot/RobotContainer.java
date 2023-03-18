@@ -162,6 +162,8 @@ public class RobotContainer {
         new JoystickButton(operator, 5).whileTrue(new RepeatCommand(new StowInside(arm)));
         new JoystickButton(operator, 6).whileTrue(new RepeatCommand(new GoToHP(arm)));
         new JoystickButton(operator, 9).whileTrue(new RepeatCommand(new RetractFully(arm)));
+        new JoystickButton(operator, 10).whileTrue(new RepeatCommand(new LowerArm(arm)));
+
 
         BooleanEvent liftaxis = operator.axisGreaterThan(0, 0.15, new EventLoop());
         BooleanEvent loweraxis = operator.axisLessThan(0, -0.15, new EventLoop());
