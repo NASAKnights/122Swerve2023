@@ -115,7 +115,7 @@ public class AutoDriveWithVelocity extends CommandBase {
   @Override
   public boolean isFinished() {
     if(speeds.vxMetersPerSecond == 0 && speeds.vyMetersPerSecond == 0 && speeds.omegaRadiansPerSecond == 0){
-      System.out.println("Yes I am done moving");
+      // System.out.println("Yes I am done moving");
       // return true;
       finished = true;
     }
