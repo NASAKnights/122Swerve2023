@@ -220,8 +220,8 @@ public class RobotContainer {
         // return new AutoSequencer(swerve);
 
         // return new AutoOutOfCommunity(swerve);
-        // return new AutoScoreMidBalance(swerve, intake, arm, claw);
-        return new RotationTest(swerve);
+        return new AutoScoreMidBalance(swerve, intake, arm, claw);
+        // return new RotationTest(swerve);
              
 
     }

@@ -18,7 +18,7 @@ public class RotationTest extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7)
+      new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(90), 0.5)
     );
   }
 }

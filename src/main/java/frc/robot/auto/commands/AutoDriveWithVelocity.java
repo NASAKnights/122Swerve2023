@@ -51,10 +51,10 @@ public class AutoDriveWithVelocity extends CommandBase {
     // Maybe add pid reset function here(???)
     pidX = new PIDController(p, 0, 0);
     pidY = new PIDController(p, 0, 0);
-    pidRot = new PIDController(0.15, 0, 0);
+    pidRot = new PIDController(0.05, 0, 0.05);
     pidX.setTolerance(0.05); 
     pidY.setTolerance(0.05);
-    pidRot.setTolerance(0.1);
+    pidRot.setTolerance(5); // degrees
 
     speeds = new ChassisSpeeds();
 
