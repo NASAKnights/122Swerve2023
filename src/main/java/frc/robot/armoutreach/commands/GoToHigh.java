@@ -36,7 +36,7 @@ public class GoToHigh extends CommandBase {
     Translation2d xy = arm.getXY();
     Translation2d xyError = targetLocation.minus(xy);
 
-    if(xyError.getNorm() < 0.01){
+    if(xyError.getNorm() < 0.02){
       isFinished = true;
     }
   }

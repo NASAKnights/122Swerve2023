@@ -7,6 +7,7 @@ import java.util.function.BooleanSupplier;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.event.BooleanEvent;
@@ -37,8 +38,10 @@ import frc.robot.armoutreach.commands.RetractFully;
 import frc.robot.armoutreach.commands.StowInside;
 import frc.robot.auto.SequentialCommands.AutoOutOfCommunity;
 import frc.robot.auto.SequentialCommands.AutoScoreHighBalance;
+import frc.robot.auto.SequentialCommands.AutoScoreHighLong;
 import frc.robot.auto.SequentialCommands.AutoScoreLow;
 import frc.robot.auto.SequentialCommands.AutoScoreMidBalance;
+import frc.robot.auto.SequentialCommands.AutoScoreMidLong;
 import frc.robot.auto.SequentialCommands.RotationTest;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
@@ -79,6 +82,8 @@ public class RobotContainer {
     private Claw claw;
 
     private ColorInterpreter indexer;
+
+    private DigitalInput toggleSwitch = new DigitalInput(1);
 
     // private ShuffleboardTab swerveModuleInfo = Shuffleboard.getTab("Swerve Modules");
 
@@ -198,6 +203,8 @@ public class RobotContainer {
         arm.updateBoard();
         intake.updateBoard();
         arm.cycleAbsolute();
+
+        SmartDashboard.putBoolean("Toggle Switch", toggleSwitch.get());
     }
 
     public void teleopInit() {
@@ -220,7 +227,12 @@ public class RobotContainer {
         // return new AutoSequencer(swerve);
 
         // return new AutoOutOfCommunity(swerve);
-        return new AutoScoreMidBalance(swerve, intake, arm, claw);
+        if(toggleSwitch.get()){
+            return new AutoScoreHighBalance(swerve, intake, arm, claw); //Short Auto
+        }
+        else{
+            return new AutoScoreHighLong(swerve, intake, arm, claw); //Long Auto
+        }
         // return new RotationTest(swerve);
              
 

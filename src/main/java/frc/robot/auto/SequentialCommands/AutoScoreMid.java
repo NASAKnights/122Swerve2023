@@ -23,25 +23,23 @@ import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.intake.Intake;
-import frc.robot.intake.commands.StowIntake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoScoreHighBalance extends SequentialCommandGroup {
-  /** Creates a new AutoScoreHighBalance. */
-  public AutoScoreHighBalance(SwerveDrive swerve, Intake intake, ArmOutreach arm, Claw claw) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+public class AutoScoreMid extends SequentialCommandGroup {
+  /** Creates a new AutoScoreMidBalance. */
+  public AutoScoreMid(SwerveDrive swerve, Intake intake, ArmOutreach arm, Claw claw) {
     swerve.resetHeading();
     addCommands(
-                new AutoScoreHigh(swerve, intake, arm, claw),
-                new ParallelCommandGroup(new StowInside(arm),
-                                         new AutoDriveWithVelocity(swerve, -3.04, 0, new Rotation2d(), 0.7))
+      new CloseClaw(claw),
+      new GoToMid(arm),
+      new ParallelRaceGroup(new WaitCommand(4),
+                            new AutoDriveForDistance(swerve, 0.75, 0, new Rotation2d())),
+      new OpenClaw(claw)
                 // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),
                 // new InstantCommand(swerve::resetHeading)
                 );
   }
 }
-
 

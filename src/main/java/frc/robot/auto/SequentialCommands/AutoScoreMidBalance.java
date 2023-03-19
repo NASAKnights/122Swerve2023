@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.GoToHigh;
 import frc.robot.armoutreach.commands.GoToMid;
@@ -30,12 +32,9 @@ public class AutoScoreMidBalance extends SequentialCommandGroup {
   public AutoScoreMidBalance(SwerveDrive swerve, Intake intake, ArmOutreach arm, Claw claw) {
     swerve.resetHeading();
     addCommands(
-                new CloseClaw(claw),
-                new GoToMid(arm),
-                new AutoDriveForDistance(swerve, 0.75, 0, new Rotation2d()),
-                new OpenClaw(claw),
-                new StowInside(arm),
-                new AutoDriveWithVelocity(swerve, -3.05, 0, new Rotation2d(), 0.7)
+                new AutoScoreMid(swerve, intake, arm, claw),
+                new ParallelCommandGroup(new StowInside(arm),
+                                         new AutoDriveWithVelocity(swerve, -3.08, 0, new Rotation2d(), 0.775))
                 // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),
                 // new InstantCommand(swerve::resetHeading)
                 );

@@ -78,7 +78,8 @@ public class AutoDriveWithVelocity extends CommandBase {
     speeds = new ChassisSpeeds(
       pidX.calculate(swerve.getPose().getX(), desiredPose.getX()),
       pidY.calculate(swerve.getPose().getY(), desiredPose.getY()),
-      pidRot.calculate(swerve.getPose().getRotation().getDegrees(), desiredPose.getRotation().getDegrees())
+      0
+      //pidRot.calculate(swerve.getPose().getRotation().getDegrees(), desiredPose.getRotation().getDegrees())
     );
 
     RobotDeadzone();

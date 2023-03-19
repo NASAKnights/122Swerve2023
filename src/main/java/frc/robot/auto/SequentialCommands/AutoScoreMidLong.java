@@ -9,9 +9,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.GoToHigh;
 import frc.robot.armoutreach.commands.GoToMid;
@@ -23,25 +21,21 @@ import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.intake.Intake;
-import frc.robot.intake.commands.StowIntake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoScoreHighBalance extends SequentialCommandGroup {
-  /** Creates a new AutoScoreHighBalance. */
-  public AutoScoreHighBalance(SwerveDrive swerve, Intake intake, ArmOutreach arm, Claw claw) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+public class AutoScoreMidLong extends SequentialCommandGroup {
+  /** Creates a new AutoScoreMidBalance. */
+  public AutoScoreMidLong(SwerveDrive swerve, Intake intake, ArmOutreach arm, Claw claw) {
     swerve.resetHeading();
     addCommands(
-                new AutoScoreHigh(swerve, intake, arm, claw),
-                new ParallelCommandGroup(new StowInside(arm),
-                                         new AutoDriveWithVelocity(swerve, -3.04, 0, new Rotation2d(), 0.7))
+                new AutoScoreMid(swerve, intake, arm, claw),
+                new StowInside(arm),
+                new AutoDriveWithVelocity(swerve, -5, 0, new Rotation2d(), 0.775)
                 // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),
                 // new InstantCommand(swerve::resetHeading)
                 );
   }
 }
-
 
