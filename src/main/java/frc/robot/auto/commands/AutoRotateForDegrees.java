@@ -6,9 +6,7 @@ package frc.robot.auto.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.drive.SwerveDrive;
 
 public class AutoRotateForDegrees extends CommandBase {

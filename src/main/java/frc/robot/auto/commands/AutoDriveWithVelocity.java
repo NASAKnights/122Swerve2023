@@ -29,7 +29,6 @@ public class AutoDriveWithVelocity extends CommandBase {
   private Pose2d desiredPose;
   private boolean finished = false;
 
-  //TODO: Fine tune the velocity and rotational lower limits
   private double velocityLowerLimit = 0.05;
   private double rotationalLowerLimit = 0.1;
 
@@ -62,7 +61,6 @@ public class AutoDriveWithVelocity extends CommandBase {
     // swerve.resetHeading();
     // swerve.resetDriveEncoders();
     swerve.resetPose(new Pose2d(0, 0, currentRotationTest));
-    //TODO: Fix or adjust reset sequence
 
     Translation2d translation = new Translation2d(metersX, metersY);
     Transform2d toMove = new Transform2d(translation, rotation);

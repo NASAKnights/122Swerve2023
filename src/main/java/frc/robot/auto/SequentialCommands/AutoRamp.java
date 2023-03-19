@@ -19,7 +19,6 @@ public class AutoRamp extends SequentialCommandGroup {
     swerve.resetHeading();
     addCommands(
       //NOTE: the p value is for testing purposes, I am going to look for a better way of controlling speed soon.
-      //TODO: Fine tune and figure out the behavior of p in AutoDriveWithVelocity
       new AutoDriveWithVelocity(swerve, 1, 0, Rotation2d.fromDegrees(0), 0.2)
       );
   }

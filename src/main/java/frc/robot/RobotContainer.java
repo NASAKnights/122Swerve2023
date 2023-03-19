@@ -2,8 +2,6 @@ package frc.robot;
 
 import static frc.robot.Constants.kNavXPort;
 
-import java.util.function.BooleanSupplier;
-
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -12,8 +10,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.event.BooleanEvent;
 import edu.wpi.first.wpilibj.event.EventLoop;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
@@ -22,27 +18,15 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.HandOffSequence;
-import frc.robot.armoutreach.commands.ExtendToLength;
-import frc.robot.armoutreach.commands.GoInside;
 import frc.robot.armoutreach.commands.GoToHP;
 import frc.robot.armoutreach.commands.GoToHigh;
 import frc.robot.armoutreach.commands.GoToLow;
 import frc.robot.armoutreach.commands.GoToMid;
-import frc.robot.armoutreach.commands.HandOff;
-import frc.robot.armoutreach.commands.LiftArm;
-import frc.robot.armoutreach.commands.LiftToAngle;
 import frc.robot.armoutreach.commands.LowerArm;
-import frc.robot.armoutreach.commands.LowerToAngle;
-import frc.robot.armoutreach.commands.Retract;
 import frc.robot.armoutreach.commands.RetractFully;
 import frc.robot.armoutreach.commands.StowInside;
-import frc.robot.auto.SequentialCommands.AutoOutOfCommunity;
 import frc.robot.auto.SequentialCommands.AutoScoreHighBalance;
 import frc.robot.auto.SequentialCommands.AutoScoreHighLong;
-import frc.robot.auto.SequentialCommands.AutoScoreLow;
-import frc.robot.auto.SequentialCommands.AutoScoreMidBalance;
-import frc.robot.auto.SequentialCommands.AutoScoreMidLong;
-import frc.robot.auto.SequentialCommands.RotationTest;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
@@ -50,10 +34,8 @@ import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.commands.DriveCommand;
 import frc.robot.drive.commands.ToggleTurbo;
 import frc.robot.colorSensor.ColorInterpreter;
-import frc.robot.drive.commands.DriveForwardTime;
 import frc.robot.drive.commands.ToggleSlow;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import frc.robot.intake.Intake;
 import frc.robot.intake.StowIntakeSequence;
 import frc.robot.intake.commands.EjectCone;
@@ -62,10 +44,6 @@ import frc.robot.intake.commands.IntakeCone;
 import frc.robot.intake.commands.IntakeCube;
 import frc.robot.intake.commands.LiftIntake;
 import frc.robot.intake.commands.LowerIntake;
-import frc.robot.intake.commands.SetIntakeForward;
-import frc.robot.intake.commands.SetIntakeReverse;
-import frc.robot.intake.commands.SetIntaketoAngle;
-import frc.robot.intake.commands.StowIntake;
 
 public class RobotContainer {
 

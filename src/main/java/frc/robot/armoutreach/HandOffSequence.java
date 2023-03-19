@@ -6,7 +6,6 @@ package frc.robot.armoutreach;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.HandOff;
 import frc.robot.armoutreach.commands.Retract;
 import frc.robot.claw.Claw;

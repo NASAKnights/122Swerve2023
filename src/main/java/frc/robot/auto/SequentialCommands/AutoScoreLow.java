@@ -6,17 +6,13 @@ package frc.robot.auto.SequentialCommands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.LiftToAngle;
 import frc.robot.auto.commands.AutoDriveForDistance;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.intake.Intake;
-import frc.robot.intake.commands.SetIntakeForward;
 import frc.robot.intake.commands.SetIntaketoAngle;
-import frc.robot.intake.commands.StowIntake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

@@ -5,19 +5,12 @@
 package frc.robot.auto.SequentialCommands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.armoutreach.ArmOutreach;
-import frc.robot.armoutreach.commands.GoToHigh;
 import frc.robot.armoutreach.commands.GoToMid;
-import frc.robot.armoutreach.commands.StowInside;
 import frc.robot.auto.commands.AutoDriveForDistance;
-import frc.robot.auto.commands.AutoDriveWithVelocity;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
