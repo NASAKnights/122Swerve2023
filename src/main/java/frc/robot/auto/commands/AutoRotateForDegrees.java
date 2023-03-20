@@ -6,6 +6,7 @@ package frc.robot.auto.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drive.SwerveDrive;
 
@@ -34,7 +35,8 @@ public class AutoRotateForDegrees extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    swerve.drive(null, false);
+    ChassisSpeeds speeds = new ChassisSpeeds(0, 0, 1);
+    swerve.drive(speeds, false);
   }
 
   // Called once the command ends or is interrupted.
@@ -44,6 +46,6 @@ public class AutoRotateForDegrees extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

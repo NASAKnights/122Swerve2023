@@ -27,6 +27,9 @@ import frc.robot.armoutreach.commands.RetractFully;
 import frc.robot.armoutreach.commands.StowInside;
 import frc.robot.auto.SequentialCommands.AutoScoreHighBalance;
 import frc.robot.auto.SequentialCommands.AutoScoreHighLong;
+import frc.robot.auto.SequentialCommands.AutoScoreMid;
+import frc.robot.auto.SequentialCommands.AutoScoreMidBalance;
+import frc.robot.auto.SequentialCommands.AutoScoreMidLong;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
@@ -206,10 +209,10 @@ public class RobotContainer {
 
         // return new AutoOutOfCommunity(swerve);
         if(toggleSwitch.get()){
-            return new AutoScoreHighBalance(swerve, intake, arm, claw); //Short Auto
+            return new AutoScoreMidBalance(swerve, intake, arm, claw); //Short Auto
         }
         else{
-            return new AutoScoreHighLong(swerve, intake, arm, claw); //Long Auto
+            return new AutoScoreMidLong(swerve, intake, arm, claw); //Long Auto
         }
         // return new RotationTest(swerve);
              

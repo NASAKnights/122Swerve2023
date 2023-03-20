@@ -29,7 +29,8 @@ public class AutoScoreMid extends SequentialCommandGroup {
       new GoToMid(arm),
       new ParallelRaceGroup(new WaitCommand(4),
                             new AutoDriveForDistance(swerve, 0.75, 0, new Rotation2d())),
-      new OpenClaw(claw)
+      new OpenClaw(claw),
+      new WaitCommand(1)
                 // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),
                 // new InstantCommand(swerve::resetHeading)
                 );
