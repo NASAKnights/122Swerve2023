@@ -84,10 +84,10 @@ public class Constants {
     //-----------testing--------------------
 
     // select color and then version
-    public static final double[][] encoderoffsets = {{358.188 - 25.0 - 8.0 - 14.0, 103.711, 0.0}, // Red 1, 5, 9
-                                                    {330.654 + 7, 318.427,  0.0}, // Blue 2, 6, 10
+    public static final double[][] encoderoffsets = {{358.188 - 25.0 - 8.0 - 14.0 - 5.0, 103.711, 0.0}, // Red 1, 5, 9
+                                                    {330.654 + 7 - 3.5, 318.427,  0.0}, // Blue 2, 6, 10
                                                     {257.607, 275.273, 0.0}, // green 3, 7, 11
-                                                    {103.359 - 5, 87.539,  0.0}}; // yellow 4, 8, 12
+                                                    {103.359 - 5.0 - 4.0, 87.539,  0.0}}; // yellow 4, 8, 12
 
     public static double kDriveLimit = 0.15; // 0.7 fast
     public static double kRotationLimit = kDriveLimit * 0.9;
