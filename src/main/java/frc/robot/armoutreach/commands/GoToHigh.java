@@ -4,8 +4,10 @@
 
 package frc.robot.armoutreach.commands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.armoutreach.ArmOutreach;
 
 public class GoToHigh extends CommandBase {
@@ -29,7 +31,9 @@ public class GoToHigh extends CommandBase {
   @Override
   public void execute() {
     // 877, 205
-    Translation2d targetLocation = new Translation2d(0.9,0.2);
+    // Translation2d targetLocation = new Translation2d(0.9,0.2);
+    double max = Constants.ArmConstants.kExtensionLength + Constants.ArmConstants.kExtensionRetractedLength;
+    Translation2d targetLocation = new Translation2d(max, Rotation2d.fromDegrees(380));
 
     arm.gotoXY(targetLocation);
 
