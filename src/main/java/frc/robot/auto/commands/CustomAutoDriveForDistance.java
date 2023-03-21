@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.drive.SwerveDrive;
 
-public class AutoDriveWithVelocity extends CommandBase {
+public class CustomAutoDriveForDistance extends CommandBase {
 
   private SwerveDrive swerve;
   private ChassisSpeeds speeds;
@@ -34,7 +34,9 @@ public class AutoDriveWithVelocity extends CommandBase {
 
   private double p = 1;
   
-  public AutoDriveWithVelocity(SwerveDrive swerve, double metersX, double metersY, Rotation2d rotation, double p) {
+  /** Please choose AutoDriveForDistance instead of this unless this is needed, this command was made for one purpose,
+   * to run on the AutoScore's and as such may cause weird behavior when used in other conditions */
+  public CustomAutoDriveForDistance(SwerveDrive swerve, double metersX, double metersY, Rotation2d rotation, double p) {
     this.swerve = swerve;
     this.metersX = metersX;
     this.metersY = metersY;

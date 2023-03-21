@@ -17,7 +17,6 @@ public class TurnForDegrees extends CommandBase {
   private double rotationSpeed;
   private double initialPosition;
 
-
   public TurnForDegrees(SwerveDrive swerve, double degrees, double rotationSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.swerve = swerve;

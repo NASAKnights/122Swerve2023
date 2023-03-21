@@ -32,6 +32,9 @@ public class AutoDriveForDistance extends CommandBase {
   private double velocityLowerLimit = 0.05;
   private double rotationalLowerLimit = 0.1;
   
+  /** It automagically drives for a distance, its in the name. 
+   * <p> NOTE: The rotation has not been thoroughly tested and may produce unwanted behavior.
+   */
   public AutoDriveForDistance(SwerveDrive swerve, double metersX, double metersY, Rotation2d rotation) {
     this.swerve = swerve;
     this.metersX = metersX;
@@ -44,7 +47,6 @@ public class AutoDriveForDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Maybe add pid reset function here(???)
     pidX = new PIDController(0.7, 0, 0);
     pidY = new PIDController(0.7, 0, 0);
     pidRot = new PIDController(0.15, 0, 0);
@@ -111,7 +113,7 @@ public class AutoDriveForDistance extends CommandBase {
   @Override
   public boolean isFinished() {
     if(speeds.vxMetersPerSecond == 0 && speeds.vyMetersPerSecond == 0 && speeds.omegaRadiansPerSecond == 0){
-      System.out.println("Yes I am done moving");
+      // System.out.println("Yes I am done moving");
       // return true;
       finished = true;
     }

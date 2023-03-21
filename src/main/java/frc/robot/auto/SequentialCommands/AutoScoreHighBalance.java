@@ -5,11 +5,13 @@
 package frc.robot.auto.SequentialCommands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.StowInside;
-import frc.robot.auto.commands.AutoDriveWithVelocity;
+import frc.robot.auto.commands.AutoRotateForDegrees;
+import frc.robot.auto.commands.CustomAutoDriveForDistance;
 import frc.robot.claw.Claw;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.intake.Intake;
@@ -26,7 +28,10 @@ public class AutoScoreHighBalance extends SequentialCommandGroup {
     addCommands(
                 new AutoScoreHigh(swerve, intake, arm, claw),
                 new ParallelCommandGroup(new StowInside(arm),
-                                         new AutoDriveWithVelocity(swerve, -3.04, 0, new Rotation2d(), 0.7))
+                                         new CustomAutoDriveForDistance(swerve, -3.04, 0, new Rotation2d(), 0.7)),
+                                         
+                new AutoRotateForDegrees(swerve, 1),
+                new InstantCommand(swerve::resetHeadingReversed)
                 // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),
                 // new InstantCommand(swerve::resetHeading)
                 );

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.StowInside;
-import frc.robot.auto.commands.AutoDriveWithVelocity;
+import frc.robot.auto.commands.CustomAutoDriveForDistance;
 import frc.robot.auto.commands.AutoRotateForDegrees;
 import frc.robot.claw.Claw;
 import frc.robot.drive.SwerveDrive;
@@ -26,7 +26,8 @@ public class AutoScoreMidBalance extends SequentialCommandGroup {
     addCommands(
                 new AutoScoreMid(swerve, intake, arm, claw),
                 new ParallelCommandGroup(new StowInside(arm),
-                                         new AutoDriveWithVelocity(swerve, -2.925, 0, new Rotation2d(), 0.775)),
+                                         new CustomAutoDriveForDistance(swerve, -2.925, 0, new Rotation2d(), 0.775)),
+                                         
                 new AutoRotateForDegrees(swerve, 1),
                 new InstantCommand(swerve::resetHeadingReversed)
                 // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),

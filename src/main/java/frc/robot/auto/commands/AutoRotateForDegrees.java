@@ -16,6 +16,7 @@ public class AutoRotateForDegrees extends CommandBase {
   private double degrees;
   private PIDController pid;
 
+  /** Warning: This is a WIP and may not work as intended yet. */
   public AutoRotateForDegrees(SwerveDrive swerve, double degrees) {
     this.swerve = swerve;
     this.degrees = degrees;

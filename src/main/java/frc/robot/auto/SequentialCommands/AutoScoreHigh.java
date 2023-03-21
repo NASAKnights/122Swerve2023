@@ -21,7 +21,7 @@ import frc.robot.intake.Intake;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoScoreHigh extends SequentialCommandGroup {
-  /** Creates a new AutoScoreMidBalance. */
+  /** NOTE: This is used for closing the claw, making the arm go high, driving forwards, and then scoring a cone or cube in auto */
   public AutoScoreHigh(SwerveDrive swerve, Intake intake, ArmOutreach arm, Claw claw) {
     swerve.resetHeading();
     addCommands(

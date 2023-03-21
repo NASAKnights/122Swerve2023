@@ -35,7 +35,11 @@ public class AutoDriveForSeconds extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    swerve.drive(speeds, false);
+    if(timer.get() < seconds){
+      swerve.drive(speeds, false);
+    }else{
+      end(isFinished());
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -48,7 +52,7 @@ public class AutoDriveForSeconds extends CommandBase {
   @Override
   public boolean isFinished() {
     if (timer.get() < seconds){
-      return false;
+    return false;
     }else{
       return true;
     }
