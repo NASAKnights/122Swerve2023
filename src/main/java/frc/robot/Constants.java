@@ -11,6 +11,7 @@ import com.ctre.phoenix.sensors.SensorTimeBase;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.SPI;
@@ -114,6 +115,14 @@ public class Constants {
         public static final double kExtensionRatio = 0.3556 / 34.785;
 
         public static final int kCurrentLimit = 40;
+    }
+
+    public static final class VisionConstants {
+        
+        public static final String cameraName = "cam_1";
+
+        public static final Transform3d robotToCam = new Transform3d();
+
     }
 
 

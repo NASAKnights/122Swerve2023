@@ -3,9 +3,13 @@ package frc.robot.drive;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -26,6 +30,8 @@ public class SwerveDrive extends SubsystemBase {
     private ChassisSpeeds speeds;
     private SwerveDriveKinematics kinematics;
     private SwerveDriveOdometry odometry;
+    private PhotonCameraWrapper photonCamera;
+    private SwerveDrivePoseEstimator pe;
 
     private SwerveModule frontLeft, frontRight, backLeft, backRight;
     private SwerveModule[] modules;
@@ -35,6 +41,7 @@ public class SwerveDrive extends SubsystemBase {
     public SwerveDrive(AHRS navx) {
         this.navx = navx;
         this.navx.calibrate();
+        this.photonCamera = new PhotonCameraWrapper();
 
         this.speeds = new ChassisSpeeds();
         this.kinematics = new SwerveDriveKinematics(
@@ -75,10 +82,16 @@ public class SwerveDrive extends SubsystemBase {
                 Constants.kBackRightEncoderID,
                 Constants.kBackRightOffset);
 
-                this.modules = new SwerveModule[] { this.frontLeft, this.frontRight, this.backLeft, this.backRight };
-
-                this.odometry = new SwerveDriveOdometry(this.kinematics, this.getHeading(), this.getModulePositions());
-
+        this.modules = new SwerveModule[] { this.frontLeft, this.frontRight, this.backLeft, this.backRight };
+        // this.odometry = new SwerveDriveOdometry(this.kinematics, this.getHeading(), this.getModulePositions());
+        Optional<EstimatedRobotPose> result = this.photonCamera.getEstimatedGlobalPose(new Pose2d());
+        pe = new SwerveDrivePoseEstimator(kinematics, this.getHeading(), this.getModulePositions(), new Pose2d());
+        if(result.isPresent())
+        {
+            EstimatedRobotPose camPose = result.get();
+            pe.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
+            pe.update(getHeading(), getModulePositions());
+        }
         readoffsets();
         updateOffsets();
         // System.out.println("Data: "+red+" "+yellow);
@@ -156,8 +169,8 @@ public class SwerveDrive extends SubsystemBase {
                 module.updateSmartDash();
         }
         SmartDashboard.putNumber("heading", this.getHeading().getDegrees());
-        SmartDashboard.putNumber("x", this.odometry.getPoseMeters().getX());
-        SmartDashboard.putNumber("y", this.odometry.getPoseMeters().getY());
+        SmartDashboard.putNumber("x", this.pe.getEstimatedPosition().getX());
+        SmartDashboard.putNumber("y", this.pe.getEstimatedPosition().getY());
         
         red = (int) SmartDashboard.getNumber("Red encoder", 0);
         blue = (int) SmartDashboard.getNumber("Blue encoder", 0);
@@ -256,12 +269,22 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public Pose2d getPose(){
-        return this.odometry.getPoseMeters();
+        // return this.odometry.getPoseMeters();
+        return this.pe.getEstimatedPosition();
     }
 
     private void updateOdometry() {
         // SwerveModulePosition[] positions = new SwerveModulePosition[modules.length];
-        this.odometry.update(this.getHeading(), this.getModulePositions());
+        // this.odometry.update(this.getHeading(), this.getModulePositions());
+        Optional<EstimatedRobotPose> result =
+            photonCamera.getEstimatedGlobalPose(pe.getEstimatedPosition());
+        if(result.isPresent())
+        {
+            System.out.println("Found Apriltag");
+            EstimatedRobotPose camPose = result.get();
+            pe.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
+        }
+        pe.update(getHeading(), getModulePositions());
     }
 
     public SwerveDriveKinematics getKinematics() {
