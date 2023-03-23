@@ -132,10 +132,13 @@ public class SwerveDrive extends SubsystemBase {
         navx.zeroYaw();
     }
 
-    public void resetHeadingReversed(){
+    public void invertHeading(){
         navx.setAngleAdjustment(180);
     }
 
+    public void resetHeadingOffset(){
+        navx.setAngleAdjustment(0);
+    }
 
     public void resetDriveEncoders(){
         for (int i = 0; i < 4; i ++){

@@ -29,7 +29,7 @@ public class AutoScoreMidBalance extends SequentialCommandGroup {
                                          new CustomAutoDriveForDistance(swerve, -2.925, 0, new Rotation2d(), 0.775)),
                                          
                 new AutoRotateForDegrees(swerve, 1),
-                new InstantCommand(swerve::resetHeadingReversed)
+                new InstantCommand(swerve::invertHeading)
                 // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),
                 // new InstantCommand(swerve::resetHeading)
                 );

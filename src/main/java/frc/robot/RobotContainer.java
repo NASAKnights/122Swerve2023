@@ -206,13 +206,13 @@ public class RobotContainer {
 
     public CommandBase autonomousInit(){
         // return new AutoSequencer(swerve);
-
+        swerve.resetHeadingOffset();
         // return new AutoOutOfCommunity(swerve);
         if(toggleSwitch.get()){
-            return new AutoScoreMidBalance(swerve, intake, arm, claw); //Short Auto
+            return new AutoScoreHighBalance(swerve, intake, arm, claw); //Short Auto
         }
         else{
-            return new AutoScoreMidLong(swerve, intake, arm, claw); //Long Auto
+            return new AutoScoreHighLong(swerve, intake, arm, claw); //Long Auto
         }
         // return new RotationTest(swerve);
              

@@ -94,11 +94,11 @@ public class HandOff extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     
-    // if(!interrupted){
-    //   if (indexer.checkItem() == "Cube"){
-    //     intake.handOffCube();
-    //   }
-    // }
+    if(!interrupted){
+      if (item == "Cube"){
+        intake.handOffCube();
+      }
+    }
   }
 
   // Returns true when the command should end.
