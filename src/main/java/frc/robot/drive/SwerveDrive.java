@@ -84,14 +84,17 @@ public class SwerveDrive extends SubsystemBase {
 
         this.modules = new SwerveModule[] { this.frontLeft, this.frontRight, this.backLeft, this.backRight };
         // this.odometry = new SwerveDriveOdometry(this.kinematics, this.getHeading(), this.getModulePositions());
+        
         Optional<EstimatedRobotPose> result = this.photonCamera.getEstimatedGlobalPose(new Pose2d());
         pe = new SwerveDrivePoseEstimator(kinematics, this.getHeading(), this.getModulePositions(), new Pose2d());
-        if(result.isPresent())
+        
+        if(result.isPresent() && photonCamera.getNumberofTargets() >=2)
         {
             EstimatedRobotPose camPose = result.get();
             pe.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
             pe.update(getHeading(), getModulePositions());
         }
+        resetPose(new Pose2d());
         readoffsets();
         updateOffsets();
         // System.out.println("Data: "+red+" "+yellow);
@@ -265,7 +268,8 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void resetPose(Pose2d position) {
-        this.odometry.resetPosition(this.getHeading(), this.getModulePositions(), position);
+        //this.odometry.resetPosition(this.getHeading(), this.getModulePositions(), position);
+        this.pe.resetPosition(this.getHeading(), this.getModulePositions(), position);
     }
 
     public Pose2d getPose(){

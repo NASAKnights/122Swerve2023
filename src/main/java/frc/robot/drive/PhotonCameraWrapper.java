@@ -42,6 +42,7 @@ package frc.robot.drive;
      public PhotonCameraWrapper() {
          // Change the name of your camera here to whatever it is in the PhotonVision UI.
          photonCamera = new PhotonCamera(VisionConstants.cameraName);
+         //photonCamera.getLatestResult().getTargets();
  
          try {
              // Attempt to load the AprilTagFieldLayout that will tell us where the tags are on the field.
@@ -49,7 +50,7 @@ package frc.robot.drive;
              // Create pose estimator
              photonPoseEstimator =
                      new PhotonPoseEstimator(
-                             fieldLayout, PoseStrategy.LOWEST_AMBIGUITY, photonCamera, VisionConstants.robotToCam);
+                             fieldLayout, PoseStrategy.MULTI_TAG_PNP, photonCamera, VisionConstants.robotToCam);
          } catch (IOException e) {
              // The AprilTagFieldLayout failed to load. We won't be able to estimate poses if we don't know
              // where the tags are.
@@ -69,6 +70,11 @@ package frc.robot.drive;
              return Optional.empty();
          }
          photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
+         //photonPoseEstimator.setLastPose(prevEstimatedRobotPose);
          return photonPoseEstimator.update();
+     }
+
+     public int getNumberofTargets(){
+        return photonCamera.getLatestResult().getTargets().size();
      }
  }

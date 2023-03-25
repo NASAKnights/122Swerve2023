@@ -11,8 +11,10 @@ import com.ctre.phoenix.sensors.SensorTimeBase;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.SPI;
 import frc.lib.sds.SDSModuleType;
@@ -121,7 +123,7 @@ public class Constants {
         
         public static final String cameraName = "cam_1";
 
-        public static final Transform3d robotToCam = new Transform3d();
+        public static final Transform3d robotToCam = new Transform3d(new Translation3d(.1825, -.2275,1),new Rotation3d(0,-3.14/6,0));
 
     }
 
