@@ -38,12 +38,17 @@ public class ColorInterpreter extends SubsystemBase {
       return "Cube";
     }
     else if (x < 212){
-      SmartDashboard.putString("Whats in my robot", "Low Cone");
-      return "Low Cone";
+      // SmartDashboard.putString("Whats in my robot", "Low Cone");
+      SmartDashboard.putString("Whats in my robot", "Cone");
+
+      // return "Low Cone";
+      return "Cone";
     }
     else if (x < 255){
-      SmartDashboard.putString("Whats in my robot", "High Cone");
-      return "High Cone";
+      // SmartDashboard.putString("Whats in my robot", "High Cone");
+      SmartDashboard.putString("Whats in my robot", "Cone");
+      // return "High Cone";
+      return "Cone";
     }
     return "";
   }
