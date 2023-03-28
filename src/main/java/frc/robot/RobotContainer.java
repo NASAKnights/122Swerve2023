@@ -2,9 +2,22 @@ package frc.robot;
 
 import static frc.robot.Constants.kNavXPort;
 
+import java.util.HashMap;
+import java.util.List;
+
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
@@ -25,19 +38,17 @@ import frc.robot.armoutreach.commands.GoToMid;
 import frc.robot.armoutreach.commands.LowerArm;
 import frc.robot.armoutreach.commands.RetractFully;
 import frc.robot.armoutreach.commands.StowInside;
-import frc.robot.auto.SequentialCommands.AutoScoreHighBalance;
-import frc.robot.auto.SequentialCommands.AutoScoreHighLong;
-import frc.robot.auto.SequentialCommands.AutoScoreMid;
-import frc.robot.auto.SequentialCommands.AutoScoreMidBalance;
-import frc.robot.auto.SequentialCommands.AutoScoreMidLong;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.commands.DriveCommand;
+import frc.robot.drive.commands.FollowPath;
 import frc.robot.drive.commands.ToggleTurbo;
+import frc.robot.drive.commands.TrajectoryTest;
 import frc.robot.colorSensor.ColorInterpreter;
 import frc.robot.drive.commands.ToggleSlow;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.intake.Intake;
 import frc.robot.intake.StowIntakeSequence;
@@ -61,6 +72,8 @@ public class RobotContainer {
 
     private PneumaticHub pHub;
     private Claw claw;
+
+    private Trajectory traj;
 
     private ColorInterpreter indexer;
 
@@ -196,27 +209,47 @@ public class RobotContainer {
         swerve.updateOffsets();
         arm.updateBoard();
        
-        
     }
 
     public void disabledInit(){
         swerve.setCoast();
         
     }
+    
+    public CommandBase getAutonomousCommand() {
+        var group = PathPlanner.loadPathGroup(
+            "DriveStraightThreeMeters",
+            new PathConstraints(3, 2)
+        );
+
+        HashMap<String, Command> eventMap = new HashMap<>();
+
+        SwerveAutoBuilder builder = new SwerveAutoBuilder(
+            swerve::getPose,
+            swerve::resetPose,
+            new PIDConstants(9, 0, 0),
+            new PIDConstants(3, 0, 0),
+            swerve::drive,
+            eventMap,
+            swerve
+        );
+
+        return builder.fullAuto(group);
+    }
 
     public CommandBase autonomousInit(){
         // return new AutoSequencer(swerve);
         swerve.resetHeadingOffset();
         // return new AutoOutOfCommunity(swerve);
-        if(toggleSwitch.get()){
+        /*if(toggleSwitch.get()){
             return new AutoScoreHighBalance(swerve, intake, arm, claw); //Short Auto
         }
         else{
             return new AutoScoreHighLong(swerve, intake, arm, claw); //Long Auto
-        }
+        }*/
         // return new RotationTest(swerve);
-             
-
+        swerve.resetHeading();
+        return new FollowPath(swerve);  
     }
 
     public void testInit() {

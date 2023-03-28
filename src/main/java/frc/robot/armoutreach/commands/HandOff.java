@@ -19,7 +19,7 @@ public class HandOff extends CommandBase {
   private ColorInterpreter indexer;
 
   private boolean finished = false;
-  private String item = "None";
+  private String item = "none";
 
   public HandOff(ArmOutreach arm, Claw claw, Intake intake, ColorInterpreter indexer) {
     this.arm = arm;
@@ -44,7 +44,7 @@ public class HandOff extends CommandBase {
   // NOTE/DISCLAIMER: The translations need to be tweaked
   @Override
   public void execute() {
-    if(item == "Cube"){
+    if(item == "cube"){
       Translation2d targetLocation = new Translation2d(-0.198, -0.607);
 
       arm.gotoXY(targetLocation);
@@ -58,23 +58,7 @@ public class HandOff extends CommandBase {
         finished = true;
       }
     }
-    // else if(item == "Low Cone"){
-    //   Translation2d targetLocation = new Translation2d(-0.228, -0.622);
-
-    //   arm.gotoXY(targetLocation);
-
-    //   Translation2d xy = arm.getXY();
-    //   Translation2d xyError = targetLocation.minus(xy);
-
-    //   //check xy error, then continue when xy is within maximum allowed error.
-    //   if(xyError.getNorm() < 0.05){
-    //     claw.closeClaw();
-    //     finished = true;
-    //   }
-    // }
-    else if(item == "Cone"){
-    // else if(item == "High Cone"){
-
+    else if(item == "cone"){
       Translation2d targetLocation = new Translation2d(0.0728, -0.618);
 
       arm.gotoXY(targetLocation);
@@ -97,7 +81,7 @@ public class HandOff extends CommandBase {
   public void end(boolean interrupted) {
     
     if(!interrupted){
-      if (item == "Cube"){
+      if (item == "cube"){
         intake.handOffCube();
       }
     }

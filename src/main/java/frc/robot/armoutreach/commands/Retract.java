@@ -29,12 +29,9 @@ public class Retract extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (indexer.getLast() == "Cone") {
+    if (indexer.getLast() == "cone") {
       intake.setReverse();
     }
-    // else if (indexer.getLast() == "Low Cone") {
-    //   intake.setReverse();
-    // }
     // else if (indexer.checkIndex() == "Cube") {
     //   intake.handOffCube();
     // }

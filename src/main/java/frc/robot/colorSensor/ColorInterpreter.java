@@ -12,8 +12,8 @@ public class ColorInterpreter extends SubsystemBase {
 
   private AnalogInput input = new AnalogInput(0);
 
-  private String item = "None";
-  private String lastItem = "None";
+  private String item = "none";
+  private String lastItem = "none";
   /** Creates a new Indexer. */
   public ColorInterpreter() {
   }
@@ -31,24 +31,15 @@ public class ColorInterpreter extends SubsystemBase {
     double x = scaling * ((input.getAverageValue() / 4095.0) * 255);
     if(x < 42){
       SmartDashboard.putString("Whats in my robot", "None");
-      return "No Object";
+      return "none";
     }
     else if(x < 125){
       SmartDashboard.putString("Whats in my robot", "Cube");
-      return "Cube";
-    }
-    else if (x < 212){
-      // SmartDashboard.putString("Whats in my robot", "Low Cone");
-      SmartDashboard.putString("Whats in my robot", "Cone");
-
-      // return "Low Cone";
-      return "Cone";
+      return "cube";
     }
     else if (x < 255){
-      // SmartDashboard.putString("Whats in my robot", "High Cone");
       SmartDashboard.putString("Whats in my robot", "Cone");
-      // return "High Cone";
-      return "Cone";
+      return "cone";
     }
     return "";
   }
