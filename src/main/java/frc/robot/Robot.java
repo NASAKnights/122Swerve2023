@@ -29,6 +29,9 @@ public class Robot extends TimedRobot {
         if (m_autoCommand != null){
             m_autoCommand.schedule();
         }
+        else{
+            System.out.println("No Auto Found");
+        }
     }
 
     @Override

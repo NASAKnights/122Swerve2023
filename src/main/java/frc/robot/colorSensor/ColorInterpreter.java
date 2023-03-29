@@ -37,7 +37,7 @@ public class ColorInterpreter extends SubsystemBase {
       SmartDashboard.putString("Whats in my robot", "Cube");
       return "cube";
     }
-    else if (x < 255){
+    else if (x <= 255){
       SmartDashboard.putString("Whats in my robot", "Cone");
       return "cone";
     }

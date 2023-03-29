@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -31,6 +32,10 @@ public class SwerveDrive extends SubsystemBase {
     private SwerveModule[] modules;
 
     private int red, blue, green, yellow;
+
+    private PIDController pidX, pidY, pidRot;
+
+    private boolean hasRun;
 
     public SwerveDrive(AHRS navx) {
         this.navx = navx;
@@ -269,6 +274,42 @@ public class SwerveDrive extends SubsystemBase {
 
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
+    }
+
+    public double getPitch(){
+        return navx.getPitch();
+    }
+
+    public double getRoll(){
+        return navx.getRoll();
+    }
+
+
+
+    public void initializePID(){
+        pidX = new PIDController(0.9, 1e-4, 0);
+        pidY = new PIDController(0.9, 1e-4, 0);
+        pidRot = new PIDController(0.15, 0, 0);
+        pidX.setTolerance(0.025); 
+        pidY.setTolerance(0.025);
+        pidRot.setTolerance(1);
+
+        hasRun = false;
+    }
+
+    public void setReference(Pose2d pose){
+        if(!pidX.atSetpoint() & !pidY.atSetpoint() | !hasRun){
+            speeds = new ChassisSpeeds(
+            pidX.calculate(getPose().getX(), pose.getX()),
+            pidY.calculate(getPose().getY(), pose.getY()),
+            0
+            // pidRot.calculate(getPose().getRotation().getDegrees(), pose.getRotation().getDegrees())
+          );
+          
+            drive(speeds, false);
+            SmartDashboard.putNumber("x calculate", pidX.calculate(getPose().getX(), pose.getX()));
+        }
+        
     }
 
 
