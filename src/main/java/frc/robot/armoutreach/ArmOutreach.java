@@ -179,7 +179,7 @@ public class ArmOutreach extends SubsystemBase {
     extendPID.setReference(0.375, CANSparkMax.ControlType.kPosition);
   }
   public void retractToZero(){
-    outreach.set(-0.3);
+    outreach.set(-0.45);
   }
 
   public double getExtendLength(){

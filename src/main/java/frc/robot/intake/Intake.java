@@ -73,7 +73,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void handOffCube() {
-    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.1);
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.25);
   }
 
   public void setReverse(){

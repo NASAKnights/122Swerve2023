@@ -5,11 +5,13 @@
 package frc.robot.auto.SequentialCommands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.GoToHigh;
+import frc.robot.armoutreach.commands.LowerArm;
 import frc.robot.auto.commands.AutoDriveForDistance;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
@@ -29,10 +31,10 @@ public class AutoScoreHigh extends SequentialCommandGroup {
       new GoToHigh(arm),
       new ParallelRaceGroup(new WaitCommand(4),
                             new AutoDriveForDistance(swerve, 0.75, 0, new Rotation2d())),
-      new OpenClaw(claw),
-      new WaitCommand(1)
-                // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),
-                // new InstantCommand(swerve::resetHeading)
+      new WaitCommand(2),
+      new ParallelDeadlineGroup(new WaitCommand(0.5),
+                                new LowerArm(arm)),
+      new OpenClaw(claw)
                 );
   }
 }
