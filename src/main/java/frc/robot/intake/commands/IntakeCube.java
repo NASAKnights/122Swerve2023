@@ -15,7 +15,7 @@ public class IntakeCube extends CommandBase {
   private ArmOutreach arm;
   private boolean armHasReachedOut = false;
   private int stage = 1;
-  private double armSetpoint = 4.85;
+  private double armSetpoint = 4.9;
   private double intakeSetpoint = 2.875;
   private double allErr = 0.1;
   private double armDown = 4.712;

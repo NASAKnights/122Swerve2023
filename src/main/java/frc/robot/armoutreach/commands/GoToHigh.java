@@ -14,9 +14,20 @@ public class GoToHigh extends CommandBase {
   /** Creates a new GoToHigh. */
   private ArmOutreach arm;
   private boolean isFinished;
+  private boolean isCube;
+
+  public GoToHigh(ArmOutreach arm, boolean isCube) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    this.arm = arm;
+    this.isCube = isCube;
+
+    addRequirements(arm);
+  }
+
   public GoToHigh(ArmOutreach arm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
+    this.isCube = false;
 
     addRequirements(arm);
   }
@@ -33,7 +44,13 @@ public class GoToHigh extends CommandBase {
     // 877, 205
     // Translation2d targetLocation = new Translation2d(0.9,0.2);
     double max = Constants.ArmConstants.kExtensionLength + Constants.ArmConstants.kExtensionRetractedLength;
-    Translation2d targetLocation = new Translation2d(max, Rotation2d.fromDegrees(380));
+    Translation2d targetLocation;
+    if(isCube){
+      targetLocation = new Translation2d(max, Rotation2d.fromDegrees(365));
+    }
+    else{
+      targetLocation = new Translation2d(max, Rotation2d.fromDegrees(365));
+    }
 
     arm.gotoXY(targetLocation);
 

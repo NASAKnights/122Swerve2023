@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -221,15 +222,18 @@ public class RobotContainer {
     
     public CommandBase getAutonomousCommand() {
         var group = PathPlanner.loadPathGroup(
-            "AutoTest",
+            "AutoLoadingRedZone",
             new PathConstraints(3, 2)
         );
 
         HashMap<String, Command> eventMap = new HashMap<>();
         eventMap.put("score", new OpenClaw(claw));
-        eventMap.put("arm_up", new RepeatCommand(new GoToHigh(arm)));
-        eventMap.put("stow_claw", new StowInside(arm));
+        eventMap.put("arm_up", new RepeatCommand(new GoToHigh(arm, true)));
+        eventMap.put("stow", new SequentialCommandGroup(new StowInside(arm)));
         eventMap.put("wait", new WaitCommand(2));
+        eventMap.put("balance", new AutoBalance(swerve));
+        eventMap.put("intakeCube", new RepeatCommand(new IntakeCube(intake, arm)));
+        eventMap.put("stowIntake", new StowIntakeSequence(arm, intake));
         SwerveAutoBuilder builder = new SwerveAutoBuilder(
             swerve::getPose,
             swerve::resetPose,
