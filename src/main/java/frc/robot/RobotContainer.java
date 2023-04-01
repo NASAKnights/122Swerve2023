@@ -40,7 +40,7 @@ import frc.robot.armoutreach.commands.GoToMid;
 import frc.robot.armoutreach.commands.LowerArm;
 import frc.robot.armoutreach.commands.RetractFully;
 import frc.robot.armoutreach.commands.StowInside;
-import frc.robot.auto.SequentialCommands.AutoScoreHigh;
+import frc.robot.auto.SequentialCommands.AutoScoreHighBalance;
 import frc.robot.auto.commands.AutoBalance;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
@@ -81,7 +81,9 @@ public class RobotContainer {
 
     private ColorInterpreter indexer;
 
-    private DigitalInput toggleSwitch = new DigitalInput(1);
+    private DigitalInput rotaryEncoderSide = new DigitalInput(1);
+    private DigitalInput redBlueSwitch = new DigitalInput(5);
+    private DigitalInput rotaryEncoderBalance = new DigitalInput(2);
 
     // private ShuffleboardTab swerveModuleInfo = Shuffleboard.getTab("Swerve Modules");
 
@@ -202,7 +204,9 @@ public class RobotContainer {
         intake.updateBoard();
         arm.cycleAbsolute();
 
-        SmartDashboard.putBoolean("Toggle Switch", toggleSwitch.get());
+        SmartDashboard.putBoolean("Auto Side", rotaryEncoderSide.get());
+        SmartDashboard.putBoolean("Red Blue Switch", redBlueSwitch.get());
+        SmartDashboard.putBoolean("Auto Balance", rotaryEncoderBalance.get());
     }
 
     public void teleopInit() {
@@ -221,19 +225,38 @@ public class RobotContainer {
     }
     
     public CommandBase getAutonomousCommand() {
+        // var group = PathPlanner.loadPathGroup("none", new PathConstraints(0, 0));
+
         var group = PathPlanner.loadPathGroup(
-            "AutoLoadingRedZone",
-            new PathConstraints(3, 2)
-        );
+            "AutoTest",
+            new PathConstraints(3, 2));
+
+        // if(redBlueSwitch.get()){
+        //     group = PathPlanner.loadPathGroup(
+        //         "AutoLoadingBlueZone",
+        //         new PathConstraints(3, 2)
+        //     );
+        // }
+        // else{
+        //     group = PathPlanner.loadPathGroup(
+        //     "AutoLoadingRedZone",
+        //     new PathConstraints(3, 2)
+        // );
+        // }
 
         HashMap<String, Command> eventMap = new HashMap<>();
         eventMap.put("score", new OpenClaw(claw));
+
+        //I will change this in a bit to match the others
         eventMap.put("arm_up", new RepeatCommand(new GoToHigh(arm, true)));
+        eventMap.put("autoBalance", new SequentialCommandGroup(new AutoBalance(swerve)));
         eventMap.put("stow", new SequentialCommandGroup(new StowInside(arm)));
         eventMap.put("wait", new WaitCommand(2));
         eventMap.put("balance", new AutoBalance(swerve));
         eventMap.put("intakeCube", new RepeatCommand(new IntakeCube(intake, arm)));
         eventMap.put("stowIntake", new StowIntakeSequence(arm, intake));
+        eventMap.put("AutoScoreHighBalance", new AutoScoreHighBalance(swerve, intake, arm, claw));
+        eventMap.put("GotoHigh", new GoToHigh(arm, true));
         SwerveAutoBuilder builder = new SwerveAutoBuilder(
             swerve::getPose,
             swerve::resetPose,
@@ -260,7 +283,7 @@ public class RobotContainer {
         // // return new RotationTest(swerve);
         // swerve.resetHeading();
         // return new FollowPath(swerve);  
-        return new AutoBalance(swerve);
+        return new AutoScoreHighBalance(swerve, intake, arm, claw);
     }
 
     public void testInit() {

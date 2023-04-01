@@ -10,9 +10,11 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.StowInside;
+import frc.robot.auto.commands.AutoBalance;
 import frc.robot.auto.commands.AutoRotateForDegrees;
 import frc.robot.auto.commands.CustomAutoDriveForDistance;
 import frc.robot.claw.Claw;
+import frc.robot.claw.commands.OpenClaw;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.intake.Intake;
 
@@ -26,11 +28,12 @@ public class AutoScoreHighBalance extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     swerve.resetHeading();
     addCommands(
-                new AutoScoreHigh(swerve, intake, arm, claw),
+                new OpenClaw(claw),
                 new ParallelCommandGroup(new StowInside(arm),
                                          new CustomAutoDriveForDistance(swerve, -3.04, 0, new Rotation2d(), 0.7)),
                                          
                 new AutoRotateForDegrees(swerve, 1),
+                new AutoBalance(swerve),
                 new InstantCommand(swerve::invertHeading)
                 // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),
                 // new InstantCommand(swerve::resetHeading)

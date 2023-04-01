@@ -80,9 +80,9 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(TalonSRXControlMode.PercentOutput, -1);
   }
 
-  public boolean isIntakeInside(){
-    return !limitSwitch.get();
-  }
+  // public boolean isIntakeInside(){
+  //   return !limitSwitch.get();
+  // }
 
   public void resetPivotEncoder(){
     intakeLiftEncoder.setPosition(0.0);
@@ -134,7 +134,7 @@ public class Intake extends SubsystemBase {
 
   public void updateBoard(){
     SmartDashboard.putNumber("Intake Position", intakeLiftEncoder.getPosition());
-    SmartDashboard.putBoolean("Intake Limit", isIntakeInside());
+    // SmartDashboard.putBoolean("Intake Limit", isIntakeInside());
   }
 
 
@@ -142,8 +142,10 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (isIntakeInside()){
-      resetPivotEncoder();
-    }
+
+    //TODO: FIND OUT IF THIS IS NEEDED
+    // if (isIntakeInside()){
+    //   resetPivotEncoder();
+    // }
   }
 }

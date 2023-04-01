@@ -22,7 +22,7 @@ public class AutoScoreHighLong extends SequentialCommandGroup {
   public AutoScoreHighLong(SwerveDrive swerve, Intake intake, ArmOutreach arm, Claw claw) {
     swerve.resetHeading();
     addCommands(
-                new AutoScoreHigh(swerve, intake, arm, claw),
+                // new AutoScoreHigh(swerve, intake, arm, claw),
                 new ParallelCommandGroup(new StowInside(arm),
                                          new AutoDriveForDistance(swerve, -5, 0, new Rotation2d()))
                 // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),

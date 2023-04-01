@@ -317,6 +317,9 @@ public class SwerveDrive extends SubsystemBase {
     public void periodic() {
         this.updateOdometry();
         this.updateSmartDash();
+
+        SmartDashboard.putNumber("roll", getRoll());
+        SmartDashboard.putNumber("pitch", getPitch());
     }
 
 }

@@ -47,8 +47,8 @@ public class AutoDriveForDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pidX = new PIDController(0.7, 0, 0);
-    pidY = new PIDController(0.7, 0, 0);
+    pidX = new PIDController(0.75, 0, 0);
+    pidY = new PIDController(0.75, 0, 0);
     pidRot = new PIDController(0.15, 0, 0);
     pidX.setTolerance(0.05); 
     pidY.setTolerance(0.05);

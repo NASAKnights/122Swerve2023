@@ -25,6 +25,7 @@ public class AutoBalance extends CommandBase {
   private double checkPeriod = 0.25;
   private Pose2d desiredPose;
   private double moveDistance = 0.0508;
+  // private double moveDis;
   private int test;
   /** Creates a new AutoBalance. */
   public AutoBalance(SwerveDrive swerve) {
@@ -50,9 +51,9 @@ public class AutoBalance extends CommandBase {
     Transform2d moveBy;
     if(timer.advanceIfElapsed(checkPeriod)){
       SmartDashboard.putNumber("isTiming", desiredPose.getX());
-      if(Math.abs(swerve.getRoll()) < balanceThreshold){
+      if(Math.abs(swerve.getPitch()) < balanceThreshold){
         desiredPose = swerve.getPose();
-      }else if(swerve.getRoll() > balanceThreshold){
+      }else if(swerve.getPitch() > balanceThreshold){
         test += 1;
         moveBy = new Transform2d(new Translation2d(-moveDistance, 0), new Rotation2d());
         desiredPose = desiredPose.transformBy(moveBy);

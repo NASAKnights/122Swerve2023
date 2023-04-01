@@ -49,7 +49,7 @@ public class GoToHigh extends CommandBase {
       targetLocation = new Translation2d(max, Rotation2d.fromDegrees(365));
     }
     else{
-      targetLocation = new Translation2d(max, Rotation2d.fromDegrees(365));
+      targetLocation = new Translation2d(max, Rotation2d.fromDegrees(380));
     }
 
     arm.gotoXY(targetLocation);
