@@ -2,15 +2,15 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 13.112155547619366,
+        "x": 3.45,
         "y": 1.13513399959131
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.192519016616979,
+        "x": 3.5303634689976136,
         "y": 1.13513399959131
       },
-      "holonomicAngle": 0.0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -18,7 +18,7 @@
       "stopEvent": {
         "names": [
           "wait",
-          "arm_up"
+          "armHigh"
         ],
         "executionBehavior": "parallelDeadline",
         "waitBehavior": "none",
@@ -27,18 +27,18 @@
     },
     {
       "anchorPoint": {
-        "x": 14.759606662070466,
+        "x": 1.8,
         "y": 1.0547705305936945
       },
       "prevControl": {
-        "x": 14.507668468480228,
+        "x": 1.5480618064097624,
         "y": 1.0547705305936945
       },
       "nextControl": {
-        "x": 14.799788396569273,
+        "x": 1.8401817344988076,
         "y": 1.0547705305936945
       },
-      "holonomicAngle": 0.0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -54,18 +54,18 @@
     },
     {
       "anchorPoint": {
-        "x": 13.292973352864,
+        "x": 3.3,
         "y": 0.9040890262231663
       },
       "prevControl": {
-        "x": 14.177714201145413,
-        "y": 0.921436885993389
+        "x": 3.1177668235727967,
+        "y": 0.9040890262231663
       },
       "nextControl": {
-        "x": 12.780656238004203,
-        "y": 0.8940435925984651
+        "x": 3.507819877176617,
+        "y": 0.9040890262231663
       },
-      "holonomicAngle": 45.0,
+      "holonomicAngle": 135.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -79,15 +79,15 @@
     },
     {
       "anchorPoint": {
-        "x": 10.078434592959411,
+        "x": 6.5,
         "y": 0.924179893472571
       },
       "prevControl": {
-        "x": 10.259252398204044,
+        "x": 6.319182194755367,
         "y": 0.924179893472571
       },
       "nextControl": null,
-      "holonomicAngle": 0.0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -105,7 +105,7 @@
   ],
   "markers": [
     {
-      "position": 1.793939393939395,
+      "position": 1.79,
       "names": [
         "stow"
       ]

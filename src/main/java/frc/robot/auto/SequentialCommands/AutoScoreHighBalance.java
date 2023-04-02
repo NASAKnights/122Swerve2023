@@ -32,13 +32,12 @@ public class AutoScoreHighBalance extends SequentialCommandGroup {
                 new ParallelCommandGroup(new StowInside(arm),
                                          new CustomAutoDriveForDistance(swerve, -3.04, 0, new Rotation2d(), 0.7)),
                                          
-                new AutoRotateForDegrees(swerve, 1),
+                // new AutoRotateForDegrees(swerve, 1),
                 new AutoBalance(swerve),
+                
+                //Invert the heading for drive team
                 new InstantCommand(swerve::invertHeading)
-                // new AutoDriveWithVelocity(swerve, 0, 0, Rotation2d.fromDegrees(180), 0.7),
                 // new InstantCommand(swerve::resetHeading)
                 );
   }
 }
-
-

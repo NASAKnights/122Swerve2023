@@ -79,7 +79,6 @@ public class AutoDriveForDistance extends CommandBase {
     );
 
     RobotDeadzone();
-    // System.out.println("Exexexexexexexexexe");
     
     SmartDashboard.putNumber("currentRot", swerve.getPose().getRotation().getDegrees());
     SmartDashboard.putNumber("desiredRot", desiredPose.getRotation().getDegrees());

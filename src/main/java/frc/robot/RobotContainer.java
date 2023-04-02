@@ -246,17 +246,19 @@ public class RobotContainer {
 
         HashMap<String, Command> eventMap = new HashMap<>();
         eventMap.put("score", new OpenClaw(claw));
-
-        //I will change this in a bit to match the others
-        eventMap.put("arm_up", new RepeatCommand(new GoToHigh(arm, true)));
-        eventMap.put("autoBalance", new SequentialCommandGroup(new AutoBalance(swerve)));
-        eventMap.put("stow", new SequentialCommandGroup(new StowInside(arm)));
         eventMap.put("wait", new WaitCommand(2));
-        eventMap.put("balance", new AutoBalance(swerve));
+
+        eventMap.put("armHigh", new RepeatCommand(new GoToHigh(arm, true)));
+        eventMap.put("armMid", new RepeatCommand(new GoToMid(arm)));
+        eventMap.put("stowArm", new SequentialCommandGroup(new StowInside(arm)));
+        eventMap.put("GoToHigh", new GoToHigh(arm, true));
+
+        eventMap.put("autoBalance", new SequentialCommandGroup(new AutoBalance(swerve)));
+
         eventMap.put("intakeCube", new RepeatCommand(new IntakeCube(intake, arm)));
-        eventMap.put("stowIntake", new StowIntakeSequence(arm, intake));
+
         eventMap.put("AutoScoreHighBalance", new AutoScoreHighBalance(swerve, intake, arm, claw));
-        eventMap.put("GotoHigh", new GoToHigh(arm, true));
+
         SwerveAutoBuilder builder = new SwerveAutoBuilder(
             swerve::getPose,
             swerve::resetPose,

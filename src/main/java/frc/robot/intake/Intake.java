@@ -143,7 +143,7 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    //TODO: FIND OUT IF THIS IS NEEDED
+    //TODO: Find out if the intake reset pivot is needed.
     // if (isIntakeInside()){
     //   resetPivotEncoder();
     // }

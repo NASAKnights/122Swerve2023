@@ -13,6 +13,7 @@ import frc.robot.armoutreach.commands.StowInside;
 import frc.robot.auto.commands.CustomAutoDriveForDistance;
 import frc.robot.auto.commands.AutoRotateForDegrees;
 import frc.robot.claw.Claw;
+import frc.robot.claw.commands.OpenClaw;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.intake.Intake;
 
@@ -24,7 +25,7 @@ public class AutoScoreMidBalance extends SequentialCommandGroup {
   public AutoScoreMidBalance(SwerveDrive swerve, Intake intake, ArmOutreach arm, Claw claw) {
     swerve.resetHeading();
     addCommands(
-                new AutoScoreMid(swerve, intake, arm, claw),
+                new OpenClaw(claw),
                 new ParallelCommandGroup(new StowInside(arm),
                                          new CustomAutoDriveForDistance(swerve, -2.925, 0, new Rotation2d(), 0.775)),
                                          
