@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "armHigh"
+          "GoToHigh"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",

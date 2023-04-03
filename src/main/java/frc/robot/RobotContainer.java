@@ -5,9 +5,12 @@ import static frc.robot.Constants.kNavXPort;
 import java.util.HashMap;
 import java.util.List;
 
+import org.w3c.dom.events.EventException;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory.StopEvent;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
@@ -247,11 +250,11 @@ public class RobotContainer {
         HashMap<String, Command> eventMap = new HashMap<>();
         eventMap.put("score", new OpenClaw(claw));
         eventMap.put("wait", new WaitCommand(2));
+        eventMap.put("stow", new RepeatCommand(new StowIntakeSequence(arm, intake)));
 
         eventMap.put("armHigh", new RepeatCommand(new GoToHigh(arm, true)));
         eventMap.put("armMid", new RepeatCommand(new GoToMid(arm)));
         eventMap.put("stowArm", new SequentialCommandGroup(new StowInside(arm)));
-        eventMap.put("GoToHigh", new GoToHigh(arm, true));
 
         eventMap.put("autoBalance", new SequentialCommandGroup(new AutoBalance(swerve)));
 
