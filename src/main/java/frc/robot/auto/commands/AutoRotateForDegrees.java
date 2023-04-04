@@ -27,10 +27,10 @@ public class AutoRotateForDegrees extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pid = new PIDController(0, 0, 0);
-    pid.setTolerance(0.01);
-    double desiredDouble = swerve.getHeading().getDegrees() + degrees;
-    Rotation2d desiredDegrees = new Rotation2d().fromDegrees(desiredDouble);
+    // pid = new PIDController(0, 0, 0);
+    // pid.setTolerance(0.01);
+    // double desiredDouble = swerve.getHeading().getDegrees() + degrees;
+    // Rotation2d desiredDegrees = new Rotation2d().fromDegrees(desiredDouble);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,7 +42,9 @@ public class AutoRotateForDegrees extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    swerve.drive(new ChassisSpeeds(0, 0, 0));
+  }
 
   // Returns true when the command should end.
   @Override

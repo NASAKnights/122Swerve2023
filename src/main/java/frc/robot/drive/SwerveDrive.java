@@ -156,7 +156,6 @@ public class SwerveDrive extends SubsystemBase {
         SmartDashboard.putNumber("Blue encoder", blue);
         SmartDashboard.putNumber("Green encoder", green);
         SmartDashboard.putNumber("Yellow encoder", yellow);
-        
     }
 
     public void updateSmartDash() {
