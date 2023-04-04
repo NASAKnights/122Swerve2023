@@ -105,9 +105,9 @@
   ],
   "markers": [
     {
-      "position": 1.79,
+      "position": 1.45,
       "names": [
-        "stowArm"
+        "stow"
       ]
     }
   ]

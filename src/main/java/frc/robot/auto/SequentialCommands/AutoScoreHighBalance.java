@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.StowInside;
 import frc.robot.auto.commands.AutoBalance;
-import frc.robot.auto.commands.AutoRotateForDegrees;
 import frc.robot.auto.commands.CustomAutoDriveForDistance;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.OpenClaw;

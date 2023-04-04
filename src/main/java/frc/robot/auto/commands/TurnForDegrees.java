@@ -28,7 +28,7 @@ public class TurnForDegrees extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("initialize");
+    // System.out.println("initialize");
     initialPosition = swerve.getHeading().getDegrees();
     finalPosition = initialPosition + degrees;
   }

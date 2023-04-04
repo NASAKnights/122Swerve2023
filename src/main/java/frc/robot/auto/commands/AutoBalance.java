@@ -4,12 +4,10 @@
 
 package frc.robot.auto.commands;
 
-import javax.swing.text.DefaultEditorKit.CutAction;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,7 +24,6 @@ public class AutoBalance extends CommandBase {
   private Pose2d desiredPose;
   private double moveDistance = 0.0508;
   // private double moveDis;
-  private int test;
   /** Creates a new AutoBalance. */
   public AutoBalance(SwerveDrive swerve) {
     this.swerve = swerve;
@@ -42,7 +39,6 @@ public class AutoBalance extends CommandBase {
     desiredPose = swerve.getPose();
     timer = new Timer();
     timer.start();
-    int test = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -54,7 +50,6 @@ public class AutoBalance extends CommandBase {
       if(Math.abs(swerve.getPitch()) < balanceThreshold){
         desiredPose = swerve.getPose();
       }else if(swerve.getPitch() > balanceThreshold){
-        test += 1;
         moveBy = new Transform2d(new Translation2d(-moveDistance, 0), new Rotation2d());
         desiredPose = desiredPose.transformBy(moveBy);
       }else{

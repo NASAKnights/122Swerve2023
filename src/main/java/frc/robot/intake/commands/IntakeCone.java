@@ -21,11 +21,9 @@ public class IntakeCone extends CommandBase {
     this.intake = intake;
     addRequirements(intake);
   }
-  private boolean armClear;
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    armClear = false;
     stage = 1;
   }
 

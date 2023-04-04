@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "GoToMid"
+          "armMid"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -41,7 +41,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "AutoScoreHighBalance"
+          "AutoScoreMidBalance"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",

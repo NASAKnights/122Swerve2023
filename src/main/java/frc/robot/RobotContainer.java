@@ -11,7 +11,6 @@ import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
@@ -69,8 +68,6 @@ public class RobotContainer {
 
     private PneumaticHub pHub;
     private Claw claw;
-
-    private Trajectory traj;
 
     private ColorInterpreter indexer;
 
@@ -222,7 +219,7 @@ public class RobotContainer {
 
         if(!rotaryEncoderBalance.get()){
             location = "Balance";
-        }   
+        }
 
         SmartDashboard.putBoolean("Loading", rotaryEncoderLoading.get());
         SmartDashboard.putBoolean("Balance", rotaryEncoderBalance.get());
@@ -249,10 +246,6 @@ public class RobotContainer {
     public CommandBase getAutonomousCommand() {
         var group = PathPlanner.loadPathGroup("none", new PathConstraints(0, 0));
 
-        // var group = PathPlanner.loadPathGroup(
-        //     "AutoTest",
-        //     new PathConstraints(3, 2));
-
         if(highMidSwitch.get()){
             highLow = "High";
         }
@@ -266,9 +259,7 @@ public class RobotContainer {
         else{
             alliance = "Red";
         }
-
-
-
+        
         if(!rotaryEncoderLoading.get()){
             location = "Loading";
         }
@@ -280,25 +271,25 @@ public class RobotContainer {
             location = "Balance";
         }
 
+
         group = PathPlanner.loadPathGroup(
             "Auto" + highLow + location + alliance,
             new PathConstraints(3, 2));
-
+        
         HashMap<String, Command> eventMap = new HashMap<>();
-        eventMap.put("score", new OpenClaw(claw));
-        eventMap.put("wait", new WaitCommand(2));
-        eventMap.put("stow", new StowIntakeSequence(arm, intake));
-
-        eventMap.put("armHigh", new RepeatCommand(new GoToHigh(arm, true)));
-        eventMap.put("armMid", new RepeatCommand(new GoToMid(arm)));
-        eventMap.put("stowArm", new RepeatCommand(new StowInside(arm)));
-
-        eventMap.put("autoBalance", new SequentialCommandGroup(new AutoBalance(swerve)));
-
-        eventMap.put("intakeCube", new RepeatCommand(new IntakeCube(intake, arm)));
-        eventMap.put("stowIntake", new RepeatCommand(new StowIntake(intake, arm)));
-
-        eventMap.put("AutoScoreHighBalance", new AutoScoreHighBalance(swerve, intake, arm, claw));
+            eventMap.put("wait", new WaitCommand(2));
+            eventMap.put("score", new OpenClaw(claw));
+            eventMap.put("stow", new StowIntakeSequence(arm, intake));
+        
+            eventMap.put("armHigh", new RepeatCommand(new GoToHigh(arm, true)));
+            eventMap.put("armMid", new RepeatCommand(new GoToMid(arm)));
+            eventMap.put("stowArm", new RepeatCommand(new StowInside(arm)));
+        
+            eventMap.put("intakeCube", new RepeatCommand(new IntakeCube(intake, arm)));
+            eventMap.put("stowIntake", new RepeatCommand(new StowIntake(intake, arm)));
+        
+            eventMap.put("AutoScoreHighBalance", new AutoScoreHighBalance(swerve, intake, arm, claw));
+            eventMap.put("autoBalance", new SequentialCommandGroup(new AutoBalance(swerve)));
 
         SwerveAutoBuilder builder = new SwerveAutoBuilder(
             swerve::getPose,

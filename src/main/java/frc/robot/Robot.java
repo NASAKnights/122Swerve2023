@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class Robot extends TimedRobot {
 
     private RobotContainer container;
-    private CommandBase autoSequencer;
 
     private CommandBase m_autoCommand;
 
