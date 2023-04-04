@@ -63,8 +63,8 @@ public class AutoBalance extends CommandBase {
       }
     }
     swerve.setReference(desiredPose);
-    SmartDashboard.putNumber("roll", swerve.getRoll());
-    SmartDashboard.putNumber("pitch", swerve.getPitch());
+    // SmartDashboard.putNumber("roll", swerve.getRoll());
+    // SmartDashboard.putNumber("pitch", swerve.getPitch());
   }
 
   // Called once the command ends or is interrupted.

@@ -318,8 +318,8 @@ public class SwerveDrive extends SubsystemBase {
         this.updateOdometry();
         this.updateSmartDash();
 
-        SmartDashboard.putNumber("roll", getRoll());
-        SmartDashboard.putNumber("pitch", getPitch());
+        // SmartDashboard.putNumber("roll", getRoll());
+        // SmartDashboard.putNumber("pitch", getPitch());
     }
 
 }

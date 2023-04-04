@@ -134,7 +134,7 @@ public class Intake extends SubsystemBase {
 
   public void updateBoard(){
     SmartDashboard.putNumber("Intake Position", intakeLiftEncoder.getPosition());
-    // SmartDashboard.putBoolean("Intake Limit", isIntakeInside());
+    // SmartDashboard.putBoolean("Intake Limit", limitSwitch.get());
   }
 
 

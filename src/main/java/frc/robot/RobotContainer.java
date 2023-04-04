@@ -3,30 +3,23 @@ package frc.robot;
 import static frc.robot.Constants.kNavXPort;
 
 import java.util.HashMap;
-import java.util.List;
-
-import org.w3c.dom.events.EventException;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory.StopEvent;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.event.BooleanEvent;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -48,15 +41,11 @@ import frc.robot.auto.commands.AutoBalance;
 import frc.robot.claw.Claw;
 import frc.robot.claw.commands.CloseClaw;
 import frc.robot.claw.commands.OpenClaw;
+import frc.robot.colorSensor.ColorInterpreter;
 import frc.robot.drive.SwerveDrive;
 import frc.robot.drive.commands.DriveCommand;
-import frc.robot.drive.commands.FollowPath;
-import frc.robot.drive.commands.ToggleTurbo;
-import frc.robot.drive.commands.TrajectoryTest;
-import frc.robot.colorSensor.ColorInterpreter;
 import frc.robot.drive.commands.ToggleSlow;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.drive.commands.ToggleTurbo;
 import frc.robot.intake.Intake;
 import frc.robot.intake.StowIntakeSequence;
 import frc.robot.intake.commands.EjectCone;
@@ -65,6 +54,7 @@ import frc.robot.intake.commands.IntakeCone;
 import frc.robot.intake.commands.IntakeCube;
 import frc.robot.intake.commands.LiftIntake;
 import frc.robot.intake.commands.LowerIntake;
+import frc.robot.intake.commands.StowIntake;
 
 public class RobotContainer {
 
@@ -84,9 +74,15 @@ public class RobotContainer {
 
     private ColorInterpreter indexer;
 
-    private DigitalInput rotaryEncoderSide = new DigitalInput(1);
+    private DigitalInput rotaryEncoderLoading = new DigitalInput(1);
     private DigitalInput redBlueSwitch = new DigitalInput(5);
+    private DigitalInput rotaryEncoderCable = new DigitalInput(4);
     private DigitalInput rotaryEncoderBalance = new DigitalInput(2);
+    private DigitalInput highMidSwitch = new DigitalInput(6);
+
+    private String location = "unknown";
+    private String alliance = "unknown";
+    private String highLow = "unknown";
 
     // private ShuffleboardTab swerveModuleInfo = Shuffleboard.getTab("Swerve Modules");
 
@@ -194,22 +190,45 @@ public class RobotContainer {
         
         indexer.checkIndex();
         intake.updateBoard();
-        
+
+        // SmartDashboard.putBoolean("Auto Side", rotaryEncoderLoading.get());
+        // SmartDashboard.putBoolean("Red Blue Switch", redBlueSwitch.get());
+        // SmartDashboard.putBoolean("Auto Balance", rotaryEncoderBalance.get());
+        // SmartDashboard.putBoolean("AutoLowHigh", rotaryEncoderHighLow.get());
     }
 
     public void disabledPeriodic(){
-        swerve.updateSmartDash();
-        swerve.writeOffsets();
-        swerve.readoffsets();
-        
-        swerve.updateOffsets();
-        arm.updateBoard();
-        intake.updateBoard();
-        arm.cycleAbsolute();
+        if(highMidSwitch.get()){
+            highLow = "High";
+        }
+        else{
+            highLow = "Mid";
+        }
 
-        SmartDashboard.putBoolean("Auto Side", rotaryEncoderSide.get());
-        SmartDashboard.putBoolean("Red Blue Switch", redBlueSwitch.get());
-        SmartDashboard.putBoolean("Auto Balance", rotaryEncoderBalance.get());
+        if(redBlueSwitch.get()){
+            alliance = "Blue";
+        }
+        else{
+            alliance = "Red";
+        }
+
+
+        if(!rotaryEncoderLoading.get()){
+            location = "Loading";
+        }
+        else if(rotaryEncoderCable.get()){
+            location = "Cable";
+        }
+
+        if(!rotaryEncoderBalance.get()){
+            location = "Balance";
+        }   
+
+        SmartDashboard.putBoolean("Loading", rotaryEncoderLoading.get());
+        SmartDashboard.putBoolean("Balance", rotaryEncoderBalance.get());
+        SmartDashboard.putBoolean("Cable", rotaryEncoderCable.get());
+
+        SmartDashboard.putString("Final", "Auto" + highLow + location + alliance);
     }
 
     public void teleopInit() {
@@ -228,37 +247,56 @@ public class RobotContainer {
     }
     
     public CommandBase getAutonomousCommand() {
-        // var group = PathPlanner.loadPathGroup("none", new PathConstraints(0, 0));
+        var group = PathPlanner.loadPathGroup("none", new PathConstraints(0, 0));
 
-        var group = PathPlanner.loadPathGroup(
-            "AutoTest",
+        // var group = PathPlanner.loadPathGroup(
+        //     "AutoTest",
+        //     new PathConstraints(3, 2));
+
+        if(highMidSwitch.get()){
+            highLow = "High";
+        }
+        else{
+            highLow = "Mid";
+        }
+
+        if(redBlueSwitch.get()){
+            alliance = "Blue";
+        }
+        else{
+            alliance = "Red";
+        }
+
+
+
+        if(!rotaryEncoderLoading.get()){
+            location = "Loading";
+        }
+        else if(rotaryEncoderCable.get()){
+            location = "Cable";
+        }
+
+        if(!rotaryEncoderBalance.get()){
+            location = "Balance";
+        }
+
+        group = PathPlanner.loadPathGroup(
+            "Auto" + highLow + location + alliance,
             new PathConstraints(3, 2));
-
-        // if(redBlueSwitch.get()){
-        //     group = PathPlanner.loadPathGroup(
-        //         "AutoLoadingBlueZone",
-        //         new PathConstraints(3, 2)
-        //     );
-        // }
-        // else{
-        //     group = PathPlanner.loadPathGroup(
-        //     "AutoLoadingRedZone",
-        //     new PathConstraints(3, 2)
-        // );
-        // }
 
         HashMap<String, Command> eventMap = new HashMap<>();
         eventMap.put("score", new OpenClaw(claw));
         eventMap.put("wait", new WaitCommand(2));
-        eventMap.put("stow", new RepeatCommand(new StowIntakeSequence(arm, intake)));
+        eventMap.put("stow", new StowIntakeSequence(arm, intake));
 
         eventMap.put("armHigh", new RepeatCommand(new GoToHigh(arm, true)));
         eventMap.put("armMid", new RepeatCommand(new GoToMid(arm)));
-        eventMap.put("stowArm", new SequentialCommandGroup(new StowInside(arm)));
+        eventMap.put("stowArm", new RepeatCommand(new StowInside(arm)));
 
         eventMap.put("autoBalance", new SequentialCommandGroup(new AutoBalance(swerve)));
 
         eventMap.put("intakeCube", new RepeatCommand(new IntakeCube(intake, arm)));
+        eventMap.put("stowIntake", new RepeatCommand(new StowIntake(intake, arm)));
 
         eventMap.put("AutoScoreHighBalance", new AutoScoreHighBalance(swerve, intake, arm, claw));
 
