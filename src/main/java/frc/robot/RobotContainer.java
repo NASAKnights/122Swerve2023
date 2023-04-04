@@ -72,9 +72,9 @@ public class RobotContainer {
     private ColorInterpreter indexer;
 
     private DigitalInput rotaryEncoderLoading = new DigitalInput(1);
-    private DigitalInput redBlueSwitch = new DigitalInput(5);
-    private DigitalInput rotaryEncoderCable = new DigitalInput(4);
     private DigitalInput rotaryEncoderBalance = new DigitalInput(2);
+    private DigitalInput rotaryEncoderCable = new DigitalInput(4);
+    private DigitalInput redBlueSwitch = new DigitalInput(5);
     private DigitalInput highMidSwitch = new DigitalInput(6);
 
     private String location = "unknown";
@@ -173,8 +173,6 @@ public class RobotContainer {
 
         new Trigger(liftaxis).whileTrue(new RepeatCommand(new LiftIntake(intake)));
         new Trigger(loweraxis).whileTrue(new RepeatCommand(new LowerIntake(intake)));
-
-        
     }
 
     public void periodic() {
@@ -209,7 +207,6 @@ public class RobotContainer {
             alliance = "Red";
         }
 
-
         if(!rotaryEncoderLoading.get()){
             location = "Loading";
         }
@@ -221,9 +218,9 @@ public class RobotContainer {
             location = "Balance";
         }
 
-        SmartDashboard.putBoolean("Loading", rotaryEncoderLoading.get());
-        SmartDashboard.putBoolean("Balance", rotaryEncoderBalance.get());
-        SmartDashboard.putBoolean("Cable", rotaryEncoderCable.get());
+        // SmartDashboard.putBoolean("Loading", rotaryEncoderLoading.get());
+        // SmartDashboard.putBoolean("Balance", rotaryEncoderBalance.get());
+        // SmartDashboard.putBoolean("Cable", rotaryEncoderCable.get());
 
         SmartDashboard.putString("Final", "Auto" + highLow + location + alliance);
     }
@@ -235,12 +232,10 @@ public class RobotContainer {
         swerve.readoffsets();
         swerve.updateOffsets();
         arm.updateBoard();
-       
     }
 
     public void disabledInit(){
         swerve.setCoast();
-        
     }
     
     public CommandBase getAutonomousCommand() {
@@ -271,10 +266,10 @@ public class RobotContainer {
             location = "Balance";
         }
 
-
         group = PathPlanner.loadPathGroup(
             "Auto" + highLow + location + alliance,
             new PathConstraints(3, 2));
+        
         
         HashMap<String, Command> eventMap = new HashMap<>();
             eventMap.put("wait", new WaitCommand(2));
@@ -305,18 +300,6 @@ public class RobotContainer {
     }
 
     public CommandBase autonomousInit(){
-        // return new AutoSequencer(swerve);
-        // swerve.resetHeadingOffset();
-        // // return new AutoOutOfCommunity(swerve);
-        // /*if(toggleSwitch.get()){
-        //     return new AutoScoreHighBalance(swerve, intake, arm, claw); //Short Auto
-        // }
-        // else{
-        //     return new AutoScoreHighLong(swerve, intake, arm, claw); //Long Auto
-        // }*/
-        // // return new RotationTest(swerve);
-        // swerve.resetHeading();
-        // return new FollowPath(swerve);  
         return new AutoScoreHighBalance(swerve, intake, arm, claw);
     }
 

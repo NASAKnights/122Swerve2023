@@ -49,6 +49,7 @@ public class AutoBalance extends CommandBase {
       SmartDashboard.putNumber("isTiming", desiredPose.getX());
       if(Math.abs(swerve.getPitch()) < balanceThreshold){
         desiredPose = swerve.getPose();
+        new AutoRotateForDegrees(swerve, 1);
       }else if(swerve.getPitch() > balanceThreshold){
         moveBy = new Transform2d(new Translation2d(-moveDistance, 0), new Rotation2d());
         desiredPose = desiredPose.transformBy(moveBy);

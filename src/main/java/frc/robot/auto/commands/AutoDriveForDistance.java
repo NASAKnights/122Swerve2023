@@ -23,10 +23,18 @@ public class AutoDriveForDistance extends CommandBase {
   private double metersY;
   private Rotation2d rotation;
 
+  private double defaultPidXY = 0.75;
+  private double defaultPidRot = 0.15;
+
+  private double pidXY;
+  private double pidTheta;
+
   private PIDController pidX;
   private PIDController pidY;
   private PIDController pidRot;
+
   private Pose2d desiredPose;
+
   private boolean finished = false;
 
   private double velocityLowerLimit = 0.05;
@@ -40,6 +48,19 @@ public class AutoDriveForDistance extends CommandBase {
     this.metersX = metersX;
     this.metersY = metersY;
     this.rotation = rotation;
+    this.pidTheta = defaultPidRot;
+    this.pidXY = defaultPidXY;
+    
+    addRequirements(swerve);
+  }
+
+  public AutoDriveForDistance(SwerveDrive swerve, double metersX, double metersY, Rotation2d rotation, double pidXY, double pidRot) {
+    this.swerve = swerve;
+    this.metersX = metersX;
+    this.metersY = metersY;
+    this.rotation = rotation;
+    this.pidTheta = pidRot;
+    this.pidXY = pidXY;
     
     addRequirements(swerve);
   }
@@ -47,9 +68,9 @@ public class AutoDriveForDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pidX = new PIDController(0.75, 0, 0);
-    pidY = new PIDController(0.75, 0, 0);
-    pidRot = new PIDController(0.15, 0, 0);
+    pidX = new PIDController(pidXY, 0, 0);
+    pidY = new PIDController(pidXY, 0, 0);
+    pidRot = new PIDController(pidTheta, 0, 0);
     pidX.setTolerance(0.05); 
     pidY.setTolerance(0.05);
     pidRot.setTolerance(0.1);

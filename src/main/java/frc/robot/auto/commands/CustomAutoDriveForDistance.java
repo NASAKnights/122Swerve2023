@@ -35,7 +35,7 @@ public class CustomAutoDriveForDistance extends CommandBase {
   private double p = 1;
   
   /** Please choose AutoDriveForDistance instead of this unless this is needed, this command was made for one purpose,
-   * to run on the AutoScore's and as such may cause weird behavior when used in other conditions */
+   * to run on the AutoScore command(s) and as such may cause weird behavior when used in other conditions */
   public CustomAutoDriveForDistance(SwerveDrive swerve, double metersX, double metersY, Rotation2d rotation, double p) {
     this.swerve = swerve;
     this.metersX = metersX;

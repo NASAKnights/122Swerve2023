@@ -36,7 +36,6 @@ public class AutoScoreHighBalance extends SequentialCommandGroup {
                 
                 //Invert the heading for drive team
                 new InstantCommand(swerve::invertHeading)
-                // new InstantCommand(swerve::resetHeading)
                 );
   }
 }
