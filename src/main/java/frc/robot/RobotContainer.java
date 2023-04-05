@@ -193,6 +193,16 @@ public class RobotContainer {
     }
 
     public void disabledPeriodic(){
+
+        swerve.updateSmartDash();
+        swerve.writeOffsets();
+        swerve.readoffsets();
+
+        swerve.updateOffsets();
+        arm.updateBoard();
+        intake.updateBoard();
+        arm.cycleAbsolute();
+
         if(highMidSwitch.get()){
             highLow = "High";
         }
