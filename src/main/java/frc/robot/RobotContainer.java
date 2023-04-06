@@ -220,7 +220,7 @@ public class RobotContainer {
         if(!rotaryEncoderLoading.get()){
             location = "Loading";
         }
-        else if(rotaryEncoderCable.get()){
+        else if(!rotaryEncoderCable.get()){
             location = "Cable";
         }
         else if(!rotaryEncoderBalance.get()){
