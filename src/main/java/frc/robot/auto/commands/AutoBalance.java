@@ -22,7 +22,7 @@ public class AutoBalance extends CommandBase {
   private Timer timer;
   private double checkPeriod = 0.25;
   private Pose2d desiredPose;
-  private double moveDistance = 0.0508;
+  private double moveDistance = 0.035;
   // private double moveDis;
   /** Creates a new AutoBalance. */
   public AutoBalance(SwerveDrive swerve) {

@@ -104,11 +104,11 @@
     },
     {
       "anchorPoint": {
-        "x": 6.5,
+        "x": 7.0,
         "y": 0.924179893472571
       },
       "prevControl": {
-        "x": 6.319182194755367,
+        "x": 6.819182194755371,
         "y": 0.924179893472571
       },
       "nextControl": null,
@@ -120,7 +120,7 @@
       "stopEvent": {
         "names": [
           "wait",
-          "intakeCube"
+          "intakeCone"
         ],
         "executionBehavior": "parallelDeadline",
         "waitBehavior": "none",
@@ -133,6 +133,12 @@
       "position": 1.4545454545454544,
       "names": [
         "stow"
+      ]
+    },
+    {
+      "position": 3.65,
+      "names": [
+        "intakeCone"
       ]
     }
   ]

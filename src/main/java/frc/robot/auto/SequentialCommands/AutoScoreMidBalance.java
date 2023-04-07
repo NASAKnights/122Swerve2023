@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.armoutreach.ArmOutreach;
 import frc.robot.armoutreach.commands.StowInside;
 import frc.robot.auto.commands.CustomAutoDriveForDistance;
@@ -26,6 +27,7 @@ public class AutoScoreMidBalance extends SequentialCommandGroup {
     swerve.resetHeading();
     addCommands(
                 new OpenClaw(claw),
+                new WaitCommand(1),
                 new ParallelCommandGroup(new StowInside(arm),
                                          new CustomAutoDriveForDistance(swerve, -2.925, 0, new Rotation2d(), 0.775)),
                                          

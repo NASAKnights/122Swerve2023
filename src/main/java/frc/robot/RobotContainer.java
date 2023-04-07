@@ -248,7 +248,6 @@ public class RobotContainer {
     }
     
     public CommandBase getAutonomousCommand() {
-        var group = PathPlanner.loadPathGroup("none", new PathConstraints(0, 0));
 
         if(highMidSwitch.get()){
             highLow = "High";
@@ -275,7 +274,7 @@ public class RobotContainer {
             location = "Balance";
         }
 
-        group = PathPlanner.loadPathGroup(
+        var group = PathPlanner.loadPathGroup(
             "Auto" + highLow + location + alliance,
             new PathConstraints(3, 2));
         
@@ -284,12 +283,16 @@ public class RobotContainer {
             eventMap.put("wait", new WaitCommand(2));
             eventMap.put("score", new OpenClaw(claw));
             eventMap.put("stow", new StowIntakeSequence(arm, intake));
+            eventMap.put("handOff", new HandOffSequence(arm, intake, claw, indexer));
+
+            eventMap.put("invertHeading", new InstantCommand(swerve::invertHeading));
         
             eventMap.put("armHigh", new RepeatCommand(new GoToHigh(arm, true)));
             eventMap.put("armMid", new RepeatCommand(new GoToMid(arm)));
             eventMap.put("stowArm", new RepeatCommand(new StowInside(arm)));
         
             eventMap.put("intakeCube", new RepeatCommand(new IntakeCube(intake, arm)));
+            eventMap.put("intakeCone", new RepeatCommand(new IntakeCone(intake, arm)));
             eventMap.put("stowIntake", new RepeatCommand(new StowIntake(intake, arm)));
         
             eventMap.put("AutoScoreHighBalance", new AutoScoreHighBalance(swerve, intake, arm, claw));
@@ -305,11 +308,18 @@ public class RobotContainer {
             swerve
         );
 
-        return builder.fullAuto(group);
+        CommandBase m_autoCommand = builder.fullAuto(group);
+        // m_autoCommand = new SequentialCommandGroup(m_autoCommand, new InstantCommand(swerve::invertHeading));
+
+        return m_autoCommand;
     }
 
     public CommandBase autonomousInit(){
         return new AutoScoreHighBalance(swerve, intake, arm, claw);
+    }
+
+    public void invertHeading(){
+        swerve.invertHeading();
     }
 
     public void testInit() {

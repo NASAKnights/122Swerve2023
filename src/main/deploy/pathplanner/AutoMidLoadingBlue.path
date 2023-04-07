@@ -73,7 +73,7 @@
       "stopEvent": {
         "names": [
           "wait",
-          "intakeCube"
+          "intakeCone"
         ],
         "executionBehavior": "parallelDeadline",
         "waitBehavior": "none",
@@ -83,11 +83,11 @@
     {
       "anchorPoint": {
         "x": 1.85,
-        "y": 4.45
+        "y": 4.95
       },
       "prevControl": {
         "x": 1.6427370143419249,
-        "y": 4.45
+        "y": 4.95
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -115,7 +115,7 @@
     {
       "position": 1.8,
       "names": [
-        "intakeCube"
+        "intakeCone"
       ]
     },
     {
@@ -127,7 +127,7 @@
     {
       "position": 2.65,
       "names": [
-        "armMid"
+        "armHigh"
       ]
     }
   ]
