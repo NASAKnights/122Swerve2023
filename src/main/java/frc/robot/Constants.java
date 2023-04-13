@@ -84,7 +84,7 @@ public class Constants {
     //-----------testing--------------------
 
     // select color and then version
-    public static final double[][] encoderoffsets = {{358.188 - 25.0 - 13.0 - 14.0 - 13.0 - 4.0 - 9.3, 103.711, 0.0}, // Red 1, 5, 9
+    public static final double[][] encoderoffsets = {{358.188 - 25.0 - 13.0 - 14.0 - 13.0 - 4.0 - 9.3 + 10.7, 103.711, 0.0}, // Red 1, 5, 9
                                                     {330.654 + 7 - 3.5, 318.427,  0.0}, // Blue 2, 6, 10
                                                     {257.607 + 7.3 - 5.2, 275.273, 0.0}, // green 3, 7, 11
                                                     {103.359 - 5.0 - 4.0 - 10.2, 87.539,  0.0}}; // yellow 4, 8, 12
